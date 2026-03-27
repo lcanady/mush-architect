@@ -144,12 +144,10 @@ gh pr create \
 
 ---
 
-## ⚠ @rhost/testkit — MANDATORY, NO EXCEPTIONS
+## ⚠ /mush-test — MANDATORY, NO EXCEPTIONS
 
-**Every piece of softcode written or modified in any mush-* skill session MUST have a corresponding `@rhost/testkit` test.**
+**Every piece of softcode written or modified in any mush-* skill session MUST have `/mush-test` run.**
 
-- Write the test FIRST (red), then the softcode, then verify (green).
-- A task is not complete until the test passes.
+- Write the test FIRST (red), then the softcode, then run `/mush-test` to verify (green).
+- A task is not complete until `/mush-test` passes.
 - There are no exceptions — not for "small" fixes, not for "obvious" code.
-
-See `/mush-test` for the full testing API reference.

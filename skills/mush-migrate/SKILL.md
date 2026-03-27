@@ -43,6 +43,6 @@ Run the `mush-architect` session start checklist (sync + corpus load + help dete
 
 ## Mandatory
 
-Write testkit tests that prove the migrated code behaves identically to the source. See `/mush-test`.
+Run `/mush-test` on all migrated softcode — tests must prove behavior is identical to the source before the session closes.
 
 Run `/mush-security` on all migrated softcode before closing the session. Migration often carries forward vulnerabilities from the source server — security audit is not optional.

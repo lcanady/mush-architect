@@ -13,12 +13,12 @@ date_added: "2026-03-27"
 
 Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhost/testkit` test file.
 
-## ⚠ @rhost/testkit is MANDATORY
+## ⚠ /mush-test is MANDATORY
 
-**Every piece of softcode produced in this skill MUST have a corresponding `@rhost/testkit` test.**
+**Every session that writes softcode MUST run `/mush-test` — write the test first, verify it passes last.**
 
-- Do not write softcode without writing the test first.
-- Do not mark any task complete until the test passes (green).
+- Do not write softcode without writing the `@rhost/testkit` test first (Phase 2).
+- Do not mark any task complete until `/mush-test` is run and all tests pass (green).
 - There are no exceptions.
 
 ## ⚠ mush-security is MANDATORY
