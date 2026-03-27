@@ -6,6 +6,9 @@ source: local
 date_added: "2026-03-27"
 ---
 
+> **Act immediately. Write code or ask one question — do not narrate your plan or summarize what you are about to do.**
+
+
 # mush-natural
 
 Translate natural-language descriptions into RhostMUSH softcode. Immediately delegates to `/mush-build` for implementation.

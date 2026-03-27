@@ -6,6 +6,9 @@ source: local
 date_added: "2026-03-27"
 ---
 
+> **Act immediately. Write code or ask one question — do not narrate your plan or summarize what you are about to do.**
+
+
 # mush-build
 
 Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhost/testkit` test file.
@@ -22,9 +25,10 @@ Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhos
 Phase 1 — Design     → Understand requirements; check mush-patterns corpus
 Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
 Phase 3 — Code       → Write the softcode
-Phase 4 — Deploy     → Install to server via scripts/eval.js or @rhost/testkit client
-Phase 5 — Verify     → Run the test (GREEN — task is now complete)
-Phase 6 — Patterns   → Extract any reusable patterns and add to mush-patterns
+Phase 4 — Docs       → Generate help text for every command and UDF (MANDATORY)
+Phase 5 — Deploy     → Install softcode + help attributes to server
+Phase 6 — Verify     → Run the test (GREEN — task is now complete)
+Phase 7 — Patterns   → Extract any reusable patterns and add to mush-patterns
 ```
 
 **Phases are mandatory and ordered. Skipping any phase is a protocol violation.**
@@ -141,7 +145,99 @@ Always include a human-readable reason after `#-1`.
 
 ---
 
-## Phase 4 — Deploy
+## Phase 4 — Docs (MANDATORY)
+
+Every command and every UDF written in Phase 3 MUST have help text before deployment.
+
+### Step 1 — Detect the help system
+
+Ask the user (once per session, remember the answer):
+
+> "Does this server have a softcoded help system (e.g. `+help`, `&HELPFILE`, custom `$help*` command)?"
+
+| Answer | Action |
+|--------|--------|
+| **Yes** | Ask: "What's the command and attribute format?" Then generate help in that format (see [Softcoded help system](#softcoded-help-system) below). |
+| **No / unsure** | Generate a generic `HELP` attribute on the object (see [Generic help attribute](#generic-help-attribute) below). |
+
+### Softcoded help system
+
+Once the user describes the format, generate attributes that match it exactly. Common patterns:
+
+**`+help` topic-on-object style** (attribute per topic on a help object):
+```mushcode
+&HELP_<TOPIC> <helpobj>=
+  %ch%cy+<COMMAND>[/<switch>] <args>%cn%r
+  %r
+    Description of what the command does.%r
+  %r
+  Switches:%r
+    /<switch>   What this switch does.%r
+  %r
+  Examples:%r
+    +<command> foo     Does the thing.%r
+    +<command>/sw foo  Does the other thing.%r
+  %r
+  See also: +<related>
+```
+
+**`&HELPFILE` pointer style** (object has a HELPFILE attr pointing to help text):
+```mushcode
+&HELPFILE <obj>=<helpobj>
+&HELP_<TOPIC> <helpobj>=<text as above>
+```
+
+**`$help <topic>:` command style** (help is a command on the system object):
+```mushcode
+&CMD_HELP_<TOPIC> <obj>=$+help <topic>:
+  @pemit %#=<formatted help text>
+```
+
+Generate whichever format matches the server. Ask if unsure.
+
+### Generic help attribute
+
+When there is no softcoded help system, set a `HELP` attribute on the system object:
+
+```mushcode
+&HELP <obj>=
+  %ch%cy+<COMMAND>[/<switch>] <args>%cn%r
+  %r
+    <One-sentence description.>%r
+  %r
+  Switches:%r
+    /<switch>   <What it does.>%r
+  %r
+  Examples:%r
+    +<command> foo     <What happens.>%r
+    +<command>/sw foo  <What happens.>
+```
+
+For UDFs, add a `HELP` attribute documenting arguments and return value:
+
+```mushcode
+&HELP <obj>=
+  u(<obj>/FN_NAME, %0=<type>, %1=<type>) → <return type>%r
+  %r
+    <Description.>%r
+  %r
+  Returns #-1 <REASON> if: <error conditions.>%r
+  %r
+  Example: u(<obj>/FN_NAME, foo, 42) → <expected>
+```
+
+### Help text rules (always)
+
+- First line: syntax with argument types in `<angle brackets>`, optional in `[square brackets]`
+- Use `%r` for newlines, `%t` for tab, `%ch%cy` for bold-cyan headers, `%cn` to reset
+- Include at least one working example
+- List every switch
+- "See also" section if related commands exist
+- Plain text — no hard-coded dbrefs in help text
+
+---
+
+## Phase 5 — Deploy
 
 ### Via scripts/eval.js (single commands)
 
@@ -181,7 +277,7 @@ it('creates and tests in one step', async ({ world, client, expect }) => {
 
 ---
 
-## Phase 5 — Verify (green)
+## Phase 6 — Verify (green)
 
 ```bash
 RHOST_PASS=<pass> npx ts-node my-system.test.ts
@@ -191,7 +287,7 @@ All tests must pass before the task is complete.
 
 ---
 
-## Phase 6 — Patterns
+## Phase 7 — Patterns
 
 After completing the task, check if any new patterns emerged that aren't in `../mush-patterns/`. If so, add them following the format in `../mush-patterns/CONTRIBUTING.md`.
 

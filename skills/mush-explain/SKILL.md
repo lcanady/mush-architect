@@ -6,6 +6,9 @@ source: local
 date_added: "2026-03-27"
 ---
 
+> **Act immediately. Write code or ask one question — do not narrate your plan or summarize what you are about to do.**
+
+
 # mush-explain
 
 Explain existing RhostMUSH softcode — what it does, how it works, and why it's written the way it is.
