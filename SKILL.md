@@ -6,7 +6,7 @@ source: local
 date_added: "2026-03-27"
 ---
 
-> **Act immediately. Write code or ask one question — do not narrate your plan or summarize what you are about to do.**
+> **Follow phases in order. Do NOT write any softcode until Phase 1 (Design) is complete. Skipping planning is a protocol violation.**
 
 
 # mush-architect
@@ -27,6 +27,19 @@ Master skill for RhostMUSH softcode development. All MUSH work flows through thi
 | `/mush-migrate` | Porting code between MUSH server flavors |
 | `/mush-install` | Deploying softcode to a live server |
 | `/mush-natural` | Translating natural-language specs to softcode |
+
+---
+
+## ⚠ PLANNING GATE — MANDATORY BEFORE WRITING ANY CODE
+
+Before any softcode is written, you MUST:
+
+1. Complete the SESSION START CHECKLIST (Steps 1–3 below)
+2. State what you are building, what object will hold it, and what inputs/outputs it will have
+3. Check mush-patterns for an existing matching pattern
+4. Write the `@rhost/testkit` test (Phase 2 of mush-build) **before** the softcode
+
+Only after all four are done may you proceed to write softcode.
 
 ---
 

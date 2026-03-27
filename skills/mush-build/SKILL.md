@@ -6,7 +6,7 @@ source: local
 date_added: "2026-03-27"
 ---
 
-> **Act immediately. Write code or ask one question — do not narrate your plan or summarize what you are about to do.**
+> **Phases are mandatory and ordered. Complete Phase 1 (Design) fully before writing any softcode. Do NOT skip to code.**
 
 
 # mush-build
@@ -21,6 +21,14 @@ Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhos
 - Do not mark any task complete until the test passes (green).
 - There are no exceptions.
 
+## ⚠ mush-security is MANDATORY
+
+**Every session that produces softcode MUST run `/mush-security` before closing.**
+
+- Run it on all softcode written in the session — not just the final output.
+- Do not mark the session complete until mush-security has run and all Critical/High findings are resolved.
+- There are no exceptions.
+
 ```
 Phase 1 — Design     → Understand requirements; check mush-patterns corpus
 Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
@@ -29,6 +37,7 @@ Phase 4 — Docs       → Generate help text for every command and UDF (MANDATO
 Phase 5 — Deploy     → Install softcode + help attributes to server
 Phase 6 — Verify     → Run the test (GREEN — task is now complete)
 Phase 7 — Patterns   → Extract any reusable patterns and add to mush-patterns
+Phase 8 — Security   → Run /mush-security on all softcode written this session (MANDATORY)
 ```
 
 **Phases are mandatory and ordered. Skipping any phase is a protocol violation.**

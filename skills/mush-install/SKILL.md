@@ -64,3 +64,5 @@ RHOST_PASS=<pass> node scripts/eval.js "@create MySystem <sys>"
 ## Mandatory
 
 Do not mark an install complete until the `@rhost/testkit` test suite passes against the live server. See `/mush-test`.
+
+Any deployment scripts written (TypeScript, shell, etc.) during this session MUST have `/tdd-audit` run on them before the session closes.

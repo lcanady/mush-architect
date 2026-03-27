@@ -13,6 +13,14 @@ date_added: "2026-03-27"
 
 Write and run `@rhost/testkit` tests for RhostMUSH softcode.
 
+## ⚠ tdd-audit is MANDATORY
+
+**Any session that writes TypeScript test code MUST run `/tdd-audit` before closing.**
+
+- Run it on all test files written or modified this session.
+- Do not mark the session complete until tdd-audit passes.
+- There are no exceptions.
+
 ## Prerequisites
 
 ```bash
