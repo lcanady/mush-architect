@@ -35,9 +35,10 @@ Phase 6 — Patterns   → Extract any reusable patterns and add to mush-pattern
 
 Before writing any code:
 
-1. **Check `../mush-patterns/patterns/`** for existing patterns that match the task.
-2. Clarify: What object will hold this code? What are the inputs/outputs? What errors should it handle?
-3. Identify the object dbref (or use a fixture via `world.create()`).
+1. **Corpus must already be loaded** — the `mush-architect` session start checklist (sync + load) MUST have run before this phase. If it has not, stop and run it now.
+2. **Check loaded patterns** for any that match the task. If a matching pattern exists, use it as the starting point — do not rewrite from scratch.
+3. Clarify: What object will hold this code? What are the inputs/outputs? What errors should it handle?
+4. Identify the object dbref (or use a fixture via `world.create()`).
 
 ---
 

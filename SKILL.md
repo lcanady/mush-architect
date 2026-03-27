@@ -27,23 +27,77 @@ Master skill for RhostMUSH softcode development. All MUSH work flows through thi
 
 ---
 
-## ⚠ Help file detection — always active
+## ⚠ SESSION START CHECKLIST — MANDATORY, RUN BEFORE ANYTHING ELSE
 
-**This behavior runs at the start of every session, regardless of which sub-skill is invoked.**
+**These three steps MUST complete successfully before any softcode work begins. No exceptions.**
 
-### Trigger
+```
+Step 1 — Sync check     → Verify mush-patterns is up to date with remote
+Step 2 — Corpus load    → Read patterns relevant to the current task
+Step 3 — Help detection → Check if any provided help file is from an unknown server
+```
 
-When the user pastes or provides a help file (or block of help text) from a MUSH server that is NOT already represented in `../mush-patterns/patterns/server-help/`, ask:
+Skipping any step is a protocol violation. Do not proceed to the task until all three complete.
+
+---
+
+### Step 1 — Sync check (MANDATORY)
+
+Run this at the start of every session:
+
+```bash
+cd ../mush-patterns && git fetch origin && git status
+```
+
+Interpret the output:
+
+| Status | Action |
+|--------|--------|
+| `Your branch is up to date with 'origin/main'` | Proceed to Step 2. |
+| `Your branch is behind 'origin/main' by N commits` | **Stop. Ask the user:** "mush-patterns is N commits behind remote. Pull now before we continue?" If yes: `git pull`. |
+| `Your branch is ahead of 'origin/main' by N commits` | **Stop. Ask the user:** "mush-patterns has N unpushed commits. Push them now?" If yes: `git push`. |
+| `diverged` | **Stop. Ask the user:** "mush-patterns has diverged from remote. Resolve before continuing?" Show `git log --oneline --left-right HEAD...origin/main`. |
+| Repo missing or git not initialized | **Stop. Tell the user** the repo is missing at `../mush-patterns` and ask them to clone it: `git clone https://github.com/lcanady/mush-patterns ../mush-patterns`. |
+
+Do not proceed with any softcode task until the repo is in sync.
+
+---
+
+### Step 2 — Corpus load (MANDATORY)
+
+After sync, read the pattern files relevant to the current task:
+
+1. **Always read:** `../mush-patterns/README.md` and `../mush-patterns/CONTRIBUTING.md`
+2. **Read by domain** based on what the task involves:
+   - Writing a function → read `../mush-patterns/patterns/functions/`
+   - Writing a command → read `../mush-patterns/patterns/commands/`
+   - Building a system → read `../mush-patterns/patterns/systems/`
+   - Working with a specific server → read `../mush-patterns/patterns/server-help/`
+3. **Check for an existing pattern** that matches the task before writing new code. If one exists, use it as the starting point.
+4. **Report to the user** which patterns were loaded and whether any matched the current task.
+
+If the corpus is empty or sparse for the task domain, note this and proceed — but remember to extract patterns after completing the task (see Step 3 and the Pattern extraction workflow below).
+
+---
+
+### Step 3 — Help file detection (MANDATORY)
+
+Scan the current conversation for any help files or blocks of help text the user has provided.
+
+**Trigger:** If a help file is from a server NOT represented in `../mush-patterns/patterns/server-help/`, ask:
 
 > "I don't see patterns for **[server-name]** in `mush-patterns` yet. Want me to extract softcode patterns from this help file and open a PR to add them?"
 
-### How to detect "unknown server"
-
-1. Check `../mush-patterns/patterns/server-help/` for a file matching the server name or slug.
+How to detect "unknown server":
+1. Check `../mush-patterns/patterns/server-help/` for a file whose name matches the server slug.
 2. If no match → trigger the prompt above.
 3. If the user confirms → run the [Pattern extraction workflow](#pattern-extraction-workflow) below.
 
-### Pattern extraction workflow
+---
+
+## Pattern extraction workflow
+
+When the user confirms they want patterns extracted from a help file:
 
 1. **Identify the server name** — from the help file header, file name, or user input.
 2. **Extract patterns** — scan for:
@@ -52,12 +106,11 @@ When the user pastes or provides a help file (or block of help text) from a MUSH
    - System objects (`@create`, `@parent`, `@set ... inherit safe`)
    - Notable softcode idioms
 3. **Create pattern files** in `../mush-patterns/patterns/` following the format in `CONTRIBUTING.md`.
-4. **Create a PR** to `mush-patterns`:
+4. **Create a PR:**
 
 ```bash
 cd ../mush-patterns
 git checkout -b patterns/<server-slug>-$(date +%Y-%m-%d)
-# (pattern files were created in step 3)
 git add patterns/
 git commit -m "feat: add patterns from <server-name>"
 gh pr create \
@@ -72,14 +125,6 @@ gh pr create \
 ```
 
 5. **Report the PR URL** to the user.
-
----
-
-## Pattern corpus location
-
-`../mush-patterns/` — read patterns at the start of any session where MUSH softcode is discussed.
-
-When writing softcode, check `../mush-patterns/patterns/` for existing patterns that match the task before writing from scratch.
 
 ---
 
