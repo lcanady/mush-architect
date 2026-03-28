@@ -1,8 +1,8 @@
 ---
 name: mush-efficiency
-description: "Optimize RhostMUSH softcode for speed, attribute count, and server load."
-risk: low
-source: local
+description: Optimize RhostMUSH softcode for speed, attribute count, and server load. Use when softcode is slow, laggy, or needs performance improvements.
+effort: medium
+paths: "**/*.mush,**/src/**"
 date_added: "2026-03-27"
 ---
 

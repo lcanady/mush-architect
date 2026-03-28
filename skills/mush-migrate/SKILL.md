@@ -1,8 +1,8 @@
 ---
 name: mush-migrate
-description: "Port RhostMUSH softcode between MUSH server flavors (TinyMUX, PennMUSH, TinyMUSH, RhostMUSH)."
-risk: low
-source: local
+description: Port RhostMUSH softcode between MUSH server flavors — TinyMUX, PennMUSH, TinyMUSH, RhostMUSH. Use when converting or migrating softcode to run on a different server type.
+effort: high
+argument-hint: "[source server] to [target server]"
 date_added: "2026-03-27"
 ---
 

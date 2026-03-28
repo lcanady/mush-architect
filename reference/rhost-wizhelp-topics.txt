@@ -1,0 +1,1278 @@
+_
+_NOCONNECT_MSG
+_NOPOSSESS_MSG
+!!
+!!-
+!!~
+]
+]}
+}
+}]
+@adesc2
+@admin
+@aflags
+@aflags add
+@aflags args
+@aflags bits
+@aflags del
+@aflags mod
+@aflags perm
+@aflags/add
+@aflags/del
+@aflags/mod
+@aflags/perm
+@aflags/perm/search
+@aflags/search
+@aflags2 
+@allowance
+@altname
+@api
+@apply_marked
+@areg
+@areg2
+@attribute
+@badsite
+@blacklist
+@blacklist2
+@boot
+@chown
+@chownall
+@clone
+@cmdquota
+@comment
+@conncheck
+@convert
+@crc32obj
+@create
+@createdstamp
+@cut
+@darkexitformat
+@dbck
+@dbclean
+@DEPOWER
+@destroy
+@dig
+@disable
+@doing
+@dump
+@dynhelp
+@enable
+@fixdb
+@flag
+@flagdef
+@flagdef2
+@flagdef3 
+@flagdef4
+@flaglevel
+@freeze
+@function
+@function2
+@goodsite
+@halt
+@hide
+@hook
+@hook2
+@icmd
+@icmd eval
+@icmd2
+@icmd3
+@icmd4
+@invtype
+@kick
+@leveldefault
+@lfunction
+@limit
+@list
+@list advbuffers
+@list allocations
+@list allocations2
+@list attr_permissions
+@list attributes
+@list bad_names
+@list buffers
+@list cmdslogged
+@list commands
+@list config_permissions
+@list costs
+@list db_stats
+@list default_flags
+@list default_toggles
+@list depowers
+@list depowers2
+@list flags
+@list functions
+@list funperms
+@list globals
+@list globals2
+@list guest_names
+@list hashstats
+@list hashstats2
+@list logging
+@list logging2
+@list mail_globals
+@list options
+@list options boolean
+@list options config
+@list options convtime
+@list options display
+@list options mail
+@list options mysql
+@list options system
+@list options timers
+@list options values
+@list permissions
+@list powers
+@list powers2
+@list process
+@list pronouns
+@list rlevels
+@list site_information
+@list site_information2
+@list stacks
+@list switches
+@list toggles
+@list totems
+@list user_attributes
+@list vattrcmds
+@list_file
+@list_file2
+@listmotd
+@livewire
+@lock
+@lock type altname
+@lock/altname
+@log
+@logrotate
+@mailscur
+@mailsmax
+@mailtime
+@mark
+@mark_all
+@modifiedstamp
+@money
+@motd
+@newpassword
+@nuke
+@open
+@password
+@paylim
+@pcreate
+@pemit
+@poor
+@POWER
+@progprompt
+@progreset
+@protect
+@ps
+@purge
+@queuemax
+@quota
+@quota alternate
+@quota standard
+@readcache
+@reboot
+@receivelim
+@reclist
+@recover
+@remote
+@rsrvdesc2
+@rwho
+@rxlevel
+@shutdown
+@site
+@snapshot
+@snoop
+@sweep
+@tag
+@thaw
+@timeout
+@timewarp
+@toad
+@toggledef
+@toggledef2
+@toggledef3
+@toggledef4
+@tor
+@totem
+@totem add
+@totem alias
+@totem clean
+@totem display
+@totem free
+@totem fulllist
+@totem info
+@totem letter
+@totem remove
+@totem rename
+@totem see
+@totem set
+@totem slots
+@totem type
+@totem unalias
+@totem unset
+@totem validate
+@totem/add
+@totem/alias
+@totem/clean
+@totem/display
+@totem/free
+@totem/fulllist
+@totem/info
+@totem/letter
+@totem/remove
+@totem/rename
+@totem/see
+@totem/set
+@totem/slots
+@totem/type
+@totem/unalias
+@totem/unset
+@totem/validate
+@totemdef
+@totemdef2
+@totemdef3
+@totemdef4
+@turtle
+@txlevel
+@wall
+#1
++players
+abort_on_bug
+accent_extend
+access
+ACCOUNT MANAGEMENT
+ACCOUNT MEMBERSHIP
+ACCOUNT_BOOT()
+ACCOUNT_LOGIN()
+ACCOUNT_LOGIN2
+ACCOUNT_OWNER()
+ACCOUNT_SU()
+ACCOUNT_WHO()
+added_pronouns
+admin_object
+AFLAGS()
+ahear_maxcount
+ahear_maxtime
+alias
+allow_ansinames
+allow_fancy_quotes
+allow_fullwidth_colon
+allow_whodark
+ALT INVENTORIES
+ALT INVENTORIES2
+alt_inventories
+altover_inv
+always_blind
+ancestor exit
+ancestor obj
+ancestor player
+ancestor room
+ancestor thing
+ancestor_exit
+ancestor_obj
+ancestor_player
+ancestor_room
+ancestor_thing
+ancestors
+ANONYMOUS
+ansi_default
+ansi_txtfiles
+API
+API COMMANDS
+API HEADERS
+API PROCESSING
+API RETURN
+API SETUP
+API TIMEOUT
+API_LUA TOTEM
+api_nodns
+api_port
+ARCHITECT
+areg_file
+areg_lim
+aregh_file
+atrcachemax
+ATRLOCK
+atrperms
+atrperms_checkall
+atrperms_max
+atrperms2
+ATRUSE TOGGLE
+attr_access
+attr_access2
+attr_alias
+attr_cmd_access
+attrib contlocks
+attrib formatting
+attribute contlocks
+attribute formatting
+authenticate
+AUTOREG DB
+AUTOREG FILES
+AUTOREG MONITOR
+AUTOREG PARAMS
+AUTOREGISTRATION
+BACKSTAGE
+bad_name
+badsite_file
+bcc_hidden
+BEEP()
+BITLEVELS
+blacklist file
+blacklist_max
+blacklist_nodns file
+blacklist_nodns.txt
+blacklist_nogst file
+blacklist_reg file
+blacklist.txt
+blind_snuffs_cons
+brace_compatibility
+break_compatibility
+BYPASS()
+cache_depth
+cache_names
+cache_steal_dirty
+cache_trim
+cache_width
+CANSEE()
+cap_articles
+cap_conjunctions
+cap_preposition
+CAUTIONS
+cc
+cd
+channel
+check_interval
+check_offset
+CHECKPASS()
+CHKGARBAGE()
+CHKREALITY TOGGLE
+CLOAK
+CLOAK()
+CLOAKING
+clone_copies_cost
+cluster_cap
+clusterfunc_cap
+CMDCHECK
+CMDPARSE
+co
+CODEPOINT()
+comcost
+command_dark
+command_quota_increment
+command_quota_max
+commands
+compress_program
+compression
+CONFIG PARAMETERS
+CONFIG PARAMETERS DISPLAY
+CONFIG PARAMETERS MYSQL
+CONFIG PARAMETERS REALITY
+CONFIG PARAMETERS2
+CONFIG PARAMETERS3
+CONFIG PARAMETERS4
+config parameters5
+config parameters6
+config_access
+CONFIG()
+conn_timeout
+connect_file
+connect_methods
+connect_perm
+connect_reg_file
+CONTACT INFO
+CONTROL
+CONTROL FLOW
+CONTROL2
+COUNCILOR
+CPU
+cpu_secure_lvl
+cpuintervalchk
+cputimechk
+crash_database
+crc32obj()
+create_max_cost
+create_min_cost
+CUSTOMIZED CONNECT
+CUSTOMIZED CONNECT2
+dark_sleepers
+DEBUG FEATURES
+def_exit_rx
+def_exit_tx
+def_player_rx
+def_player_tx
+def_room_rx
+def_room_tx
+def_thing_rx
+def_thing_tx
+default_home
+delim_null
+DEPOWER ABUSE
+DEPOWER BOOT
+DEPOWER CHOWN_ME
+DEPOWER CHOWN_OTHER
+DEPOWER CLOAK
+DEPOWER COM
+DEPOWER COMMAND
+DEPOWER CREATE
+DEPOWER DARK
+DEPOWER EXAMINE
+DEPOWER FORCE
+DEPOWER FREE
+DEPOWER GIVE
+DEPOWER LIST
+DEPOWER LOCKS
+DEPOWER LONG_FINGERS
+DEPOWER MASTER
+DEPOWER MODIFY
+DEPOWER MORTAL_EXAMINE
+DEPOWER NOGOLD
+DEPOWER NOSTEAL
+DEPOWER NUKE
+DEPOWER OVERRIDE
+DEPOWER PAGE
+DEPOWER PASSWORD
+DEPOWER PCREATE
+DEPOWER PERSONAL_COMMAND
+DEPOWER POWER
+DEPOWER QUOTA
+DEPOWER RECEIVE
+DEPOWER SEARCH_ANY
+DEPOWER STEAL
+DEPOWER TEL_ANYTHING
+DEPOWER TEL_ANYWHERE
+DEPOWER UNL_QUOTA
+DEPOWER WALL
+DEPOWER WIZ_WHO
+DEPOWER2
+descs_are_local
+dig_cost
+DOING
+DOING()
+door_file
+door_index
+down_file
+down_motd_message
+DPSHIFT
+DR_PURGE
+dump_interval
+dump_message
+dump_offset
+DYNHELP()
+earn_limit
+elements_compat
+elsefile setup
+empower_fulltel
+enable_tstamps
+enforce_added_pronouns
+enforce_checksums
+enforce_unfindable
+enhanced_convtime
+error_file
+error_index
+examine
+examine_flags
+examine_public_attrs
+examine_restrictive
+exec_secure
+EXECSCRIPT VARIABLES
+execscript_rawpush
+EXECSCRIPT()
+EXECSCRIPT2
+execscripthome
+EXECSCRIPTNR()
+execscriptpath
+EXFULLWIZATTR TOGGLE
+exit_attr_default
+exit_flags
+exit_parent
+exit_quota
+exit_separator
+exit_toggles
+exits_connect_rooms
+expand_goto
+fascist_teleport
+file_object
+file_object2
+file_object3
+FILES
+files2
+files3
+files4
+files5
+find_money_chance
+flag alias
+flag_access_see
+flag_access_set
+flag_access_type
+flag_access_unset
+flag_alias
+flag_name
+flags
+float_precision
+float_switches
+folder
+forbid_host
+forbid_site
+forbidapi_host
+forbidapi_site
+force_ansinorm
+FORCEHALTED TOGGLE
+fork_dump
+fork_vfork
+format_compatibility
+format_contents
+format_exits
+format_name
+formats_are_local
+FREELIST()
+FUBAR
+full_file
+full_motd_message
+function list
+FUNCTION OVERLOADING
+function_access
+function_alias
+function_invocation_limit
+function_max
+function_recursion_limit
+functions
+gconf_file
+gdbm_cache_size
+gdbm_database
+GET
+GHOD
+give
+global attributes
+global formatting
+global inheritance
+global inheritance
+global parenting
+global_aconnect
+global_adisconnect
+global_ansimask
+global_attrdefault
+global_clone_exit
+global_clone_obj
+global_clone_player
+global_clone_room
+global_clone_thing
+global_error_cmd
+global_error_obj
+global_parent_exit
+global_parent_obj
+global_parent_player
+global_parent_room
+global_parent_thing
+global_sideeffects
+GOD
+good_name
+goodmail_host
+GUEST
+guest setup
+guest_char_num
+guest_displaylastsite
+guest_file
+guest_namelist
+guest_randomize
+guild_attrname
+guild_default
+guild_hdr
+GUILDMASTER
+GUILDOBJ
+hackattr_nowiz
+hackattr_see
+hardconn_host
+hardconn_site
+hasattrp_compat
+HASDEPOWER()
+HASPOWER()
+HASTOGGLE()
+hastype_always_zero
+HEAD
+heavy_cpu_max
+help
+help setup
+help_file
+help_index
+help_separator
+HELP1INC
+HELP2INC
+HELP3INC
+HELPINC
+hide_nospoof
+HIDEIDLE TOGGLE
+hook setup
+hook setup2
+hook setup3
+hook_cmd
+hook_mogrifiers
+hook_mogrify
+hook_obj
+hook_offline
+hostnames
+huh setup
+icmd_obj
+idle_cmdcount
+idle_interval
+idle_message
+idle_stamp
+idle_stamp_max
+idle_timeout
+idle_wiz_cloak
+idle_wiz_dark
+ifelse_compat
+ifelse_substitutions
+IGNOREZONE TOGGLE
+imm_nomod
+IMMORTAL
+IMMPROG TOGGLE
+include
+includecnt
+includenest
+INHERIT
+INHERITANCE
+initial_size
+input_database
+internal_compress_string
+inventory_name
+ip_address
+ISHIDDEN()
+iter_loop_max
+kill_guarantee_cost
+kill_max_cost
+kill_min_cost
+lastsite_paranoia
+lattr_default_oldstyle
+LATTRP()
+LATTRP2 
+lbuf_size
+lcon_checks_dark
+LDEPOWERS()
+lfunction_max
+LIMITS()
+link_cost
+list_access
+list_max_chars
+listen_parents
+LISTTAGS()
+LIVEWIRE()
+lnum_compat
+lock_recursion_limit
+log
+log_command_list
+log_maximum
+log_network_errors
+log_options
+LOGGED
+LOGGING
+LOGIN
+login_to_prog
+logout_cmd_access
+logout_cmd_alias
+LOGROOM TOGGLE
+LOGSTATUS()
+LOGTOFILE()
+look_moreflags
+look_obey_terse
+LOOKUP_SITE()
+LPOWERS()
+LTOGGLES()
+machine_command_cost
+mail
+mail aliases
+mail check
+mail cmdlist
+mail fsend
+mail number
+mail quota
+mail recall
+mail send
+mail_anonymous
+mail_autodeltime
+mail_def_object
+mail_default
+mail_hidden
+MAIL_LOCKDOWN TOGGLE
+mail_tolist
+mail_verbosity
+mail/check
+mail/fsend
+mail/number
+mail/quota
+mail/send
+MAILALIAS()
+mailbox_size
+maildelete
+mailinclude_file
+mailmax_send
+mailmutt
+mailprog
+MAILQUICK()
+MAILQUOTA()
+MAILREAD()
+MAILREAD2
+MAILSEND()
+MAILSIZE()
+MAILSTATUS()
+mailsub
+manlog_file
+map_delim_space
+MARKED
+MASTER ROOM
+master_room
+match_own_commands
+max_api_timeout
+max_cpu_cycles
+max_dest_limit
+max_folders
+max_lastsite_api
+max_lastsite_cnt
+max_name_protect
+max_pcreate_lim
+max_pcreate_time
+max_percentsubs
+max_players
+max_sitecons
+max_vattr_limit
+maximum_size
+mbuf_size
+min_con_attempt
+mogrification
+mogrify
+money_lim_arch
+money_lim_counc
+money_lim_gm
+money_lim_off
+money_name_plural
+money_name_singular
+MONITOR TOGGLE
+MONITOR_AREG TOGGLE
+MONITOR_BAD TOGGLE
+MONITOR_CONN TOGGLE
+MONITOR_CPU TOGGLE
+MONITOR_DISREASON TOGGLE
+MONITOR_FAIL TOGGLE
+MONITOR_SITE TOGGLE
+MONITOR_STATS TOGGLE
+MONITOR_TIME TOGGLE
+MONITOR_USERID TOGGLE
+MONITOR_VLIMIT TOGGLE
+MORTALREALITY TOGGLE
+motd_file
+motd_message
+MSIZETOT()
+mtimer
+mud_name
+muddb_name
+must_unlquota
+mux_child_compat
+mux_lcon_compat
+mysql_base
+mysql_delay
+mysql_host
+mysql_pass
+mysql_port
+mysql_socket
+mysql_user
+name_with_desc
+nand_compat
+newpass_god
+news
+news adminlock
+news articlelife
+news cmdlist
+news database
+news expire
+news extend
+news flat files
+news groupadd
+news groupdel
+news groupinfo
+news grouplimit
+news groups
+news off
+news on
+news postlist
+news postlock
+news readlock
+news setup
+news setup2
+news setup3
+news subscribe
+news unsubscribe
+news userinfo
+news userlimit
+news usermem
+news yank
+news_file
+news_index
+newsdb
+newsdb cmdlist
+newsdb dbck
+newsdb dbinfo
+newsdb load
+newsdb unload
+newuser_file
+NO_ANSINAME
+NO_BACKSTAGE
+NO_CODE
+no_code2
+NO_CONNECT
+NO_EXAMINE
+NO_FORMAT TOGGLE
+NO_GOBJ
+NO_MODIFY
+NO_MOVE
+NO_NAME
+NO_OVERRIDE
+NO_PESTER
+NO_POSSESS
+no_startup
+NO_STOP
+NO_TIMESTAMP TOGGLE
+NO_USELOCK
+NO_WHO
+NOANSINAME
+noauth_site
+noautoreg_host
+noautoreg_site
+NOBACKSTAGE
+nobracket_locks
+nobroadcast_host
+NOCODE
+nocode2
+NOCONNECT
+NODEFAULT TOGGLE
+nodns_site
+NOEXAMINE
+NOGLOBPARENT TOGGLE
+NOGOBJ
+noguest_host
+noguest_site
+NOMODIFY
+NOMOVE
+NONAME
+nonindxtxt_maxlines
+NOOVERRIDE
+NOPESTER
+NOPOSSESS
+noregist_onwho
+noshell_prog
+NOSHPROG TOGGLE
+nospam_connect
+NOSTOP
+notify_recursion_limit
+notonerr_return
+NOUSELOCK
+NOWHO
+NSLOOKUP()
+null_is_idle
+num_guests
+oattr_enable_altname
+oattr_uses_altname
+objid_localtime
+objid_offset
+offline_reg
+old_elist
+online_reg
+open_cost
+output_database
+output_limit
+page
+page_cost
+PAGELOCK TOGGLE
+pagelock_notify
+paranoid_allocate
+paranoid_exit_linking
+parent_follow
+parent_nest_limit
+parentable_control_lock
+partial_conn
+partial_deconn
+passapi_host
+passapi_site
+passproxy_host
+passproxy_site
+passwd_distance
+paycheck
+pcreate_paranoia
+pcreate_paranoia_fail
+pemit_any_object
+pemit_far_players
+penn_playercmds
+penn_setq
+penn_switches
+PERMISSIONS
+permissions2
+permit_host
+permit_site
+PINVISIBLE
+player_absolute
+player_attr_default
+player_dark
+player_flags
+player_listen
+player_match_commands
+player_match_own_commands
+player_name_spaces
+player_parent
+player_queue_limit
+player_quota
+player_starting_home
+player_starting_room
+player_toggles
+plushelp setup
+plushelp_file
+plushelp_index
+port
+posesay_funct
+POST
+postdump_message
+POWER API
+POWER BOOT
+POWER CHANGE_QUOTAS
+POWER CHOWN_ANYWHERE
+POWER CHOWN_ME
+POWER CHOWN_OTHER
+POWER EXAMINE_ALL
+POWER EXAMINE_FULL
+POWER EXECSCRIPT
+POWER FORMATTING
+POWER FREE_PAGE
+POWER FREE_QUOTA
+POWER FREE_WALL
+POWER FULLTEL
+POWER GRAB_PLAYER
+POWER HALT_QUEUE
+POWER HALT_QUEUE_ALL
+POWER HIDEBIT
+POWER JOIN_PLAYER
+POWER LIST
+POWER LONG_FINGERS
+POWER MONITORAPI
+POWER NO_BOOT
+POWER NOFORCE
+POWER NOKILL
+POWER NOWHO
+POWER PCREATE
+POWER PURGE
+POWER SEARCH_ANY
+POWER SECURITY
+POWER SEE_QUEUE
+POWER SEE_QUEUE_ALL
+POWER SHUTDOWN
+POWER STAT_ANY
+POWER STEAL
+POWER TEL_ANYTHING
+POWER TEL_ANYWHERE
+POWER USE_FREELIST
+POWER WHO_UNFIND
+POWER WIZ_IDLE
+POWER WIZ_SPOOF
+POWER WIZ_WHO
+POWER WRAITH
+power_access
+power_objects
+POWER2
+PROG TOGGLE
+PROG_ON_CONNECT TOGGLE
+PROMPT TOTEM
+protect_addenh
+PROXY SETUP
+proxy_checker
+public_flags
+PUPPET
+PUT
+queue_active_chunk
+queue_compatible
+queue_idle_chunk
+quiet_look
+quiet_whisper
+quit_file
+quota alternate2
+quota alternate33
+quota_cost
+QUOTA()
+quotas
+raw_formatting
+read_remote_desc
+read_remote_name
+reality levels
+reality levels2
+reality_compare
+reality_level
+reality_locks
+reality_locktype
+RECOVER
+recycling
+register_count
+register_create_file
+register_host
+register_site
+regtry_limit
+restrict_home
+restrict_home2
+restrict_sidefx
+retry_limit
+robot_cost
+robot_flags
+robot_owns_create
+robot_speech
+robot_toggles
+rollbackmax
+room_aconnect
+room_adisconnect
+room_attr_default
+room_flags
+room_parent  
+room_quota
+room_toggles
+roomlog_path
+rooms_can_open
+round_kludge
+ROYALTY
+rwho_data_port
+rwho_dump_interval
+rwho_host
+rwho_info_port
+rwho_password
+rwho_transmit
+sacrifice_adjust
+sacrifice_factor
+safe_wipe
+safer_passwords
+safer_ufun
+saystring_eval
+sbuf_size
+SCLOAK
+sconnect_cmd
+sconnect_host
+sconnect_reip
+SEARCH CRITERIA
+search criteria2
+search_cost
+secure_atruselock
+secure_dark
+secure_functions
+secure_jumpok
+SEE_OEMIT
+see_owned_dark
+SEE_SUSPECT TOGGLE
+SESSION
+setq_nums
+setq_pickend
+setqlabel
+sha2rounds
+showother_altname
+shs_reverse
+sideeffects
+sideeffects_examples
+sideeffects_txt
+sidefx_maxcalls
+sidefx_returnval
+signal_action
+signal_crontab
+signal_object
+signal_object_type
+signals
+SILENTEFFECT TOGGLE
+SITE LISTS
+site lists2
+SIZE()
+SLAVE
+slay
+snoop
+snoop history
+SNUFFDARK TOGGLE
+space_compress
+spam_limit
+spam_msg
+spam_objmsg
+SPAMMONITOR
+SPECIAL ATTRIBS
+SPOOF
+sqlite_db_path
+sqlite_query_limit
+SSL SETUP
+ssl_welcome
+stack_limit
+start_build
+starting_money
+starting_quota
+STARTUP
+STATUE
+status_file
+STOP
+strfunc_softfuncs
+string_conn
+string_conndark
+string_connhide
+string_create
+string_register
+sub_include
+sub_include2
+sub_override
+sub_override2
+SUPER-ROYALTY
+SUSPECT
+suspect_host
+suspect_site
+sweep_dark
+SWEEP()
+switch_default_all
+switch_search
+switch_substitutions
+TAGMATCH()
+TAGS
+terse_shows_contents
+terse_shows_exits
+terse_shows_move_messages
+TEXTFILE()
+thing_attr_default
+thing_flags
+thing_parent  
+thing_quota
+think_is_idle
+time_paddzero
+timeslice
+timezone
+toggle_access_see
+toggle_access_set
+toggle_access_type
+toggle_access_unset
+TOGGLES
+topics
+TOR 
+tor_localhost
+tor_paranoid
+totem add
+totem alias
+totem clean
+totem display
+TOTEM EXAMPLE
+totem free
+totem fulllist
+totem info
+totem letter
+TOTEM LIST
+totem remove
+totem rename
+totem see
+totem set
+totem slots
+totem type
+totem unalias
+totem unset
+totem validate
+totem_access_see
+totem_access_set
+totem_access_type
+totem_access_unset
+totem_add
+totem_alias
+totem_letter
+totem_name
+totem_rename
+totem_types
+TOTEM2
+TOTEMS
+TOTEMVALID()
+trace_output_limit
+trace_topdown
+tree_character
+trust_site
+uncompress_program
+unowned_safe
+unsafe
+user_attr_access
+validate_host
+vattr_command
+vattr_interval
+vattr_limit_checkwiz
+vercustomstr
+vlimit
+wait_cost
+wall_cost
+WANDERER
+whereis_notify
+whisper
+WHO
+who_comment
+who_default
+who_showwiz
+who_showwiztype
+who_unfindable
+who_wizlevel
+whohost_size
+WIELDED TOGGLE
+wiz_always_real
+wiz_override
+wiz_uselock
+WIZARD
+wizard_help_file
+wizard_help_index
+wizard_motd_file
+wizard_motd_message
+wizard_queue_limit
+wizcommand_quota_max
+wizhelp
+wizmax_dest_limit
+wizmax_vattr_limit
+wmail
+wmail access
+wmail alias
+wmail alias lock
+wmail alias remove
+wmail clean
+wmail cmdlist
+wmail cmdlist2
+wmail dtime
+wmail fix
+wmail lfix
+wmail load
+wmail lock
+wmail lock alias
+wmail off
+wmail on  
+wmail override
+wmail remove
+wmail remove alias
+wmail restart
+wmail size
+wmail smax
+wmail time
+wmail unload
+wmail wipe
+wmail/access
+wmail/alias
+wmail/alias/lock
+wmail/alias/remove
+wmail/clean
+wmail/dtime
+wmail/fix
+wmail/lfix
+wmail/load
+wmail/lock
+wmail/lock/alias
+wmail/off
+wmail/on  
+wmail/override
+wmail/remove
+wmail/remove/alias
+wmail/restart
+wmail/size
+wmail/smax
+wmail/time
+wmail/unload
+wmail/wipe
+WORKING WITH EXECSCRIPT
+WORKING WITH EXECSCRIPT2
+WORKING WITH EXECSCRIPT3
+WORKING WITH EXECSCRIPT4
+WORN TOGGLE
+WRITING CALLBACKS
+WRITING CALLBACKS2
+WRITING SCRIPTS
+zone_parents
+zones_like_parents

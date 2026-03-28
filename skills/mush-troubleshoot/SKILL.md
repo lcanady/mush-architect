@@ -1,8 +1,8 @@
 ---
 name: mush-troubleshoot
-description: "Debug failing or misbehaving RhostMUSH softcode."
-risk: low
-source: local
+description: Debug failing or misbehaving RhostMUSH softcode. Use when softcode isn't working, produces errors, gives wrong output, or behaves unexpectedly.
+effort: high
+paths: "**/*.mush,**/src/**,**/tests/**"
 date_added: "2026-03-27"
 ---
 

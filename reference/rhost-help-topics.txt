@@ -1,0 +1,1951 @@
+_
+-
+;
+:
+"
+]
+]}
+}
+}]
+@@
+@@()
+@aahear
+@aclone
+@aconnect
+@adescribe
+@adfail
+@adisconnect
+@adrop
+@aefail
+@aenter
+@afail
+@agfail
+@ahear
+@akill
+@aleave
+@alfail
+@alias
+@amail
+@amhear
+@amove
+@ansiname
+@apay
+@arfail
+@asfail
+@assert
+@asuccess
+@atfail
+@atofail
+@atport
+@atrcache
+@atrcache/cache
+@atrcache/delete
+@atrcache/fetch
+@atrcache/info
+@atrcache/info/noansi
+@atrcache/init
+@atrcache/interval
+@atrcache/list
+@atrcache/lock
+@atrcache/name
+@atrcache/noansi
+@atrcache/noansi/info
+@atrcache/owner
+@atrcache/set
+@atrcache/visible
+@attach
+@aufail
+@ause
+@away
+@break
+@caption
+@channel
+@channel2
+@charges
+@chown
+@clone
+@clone2
+@cluster
+@cluster action
+@cluster action func
+@cluster add
+@cluster clear
+@cluster cut
+@cluster del
+@cluster edit
+@cluster func
+@cluster func action
+@cluster grep
+@cluster list
+@cluster new
+@cluster owner
+@cluster preserve
+@cluster reaction
+@cluster regexp
+@cluster repair
+@cluster set
+@cluster threshhold
+@cluster trigger
+@cluster wipe
+@conformat
+@cost
+@CPATTR
+@CPATTR2
+@CPATTR3
+@crc32obj
+@create
+@decompile
+@descformat
+@describe
+@destroy
+@dfail
+@dig
+@doing
+@dolist
+@dolist2 
+@door
+@drain
+@drop
+@ealias
+@edit
+@efail
+@emit
+@enter
+@entrances
+@eval
+@exitformat
+@exitto
+@extansi
+@fail
+@femit
+@filter
+@find
+@force
+@forwardlist
+@fpose
+@fsay
+@gfail
+@goto
+@GREP
+@guild
+@halt
+@hide
+@idesc
+@idle
+@if
+@ifelse
+@include
+@include2
+@include3 
+@infilter
+@inprefix
+@invformat
+@jump
+@kill
+@label
+@label-example
+@label-example2
+@label-example3
+@label2
+@label3
+@label4
+@Lalias
+@last
+@leave
+@lemit
+@lfail
+@lfunction
+@lfunction2
+@link
+@link2
+@list
+@list2 
+@listen
+@listmotd
+@lock
+@lock attribute
+@lock attribute2
+@lock carry
+@lock compound
+@lock evaluation
+@lock evaluation2
+@lock indirect
+@lock is
+@Lock keys
+@lock locks
+@lock locks2
+@lock locks3
+@lock normal
+@lock ownership
+@lock type ChownLock
+@lock type DarkLock
+@lock type DefaultLock
+@lock type DropLock
+@lock type DropToLock
+@lock type EnterLock
+@lock type GetFromLock
+@lock type GiveLock
+@lock type GiveToLock
+@lock type LeaveLock
+@lock type LinkLock
+@lock type MailLock
+@lock type OpenLock
+@lock type PageLock
+@lock type ParentLock
+@lock type ReceiveLock
+@lock type SpeechLock
+@lock type TeloutLock
+@lock type TportLock
+@lock type TwinkLock
+@lock type UseLock
+@lock type UserLock
+@lock type ZoneToLock
+@lock type ZoneWizLock
+@lock/chownlock
+@lock/darklock
+@lock/defaultlock
+@lock/droplock
+@lock/droptolock
+@lock/enterlock
+@lock/getfromlock
+@lock/givelock
+@lock/givetolock
+@lock/leavelock
+@lock/linklock
+@lock/maillock
+@lock/openlock
+@lock/pagelock
+@lock/parentlock
+@lock/receivelock
+@lock/speechlock
+@lock/teloutlock
+@lock/tportlock
+@lock/twinklock
+@lock/uselock
+@lock/userlock
+@lock/zonetolock
+@lock/zonewizlock
+@lset
+@ltag
+@mail
+@MAILFILTER
+@MAILNOTIFY
+@mailsig
+@mfail
+@moniker
+@move
+@mvattr
+@name
+@nameformat
+@notify
+@odescribe
+@odfail
+@odrop
+@oefail
+@oemit
+@oenter
+@ofail
+@ogfail
+@okill
+@oleave
+@olfail
+@omove
+@opay
+@open
+@orfail
+@osuccess
+@otfail
+@otofail
+@otport
+@oufail
+@ouse
+@OUTPAGEFORMAT
+@oxenter
+@oxleave
+@oxtport
+@PAGEFORMAT
+@pageformat2
+@parent
+@password
+@pay
+@pcreate
+@pemit
+@pemit2
+@pipe
+@prefix
+@progprompt
+@program
+@program2 
+@program3
+@protect
+@protect2
+@ps
+@quitprogram
+@quota
+@quota alternate
+@quota standard
+@race
+@register
+@reject
+@remit
+@retry
+@rfail
+@robot
+@rollback
+@rollback2
+@rollback3
+@rollback4
+@rollback5
+@rollback6
+@runout
+@salisten
+@sasmell
+@sataste
+@satouch
+@saystring
+@search
+@SELFBOOT
+@set
+@set2
+@sex
+@sfail
+@skip
+@slisten
+@solisten
+@sosmell
+@sotaste
+@sotouch
+@sql
+@sqlconnect
+@sqldisconnect
+@ssmell
+@startup
+@staste
+@stats
+@stouch
+@success
+@sudo
+@sweep
+@switch
+@switch2
+@teleport
+@teleport2
+@tfail
+@titlecaption
+@tofail
+@toggle
+@totem
+@tport
+@trigger
+@ufail
+@unlink
+@unlock
+@uptime
+@use
+@verb
+@verb2
+@verb3
+@verb4
+@version
+@wait
+@wait2
+@wall
+@whereall
+@whereis
+@wipe
+@zone
+\?
+\*
+\\
+&
+&MAILFILTER
+&MAILNOTIFY
+&mailsig
+&OUTPAGEFORMAT
+&PAGEFORMAT
+&pageformat2
+#
+##
+#LAMBDA
+%
+%_
+%_2
+%_vars
+%-
+%-#
+%-h
+%-k
+%-m
+%-n
+%-p
+%:
+%!
+%?
+%@
+%#
+%%
+%+
+%<
+%0
+%1
+%2
+%3
+%4
+%5
+%6
+%7
+%8
+%9
+%a
+%b
+%c
+%d
+%f
+%i
+%k
+%l
+%m
+%n
+%o
+%p
+%q
+%q<
+%r
+%s
+%t
+%v
+%w
+%x
+^-command
+^-listen
++channel
++channel2
++help
++uptime
+>
+$-commands
+1.0.0p0
+1.5.0p0
+2.0.0p0
+3.0.0p0
+3.2.0p0
+3.2.4p0
+3.2.4p1
+3.2.4p10
+3.2.4p11
+3.2.4p12
+3.2.4p13
+3.2.4p14
+3.2.4p15
+3.2.4p16
+3.2.4p17
+3.2.4p18
+3.2.4p2
+3.2.4p3
+3.2.4p4
+3.2.4p5
+3.2.4p6
+3.2.4p7
+3.2.4p8
+3.2.4p9
+3.9.0p0
+3.9.0p1
+3.9.0p2
+3.9.1p0
+3.9.1p1
+3.9.1p2
+3.9.2p0
+3.9.2p1
+3.9.3p0
+3.9.3p1
+3.9.3p2
+3.9.3p3
+3.9.4p0
+3.9.4p1
+3.9.4p2
+3.9.4p3
+3.9.4p4
+3.9.4p5
+3.9.5p0
+3.9.5p1
+3.9.5p2
+3.9.5p3
+3.9.5p4
+4.0.0p0
+4.0.0p1
+4.0.0p2
+4.0.0p3
+4.0.0p4
+4.1.0p0
+4.1.0p1
+4.1.0p2
+4.10.0
+4.11.0
+4.11.1
+4.11.2
+4.12.0
+4.13.0
+4.14.0
+4.15.0
+4.16.0
+4.17.0
+4.17.1
+4.18.0
+4.19.0
+4.2.0
+4.2.1
+4.2.2
+4.2.3
+4.20.0
+4.20.1
+4.20.2
+4.20.3
+4.20.4
+4.21.0
+4.22.0
+4.23.0
+4.23.1
+4.23.2
+4.24.0
+4.24.1
+4.24.2
+4.25.0
+4.26.0
+4.27.0
+4.27.1
+4.27.2
+4.27.3
+4.27.4
+4.27.5
+4.27.6
+4.3.0
+4.3.1
+4.3.2
+4.3.3
+4.3.4
+4.3.5
+4.3.6
+4.3.7
+4.3.8
+4.3.9
+4.4.0
+4.4.1
+4.4.2
+4.4.3
+4.5.0
+4.5.1
+4.5.2
+4.5.3
+4.6.0
+4.6.1
+4.6.2
+4.7.0
+4.7.1
+4.8.0
+4.9.0
+ABODE
+ABS()
+ACCENT()
+ACCENT2
+ACCENT3
+ACCENT4
+ACCENTS TOGGLE
+ACOS()
+ADD()
+AFTER()
+AIINDEX()
+AINDEX()
+aliased functions
+ALIGN()
+ALLOF()
+ALPHAMAX()
+ALPHAMIN()
+ALT INVENTORIES
+ALTNAMES
+ANCESTORS
+AND()
+ANDCHR()
+ANDFLAG()
+ANDFLAGS()
+ANDTOTEM()
+ANDTOTEMS()
+ANSI
+ANSI ENCODING
+ansi functions
+ANSI QUIRKS
+ANSI USAGE
+ANSI()
+ANSI2
+ANSI3
+ANSI4
+ANSICOLOR
+ANSINAMES
+ANSIPOS()
+API
+API RETURN
+APOSS()
+ARBITRARY COMMANDS
+arbitrary2
+ARCHITECT
+ARGS()
+arithmetic functions
+ARRAY()
+array2
+ART()
+ASC()
+ASIN()
+ATAN()
+ATAN2()
+ATRCACHE()
+ATTRCNT()
+ATTRIB FORMATTING
+ATTRIBUTE FLAG ARCHITECT
+ATTRIBUTE FLAG ATRLOCK
+ATTRIBUTE FLAG COUNCILOR
+ATTRIBUTE FLAG DARK
+ATTRIBUTE FLAG DEFAULT
+ATTRIBUTE FLAG GOD
+ATTRIBUTE FLAG GUILDMASTER
+ATTRIBUTE FLAG HIDDEN
+ATTRIBUTE FLAG IMMORTAL
+ATTRIBUTE FLAG LOCK
+ATTRIBUTE FLAG LOGGED
+ATTRIBUTE FLAG MDARK
+ATTRIBUTE FLAG NO_CLONE
+ATTRIBUTE FLAG NO_COMMAND
+ATTRIBUTE FLAG NO_INHERIT
+ATTRIBUTE FLAG NO_PARSE
+ATTRIBUTE FLAG NOPROG
+ATTRIBUTE FLAG PINVISIBLE
+ATTRIBUTE FLAG PRIVATE
+ATTRIBUTE FLAG REGEXP
+ATTRIBUTE FLAG ROYALTY
+ATTRIBUTE FLAG SAFE
+ATTRIBUTE FLAG SINGLETHREAD
+ATTRIBUTE FLAG USELOCK
+ATTRIBUTE FLAG VISUAL
+ATTRIBUTE FLAG WIZARD
+ATTRIBUTE FLAGS
+ATTRIBUTE FLAGS2
+ATTRIBUTE FORMATTING
+ATTRIBUTE OWNERSHIP
+attribute ownership2
+attribute ownership3
+ATTRIBUTE TREE LIMITATIONS
+ATTRIBUTE TREE PERMISSION
+ATTRIBUTE TREE SETTING
+ATTRIBUTE TREE VIEWING
+ATTRIBUTE TREES
+ATTRIBUTE USELOCK2
+ATTRIBUTE USELOCKS
+attribute-commands
+attributes
+ATTRPASS()
+AUDIBLE
+AUDITORIUM
+AVG()
+BAND()
+BANG NOTATION
+BANG SYNTAX
+BANGS NOTATION
+BEFORE()
+BEING KILLED
+BETWEEN()
+BITTYPE()
+BLIND
+BNAND()
+BNOT()
+BOGUS COMMANDS
+BOOLEAN VALUES
+BOR()
+BOUNCE
+BOUNCEFORWARD
+BOUND()
+BRACKETS()
+BRANDY_MAIL TOGGLE
+BUCKET()
+BXOR()
+BYEROOM
+CAND()
+CAPLIST()
+CAPSTR()
+case()
+caseall()
+cat()
+cdark
+CEIL()
+CENTER()
+changelog
+changelog 1
+changelog 2
+changelog 3
+changelog 4
+changelog 5
+changelog latest
+changelog newest
+changelog recent
+changes
+channel
+channel2
+CHARIN()
+CHAROUT()
+chidden
+CHILDREN()
+CHKREALITY()
+CHKREALITY()
+CHKTRACE()
+CHOMP()
+CHOWN_OK
+CHR()
+CITER()
+CLOAK
+CLONE()
+CLUSTER COMMANDS
+cluster functions
+CLUSTER_ADD()
+CLUSTER_ATTRCNT()
+CLUSTER_DEFAULT()
+CLUSTER_EDEFAULT()
+CLUSTER_FLAGS()
+CLUSTER_GET_EVAL()
+CLUSTER_GET()
+CLUSTER_GREP()
+CLUSTER_HASATTR()
+CLUSTER_HASFLAG()
+CLUSTER_LATTR()
+CLUSTER_LATTR2   
+CLUSTER_REGREP()
+CLUSTER_REGREPI()
+CLUSTER_SET()
+CLUSTER_STATS()
+CLUSTER_U()
+CLUSTER_U2()
+CLUSTER_U2DEFAULT()
+CLUSTER_U2LDEFAULT()
+CLUSTER_U2LOCAL()
+CLUSTER_U2LOCAL2
+CLUSTER_UDEFAULT()
+CLUSTER_UEVAL()
+CLUSTER_ULDEFAULT()
+CLUSTER_ULOCAL()
+CLUSTER_ULOCAL2
+CLUSTER_VATTRCNT()
+CLUSTER_WIPE()
+CLUSTER_XGET()
+CLUSTERS
+CMDS()
+CNAME()
+CODING
+CODING ATTRIB
+CODING ATTRIB2
+CODING COMMAND
+CODING FUNCT
+CODING NEST
+CODING QUEUE
+CODING REGS
+CODING SUBS
+CODING2
+CODING3
+COLORMAIL
+colors
+COLORS()
+COLUMNS()
+COLUMNS2
+COLUMNS3
+COMBAT
+COMMAND EVALUATION
+command evaluation2
+commands
+COMMANDS FLAG
+commands2
+COMP()
+CON()
+CONFIG()
+CONN()
+connect
+CONNECTED
+CONNINFO
+CONNLAST()
+CONNLEFT()
+CONNMAX()
+CONNNUM()
+CONNRECORD()
+CONNTOTAL()
+CONTROL
+CONTROL_OK
+controls()
+CONVSECS()
+CONVTIME()
+COPYRIGHT
+COR()
+COS()
+COSH()
+COSTS      
+COUNCILOR
+CPATTR2
+CPATTR3
+CPUTIME TOGGLE
+CPUTIME2
+CRC32()
+CRC32OBJ()
+create
+CREATE()
+CREATETIME()
+CREDITS
+credits2
+credits3
+credits4
+credits5
+CREPLACE()
+CTU()
+DARK
+database information functions
+DEBUG
+DEC()
+DECODE64()
+DECRYPT()
+default()
+DELETE()
+delextract()
+descformat
+DESTROY_OK
+DESTROY()
+DICE()
+DIE()
+DIFFERENCES
+DIFFERENCES2
+DIG()
+DIGEST()
+DIST2D()
+DIST3D()
+DIV()
+doing
+DOOR SYNTAX
+DOOR_CLOSE
+DOOR_KICK
+DOOR_LIST
+DOOR_LIST2
+DOOR_OPEN
+DOOR_PUSH
+DOOR_STATUS
+DOOR_WRITING
+DOOR_WRITING2
+DOOR_WRITING3
+DOORED
+drop
+DROP-TOS
+E()
+EASTER
+EASTER EGG
+EASTEREGG
+edefault()
+EDIT()
+EDITANSI()
+EE()
+EGG
+ELEMENTPOS()
+elements()
+elementsmux()
+elist()
+elock()
+EMIT()
+ENACTOR
+ENCODE64()
+ENCRYPT()
+enter
+ENTER_OK
+ENTRANCES()
+eq()
+ERROR()
+ESCAPE()
+ESCAPEX()
+ESCLIST()
+EVAL()
+examine
+examine2
+examine3
+examine4
+EXIT()
+EXITS
+EXP()
+EXTANSI TOGGLE
+EXTRACT()
+EXTRACTWORD()
+FAILURE
+FBETWEEN()
+FBOUND()
+FDIV()
+filter()
+findable()
+FIRST()
+FIRSTOF()
+FLAG ALIASES
+FLAG LIST
+FLAG LIST2
+FLAGS
+FLAGS()
+FLIP()
+FLOATING
+FLOOR()
+FLOORDIV()
+FMOD()
+fold()
+folder
+folder change
+folder cmdlist
+folder create
+folder cshare
+folder current
+folder delete
+folder list
+folder move
+folder quicklist
+folder rename
+folder share
+folder/change
+folder/create
+folder/cshare
+folder/current
+folder/delete
+folder/list
+folder/move
+folder/rename
+folder/share
+FOLDERCURRENT()
+FOLDERLIST()
+FOREACH()
+formatdesc
+FREE
+FUBAR
+FULLNAME()
+FUNCTION ALIASES
+FUNCTION CLASSES
+FUNCTION CLASSES2
+FUNCTION CLASSES3
+FUNCTION CLASSES4
+FUNCTION CLASSES5
+FUNCTION CLASSES6
+FUNCTION CLASSES7
+FUNCTION LIST
+FUNCTION LIST2
+FUNCTION LIST3
+FUNCTION LIST4
+FUNCTION LIST5
+FUNCTION TYPES
+FUNCTIONS
+game information functions
+GARBLE()
+GENDER
+GENPASSWORD()
+get
+GET_EVAL()
+GET()
+get2
+GHOD
+give
+GLOBALROOM()
+GLOBBING
+GOALS
+GOD
+GOING
+goto
+grab
+GRAB()
+GRABALL()
+GREP()
+gt()
+gte()
+GUESTS
+GUILD()
+GUILDMASTER
+HALTED
+hasattr()
+hasattrp()
+hasflag()
+hasquota()
+HASRXLEVEL()
+HASTOGGLE()
+HASTOTEM()
+HASTXLEVEL()
+hastype()
+HAVEN
+help
+HERE
+historical
+HOME
+HOME()
+HOMES
+IBREAK()
+IC
+IDIV()
+IDLE
+IDLE()
+if()
+ifelse()
+IINDEX()
+ILEV()
+IMMORTAL
+INC()
+INDESTRUCTABLE
+INDEX()
+INF()
+INFO
+INHERIT
+INPROGRAM()
+INSERT()
+INSERT2 
+INTERNAL_DOORS
+INUM()
+inventory
+invformat
+INZONE()
+IPV4MATH()
+ISALNUM()
+ISALPHA()
+ISCLUSTER()
+ISDBREF()
+ISDIGIT()
+ISHIDDEN()
+ISINT()
+ISLOWER()
+ISNUM()
+ISOBJID()
+ISPUNCT()
+ISSPACE()
+ISTAG()
+ISUNICODE()
+ISUPPER()
+ISUTF8()
+ISWORD()
+ISXDIGIT()
+ITER()
+ITEXT()
+join
+JUMP_OK
+KEEPALIVE TOGGLE
+KEEPFLAGS()
+KEEPTYPE()
+KENOBI
+KEY
+kill
+LADD()
+LAND()
+last
+LAST()
+LASTCREATE()
+lastsite
+LATTR()
+LATTR2   
+LATTRP()
+LATTRP2
+LAVG()
+LCMDS()
+LCON()
+LCSTR()
+LDELETE()
+LDIV()
+leave
+LEFT()
+LEMIT()
+LEXITS()
+LFLAGS()
+LIGHT
+LINK_OK
+LINK()
+LINKING  
+list functions
+list functions2
+list functions3
+list functions4
+LIST()
+LIST2
+LISTCOMMANDS()
+LISTDIFF()
+listen
+LISTENING
+LISTFLAGS()
+LISTFUNCTIONS()
+LISTINTER()
+LISTMATCH()
+LISTNEWSGROUPS()
+LISTPROTECTION()
+LISTRLEVELS()
+LISTS
+LISTTOGGLES()
+LISTTOTEMS()
+LISTTZONES()
+LISTUNION()
+LIT()
+LJ()
+LJC()
+LJUST()
+LLOC()
+LMATH()
+LMAX()
+LMIN()
+LMUL()
+LN()
+LNOR()
+LNUM()
+LNUM2()
+LOC()
+LOCALFUNC()
+LOCALIZE()
+LOCALIZE2 
+LOCATE()
+locate2
+locate3
+lock()
+lockcheck()
+lockdecode()
+lockencode()
+locks
+LOG()
+logarithmic functions
+logical functions
+LOGOUT
+look
+LOOPING
+LOR()
+lpage
+LPARENT()
+lrand()
+LREPLACE()
+lrooms()
+LSET()
+LSUB()
+lt()
+lte()
+LTOGGLES()
+LTOTEMS()
+LWHO()
+LXNOR()
+LXOR()
+LZONE()
+mail
+mail +all
+mail alias
+mail alias quick
+mail anonymous
+mail attributes
+mail autofor
+mail autopurges
+mail ball
+mail basics
+mail basics2
+mail both
+mail btutor
+mail changes
+mail changes2
+mail check
+mail cmdlist
+mail cmdlist2
+mail cmdlist3
+mail creating
+mail credits
+mail delete
+mail dtutor
+mail dtutor notes
+mail dtutor1
+mail dtutor2
+mail dtutor3
+mail dtutor4
+mail dtutor5
+mail dtutor6
+mail dtutor7
+mail folders
+mail forward
+mail line
+mail line examples
+mail lineeditor
+mail list_aliases
+mail lock
+mail main
+mail mark
+mail massmail
+mail nall
+mail new
+mail next
+mail number
+mail page
+mail password
+mail previous
+mail ptutor
+mail quick
+mail quicklist
+mail quota
+mail read
+mail recall
+mail recall2
+mail recall3
+mail reject
+mail reply
+mail save
+mail send brandy
+mail send examples
+mail send quick
+mail send2
+mail sending
+mail setup aliases
+mail setup aliases2
+mail setup_aliases
+mail setup_aliases2
+mail share
+mail signature
+mail status
+mail status2
+mail technical
+mail topics
+mail tutorial
+mail uall
+mail unmark
+mail unread
+mail version
+mail write
+mail write -
+mail write +acc
+mail write +bcc
+mail write +cc
+mail write +del
+mail write +edit
+mail write +editall
+mail write +fedit
+mail write +feditall
+mail write +forget
+mail write +forward
+mail write +insert
+mail write +join
+mail write +justify
+mail write +list
+mail write +proof
+mail write +reply
+mail write +send
+mail write +split
+mail write +subject
+mail write adding
+mail write autonotify
+mail write cmdlist
+mail write cmdlist2
+mail write examples
+mail write forwarding
+mail write quicksending
+mail writing
+mail zap
+MAIL_NOPARSE TOGGLE
+MAIL_STRIPRETURN TOGGLE
+mail-admin
+mail-aliases
+mail-aliases2
+mail-attributes
+mail-deleting
+mail-examples
+mail-filtering
+MAIL-FLAGS
+mail-folders
+MAIL-OBFUSCATE
+mail-other
+mail-reading
+mail-reviewing
+mail-sharing
+mail-writing
+mail/alias
+mail/alias/quick
+mail/anonymous
+mail/autofor
+mail/check
+mail/delete
+mail/forward
+mail/forward/quick
+mail/lock
+mail/mark
+mail/mark/save
+mail/next
+mail/number
+mail/page
+mail/password
+mail/previous
+mail/quick
+mail/quick/alias
+mail/quota
+mail/read
+mail/read/save
+mail/recall
+mail/reject
+mail/reply
+mail/reply/quick
+mail/save
+mail/save/read
+mail/send
+mail/share
+mail/status
+mail/unmark
+mail/version
+mail/write
+mail/write +acc
+mail/write +bcc
+mail/write +cc
+mail/write +del
+mail/write +edit
+mail/write +editall
+mail/write +fedit
+mail/write +feditall
+mail/write +forget
+mail/write +forward
+mail/write +insert
+mail/write +join
+mail/write +justify
+mail/write +list
+mail/write +proof
+mail/write +reply
+mail/write +send
+mail/write +split
+mail/write +subject
+mail/zap
+MAILFILTER
+MAILNOTIFY
+MAILQUICK()
+MAILVALIDATE TOGGLE
+map()
+MARKER0
+MARKER1
+MARKER2
+MARKER3
+MARKER4
+MARKER5
+MARKER6
+MARKER7
+MARKER8
+MARKER9
+MASK()
+MATCH()
+MAX ARGS
+max_name_protect
+MAX()
+ME
+ME OBI-WAN KENOBI
+MEDIT()
+member()
+MERGE()
+MID()
+MIN()
+miscellaneous functions
+MIX()
+MOD()
+MODIFYTIME()
+MODULO()
+MONEY
+MONEY()
+MONEYNAME()
+MONITOR
+MONITOR TOGGLE
+MOON()
+move
+MOVE()
+MOVING
+moving2
+moving3
+mrpage
+MSECS()
+MSECSTZ()
+MUDDIFF
+MUDNAME()
+MUL()
+MUNGE()
+MUNGE2
+MUXPAGE TOGGLE
+MWORDS()
+MYOPIC
+NAME()
+NAMEQ()
+NAMEQ2
+NAMEQM()
+NAND()
+NCOMP()
+NEARBY()
+neq()
+NEW USERS
+news
+news changes
+news check
+news cmdlist
+news default group
+news description
+news description2
+news extend
+news general
+news groupinfo
+news grouplist
+news groupmem
+news info
+news jump
+news login
+news mailto
+news new user
+news old news
+news post
+news postlist
+news postlock
+news read
+news readall
+news readlock
+news repost
+news status
+news subscribe
+news technical
+news unsubscribe
+news userinfo
+news verbose
+news yank
+NEXT()
+NO_ANSI_EX TOGGLE
+NO_ANSI_EXIT TOGGLE
+NO_ANSI_PLAYER TOGGLE
+NO_ANSI_ROOM TOGGLE
+NO_ANSI_THING TOGGLE
+NO_COMMAND
+NO_FLASH
+NO_SPOOF
+NO_TEL
+NO_UNDERLINE
+NO_WALLS
+NO_YELL
+NOCOMMAND
+NOFLASH
+NOGLOBPARENT TOGGLE
+NOISY
+NOR()
+NOSPOOF
+NOSTR()
+NOT()
+NOTCHR()
+NOTEL
+NOTIFY_LINK TOGGLE
+NOUNDERLINE
+NOWALLS
+NOYELL
+NOZONEPARENT TOGGLE
+NPEMIT()
+NSITER()
+NULL()
+NUM()
+numerical conversion functions
+NUMMATCH()
+NUMMEMBER()
+NUMPOS()
+numwildmatch()
+OBI-WAN
+OBI-WAN KENOBI
+OBJ()
+object information functions
+object information functions2
+OBJECT TYPES
+OBJEVAL()
+OBJID()
+OEMIT()
+OFPARSE()
+OFPARSE2
+OPAQUE
+OPEN()
+OR()
+ORCHR()
+ORFLAG()
+ORFLAGS()
+ORTOTEM()
+ORTOTEMS()
+OUTPAGEFORMAT
+OUTPUTPREFIX
+OUTPUTSUFFIX
+OWNER()
+PACK()
+PACKMATH()
+page
+page2  
+PAGEFORMAT
+pageformat2
+PARENMATCH()
+PARENSTR()
+PARENT OBJECTS
+PARENT_OK
+PARENT()
+PARENT2 
+PARENTS()
+PARSE()
+PARSESTR()
+PARSESTR2
+PARSESTR3
+PARSESTR4
+PASSTHROUGH()
+PASSWORD LAYOUT
+PEDIT()
+PEMIT()
+PENN_MAIL TOGGLE
+PFIND()
+PGREP()
+PI()
+pickrand()
+PID()
+PID2
+PLAYER
+player information functions
+plushelp
+PMATCH()
+PORT()
+POS()
+pose
+POSS()
+POWER()
+POWER10()
+PRINTF BORDERS
+PRINTF BORDERS2
+PRINTF CODEHELP
+PRINTF CODEHELP _
+PRINTF CODEHELP -
+PRINTF CODEHELP ;
+PRINTF CODEHELP :
+PRINTF CODEHELP !
+PRINTF CODEHELP .
+PRINTF CODEHELP '
+PRINTF CODEHELP "
+PRINTF CODEHELP @
+PRINTF CODEHELP *
+PRINTF CODEHELP /
+PRINTF CODEHELP &
+PRINTF CODEHELP #
+PRINTF CODEHELP `
+PRINTF CODEHELP ^
+PRINTF CODEHELP +
+PRINTF CODEHELP <
+PRINTF CODEHELP >
+PRINTF CODEHELP |
+PRINTF CODELIST
+PRINTF EXAMPLES
+PRINTF EXAMPLES2
+PRINTF EXAMPLES3
+PRINTF EXAMPLES4
+PRINTF EXAMPLES5
+PRINTF EXAMPLES6
+PRINTF PENN
+PRINTF PENN2
+PRINTF SUBS
+PRINTF SYNTAX 
+PRINTF()
+PRIVATE
+PRIVATIZE()
+PRIVATIZE2
+PRIVATIZE3
+PROGRAMMER()
+PRONOUNS
+protect_addenh
+PTIMEFMT()
+PTIMEFMT2
+PUPPET
+PUPPETS
+PUSHREGS()
+QUICKREFERENCE
+QUIET
+quietnomatch()
+quit    
+quota alternate2
+quota alternate3
+quota()
+R()
+RACE()
+RAND()
+randextract()
+randmatch()
+randpos()
+read
+reality level functions
+REALITY LEVELS
+REBOOTSECS()
+REBOOTTIME()
+REGEDIT()
+REGEDITALL()
+REGEDITALLI()
+REGEDITALLILIT()
+REGEDITALLLIT()
+REGEDITI()
+REGEDITILIT()
+REGEDITLIT()
+REGEXP CASESENSITIVE
+REGEXP CASESENSITIVITY
+REGEXP CLASSES
+REGEXP CLASSES2
+REGEXP EXAMPLES
+REGEXP SYNTAX
+REGEXP SYNTAX2
+REGEXP SYNTAX3
+REGEXP SYNTAX4
+REGEXP SYNTAX5
+REGEXP SYNTAX6
+REGEXP SYNTAX7
+REGEXP SYNTAX8
+REGEXPS
+REGEXPS2
+register
+REGISTERS
+REGLMATCH()
+REGLMATCHALL()
+REGLMATCHALLI()
+REGLMATCHI()
+REGMATCH()
+REGMATCHI()
+REGNUMMATCH()
+REGNUMMATCHI()
+REGRAB()
+REGRABALL()
+REGRABALLI()
+REGRABI()
+REGREP()
+REGREPI()
+regular expression functions
+relational functions
+REMAINDER()
+REMFLAGS()
+REMIT()
+remove()
+REMTYPE()
+REPEAT()
+REPLACE()
+REQUIRE_TREES
+REST()
+RESWITCH()
+RESWITCHALL()
+RESWITCHALLI()
+RESWITCHI()
+REVERSE()
+revisions
+REVWORDS()
+RIGHT()
+RINDEX()
+RJ()
+RJC()
+RJUST()
+RLOC()
+RNUM()
+ROBBERY
+ROBOT
+ROMAN()
+ROOM
+ROOM()
+rotl()
+rotr()
+ROUND()
+ROYALTY
+rpage
+RSET()
+RULER()
+RUNINTZ()
+RXDESC()
+RXLEVEL()
+S()
+SAFE
+SAFEBUFF()
+SAFELOG TOGGLE
+SANDBOX()
+SANDBOX2
+save
+say
+score
+scramble()
+search classes
+SEARCH()
+SEARCHNG()
+SEARCHNGOBJID()
+SEARCHOBJID()
+SECS()
+SECSTZ()
+SECURE()
+SECUREX()
+sees()
+SEMAPHORES
+semaphores2
+SENSES
+SESSION
+SET()
+SETDIFF()
+SETINTER()
+SETQ_OLD()
+SETQ_TEMPLATES
+SETQ()
+SETQLABEL TOTEM
+SETQM()
+SETQMATCH()
+SETR_OLD()
+SETR()
+SETRM()
+SETUNION()
+SHIFT()
+shl()
+SHOWFAILCMD
+shr()
+shuffle()
+side effect functions
+SIDEEFFECTS
+SIDEFX
+SIGN()
+SIN()
+SINGLETHREADING
+SINGLETIME()
+SINH()
+SLAVE
+smell
+SORT()
+SORTBY()
+SORTLIST()
+SORTLIST2
+SOUNDEX()
+SOUNDEX2
+SOUNDLIKE()
+SOUNDSLIKE()
+SPACE()
+SPEAK()
+SPECIAL CHARACTERS
+SPEECH_PREFIX
+SPEECH_SUFFIX
+SPELLNUM()
+SPLICE()
+SPOOFING
+SQL
+SQL()
+SQLESCAPE()
+SQLITE_QUERY()
+SQLITE_QUERY2
+SQLOFF()
+SQLON()
+SQLPING()
+SQRT()
+SQUISH()
+SQUISH()
+STACK
+STARTSECS()
+STARTTIME()
+STATS()
+STDERR()
+STEP()
+STICKY
+STR()
+STRALLOF()
+STRCAT()
+STRDISTANCE()
+STREQ()
+STREVAL()
+STRFIRSTOF()
+STRFUNC()
+string functions
+string functions2
+string functions3
+STRIP()
+STRIPACCENTS()
+STRIPANSI()
+STRIPUNICODE()
+STRLEN()
+STRLENRAW()
+STRLENVIS()
+STRMATCH()
+strmath()
+strmath2
+STRTRUNC()
+SUB()
+SUBEVAL()
+SUBJ()
+SUBNETMATCH()
+SUBSTITUTIONS
+substitutions2
+SUCCESS
+SUPER-ROYALTY
+SWITCH()
+SWITCHALL()
+SWITCHES
+T()
+TAG()
+take
+take2
+TAN()
+TANH()
+taste
+TEL()
+TELOK
+TEMPLATE()
+TEMPLE
+TERSE
+TESTLOCK()
+THING
+think
+throw
+time functions
+TIME()
+TIMEFMT ADVANCED
+TIMEFMT ADVANCED EXAMPLE
+TIMEFMT ADVANCED2
+TIMEFMT CODELIST
+TIMEFMT CODELIST2
+TIMEFMT DATE
+TIMEFMT ELAPSED
+TIMEFMT ESCAPES
+TIMEFMT EXAMPLES
+TIMEFMT SYNTAX
+TIMEFMT SYNTAX2
+TIMEFMT TIME
+TIMEFMT TIMEZONE
+TIMEFMT()
+TIMEZONE
+TIMEZONE ERROR HANDLING
+timezone list
+timezone list10
+timezone list11
+timezone list12
+timezone list2
+timezone list3
+timezone list4
+timezone list5
+timezone list6
+timezone list7
+timezone list8
+timezone list9
+TOBIN()
+TODEC()
+TOGGLE LIST
+toggle()
+TOGGLES
+TOHEX()
+TOOCT()
+topics
+TOTCMDS()
+TOTEM LIST
+TOTEMS
+TOTEMS()
+TOTEMSET()
+TOTMATCH()
+TOTMEMBER()
+TOTPOS()
+totwildmatch()
+touch
+TR()
+TRACE
+TRACE_COLOR
+TRACE_GREP
+TRACE_GREPCOLOR
+TRACE()
+trace2
+TRACETAB
+train
+TRANSLATE()
+TRANSPARENT
+TRIGGER()
+trigonometry functions
+TRIM()
+TRREVERSE()
+TRUNC()
+TXLEVEL()
+type()
+U()
+U2()
+u2default()
+u2ldefault()
+U2LOCAL()
+U2LOCAL2
+UCSTR()
+udefault()
+UEVAL()
+uldefault()
+ULOCAL()
+ULOCAL2
+UNESCLIST()
+UNFINDABLE
+UNICODE SUPPORT
+UNPACK()
+use
+USEFUL
+USER ATTRIBUTES
+userlocks
+UTF8 SUPPORT
+UTF8 TOGGLE
+V()
+VADD()
+VALID()
+VANILLA_ERRORS TOGGLE
+VARIABLE EXITS
+VARIABLE TOGGLE
+VATOVZ
+VATTRCNT()
+VCROSS()
+VDIM()
+VDOT()
+VERBOSE
+VERBS
+version
+VERSION()
+visible()
+visiblemux()
+VISUAL
+VMAG()
+VMUL()
+VPAGE TOGGLE
+VSUB()
+VUNIT()
+wanderer
+WANDERER
+WHERE()
+WHILE()
+WHILE2
+whisper
+who
+wielded
+WILDCARDS
+WILDCARDS2
+wildmatch()
+WIPE()
+WIZARD ATTRIBUTES
+WIZARDS
+wordpos()
+WORDS()
+worn
+WRAP()
+WRAP2
+WRAPCOLUMNS()
+WRAPCOLUMNS2
+WRAPCOLUMNS3
+WRITABLE()
+XCON()
+XCON2
+XDEC()
+XGET()
+XINC()
+XNOR()
+XOR()
+XORCHR()
+XTERMCOLOR
+XTERMCOLOR LIST
+XTERMCOLOR LIST2
+XTERMCOLOR LIST3
+XTERMCOLOR LIST4
+XTERMCOLOR SYNTAX
+ZATOZZ
+ZEMIT()
+ZFUN()
+ZFUN2()
+zfun2default()
+zfun2ldefault()
+ZFUN2LOCAL()
+ZFUN2LOCAL2
+zfundefault()
+ZFUNEVAL()
+zfunldefault()
+ZFUNLOCAL()
+ZFUNLOCAL2
+ZLCON()
+zone functions
+ZONE_AUTOADD TOGGLE
+ZONE_AUTOADDALL TOGGLE
+ZONECMD()
+ZONECMD2 
+ZONECMDCHK
+ZONECONTENTS
+ZONEMASTER
+ZONEPARENT 
+zones
+zones2
+ZSEARCH()
+ZSEARCHOBJID()
+ZWHO()

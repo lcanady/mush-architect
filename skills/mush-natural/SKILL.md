@@ -1,8 +1,8 @@
 ---
 name: mush-natural
-description: "Translate natural-language feature descriptions into RhostMUSH softcode."
-risk: low
-source: local
+description: Translate natural-language feature descriptions into RhostMUSH softcode. Use when the user describes what they want in plain English and needs it converted to MUSH softcode.
+effort: high
+argument-hint: "[natural language description of feature]"
 date_added: "2026-03-27"
 ---
 

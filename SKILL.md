@@ -1,32 +1,113 @@
 ---
 name: mush-architect
-description: "Orchestrating skill for RhostMUSH softcode development. Routes to sub-skills, detects help files from unknown servers, and manages the mush-patterns corpus."
-risk: low
-source: local
+description: "Master orchestrator for all RhostMUSH softcode work. Auto-activates when the user mentions MUSH, softcode, mushcode, RhostMUSH, PennMUSH, TinyMUX, builders, wizards, @create, &attributes, or any MUSH game development topic. Routes to the right sub-skill or chains multiple skills together."
+effort: high
+user-invocable: true
 date_added: "2026-03-27"
 ---
 
-> **Follow phases in order. Do NOT write any softcode until Phase 1 (Design) is complete. Skipping planning is a protocol violation.**
+> **HARD STOP: Do NOT write any softcode — not a single line, not a stub — until you have presented a written design plan and the user has explicitly confirmed it. Skipping this is a protocol violation.**
 
 
 # mush-architect
 
 Master skill for RhostMUSH softcode development. All MUSH work flows through this skill.
 
-## Sub-skills
+## Skill routing map
 
-| Skill | When to use |
-|-------|-------------|
-| `/mush-build` | Writing new softcode (commands, UDFs, systems) |
-| `/mush-test` | Writing or running @rhost/testkit tests |
-| `/mush-explain` | Explaining what existing softcode does |
-| `/mush-docs` | Generating help text or documentation |
-| `/mush-security` | Auditing softcode for injection or privilege issues |
-| `/mush-efficiency` | Optimizing softcode performance |
-| `/mush-troubleshoot` | Debugging failing softcode |
-| `/mush-migrate` | Porting code between MUSH server flavors |
-| `/mush-install` | Deploying softcode to a live server |
-| `/mush-natural` | Translating natural-language specs to softcode |
+Read the user's intent, then route to the right skill or chain. When in doubt, ask one clarifying question.
+
+### By intent
+
+| User says / wants | Route to |
+|-------------------|----------|
+| "build", "write", "create", "code", "make a system/command/UDF" | `/mush-build` |
+| "test", "verify", "check if this works", "write a test" | `/mush-test` |
+| "explain", "what does this do", "walk me through", "how does this work" | `/mush-explain` |
+| "document", "write help", "help text", "docs" | `/mush-docs` |
+| "security", "audit", "is this safe", "injection", "vulnerable" | `/mush-security` |
+| "optimize", "speed up", "too slow", "lag", "performance" | `/mush-efficiency` |
+| "debug", "broken", "not working", "error", "wrong output" | `/mush-troubleshoot` |
+| "migrate", "port", "convert to Penn/MUX/Rhost", "move this code" | `/mush-migrate` |
+| "install", "deploy", "push to server", "put this on the game" | `/mush-install` |
+| "I want a system that...", natural-language description | `/mush-natural` → `/mush-build` |
+| "start session", "begin", "new session" | `/mush-session` |
+| "new project", "start from scratch", "scaffold" | `/mush-init` |
+| "update manifest", "track objects", "record dbrefs" | `/mush-manifest` |
+| "uninstall", "remove", "rollback", "tear down" | `/mush-rollback` |
+| "patch", "upgrade", "update existing install", "what changed" | `/mush-patch` |
+| "lint", "check code", "validate installer" | `/mush-lint` |
+| "watch", "auto-rebuild", "dev mode" | `/mush-watch` |
+| "set up hooks", "automate gates", "auto-lint" | `/mush-hooks` |
+| "extract patterns", "save what I learned", "add to corpus" | `/mush-learn` |
+
+### Standard workflow chains
+
+**New feature (full pipeline):**
+```
+/mush-session → /mush-build (phases 0-4) → /mush-lint → /mush-build (phases 5-7) → /mush-manifest → /mush-install → /mush-test → /mush-security → /mush-learn
+```
+
+**Fix a bug (minimal):**
+```
+/mush-session → /mush-troubleshoot → /mush-build (phase 3 only) → /mush-lint → /mush-patch → /mush-install → /mush-test
+```
+
+**Natural language to deployed:**
+```
+/mush-natural → /mush-build → /mush-lint → /mush-install → /mush-test → /mush-security → /mush-learn
+```
+
+**Explain and document existing code:**
+```
+/mush-explain → /mush-docs → /mush-build (phase 4 only)
+```
+
+**New project from zero:**
+```
+/mush-init → /mush-session → /mush-hooks → /mush-build
+```
+
+### Skill invocation rules
+
+| Skill | Invocation | Why |
+|-------|-----------|-----|
+| `mush-session` | Manual only — always first | Side-effect: loads corpus, sets session state |
+| `mush-init` | Manual only | Side-effect: creates files/dirs |
+| `mush-install` | Manual only | Side-effect: deploys to live server |
+| `mush-rollback` | Manual only | Side-effect: destroys live objects |
+| `mush-patch` | Manual only | Side-effect: writes installer files |
+| `mush-manifest` | Manual only | Side-effect: writes manifest.json |
+| `mush-watch` | Manual only | Side-effect: starts background process |
+| `mush-hooks` | Manual only | Side-effect: writes settings.json |
+| `mush-security` | Auto + manual | Runs in fork — safe to trigger on code review |
+| `mush-lint` | Auto + manual | Runs in fork — safe to trigger on file write |
+| All others | Auto + manual | Claude can trigger based on context |
+
+---
+
+## ⚠ PHASE 0 — PLAN FIRST (BLOCKING GATE)
+
+**This phase MUST complete before Phase 1. Do not skip it, abbreviate it, or defer it.**
+
+After the SESSION START CHECKLIST (Steps 1–3 below) completes:
+
+1. **Write a design plan** covering ALL of the following:
+   - **System name and object** — what object(s) will be created, flags, locks
+   - **Commands** — full list: pattern, access level (all/wizard), inputs, outputs
+   - **Data model** — how data is stored (attributes, naming conventions, index attrs)
+   - **Hook/extension points** — any user-overridable attributes or UDFs
+   - **File structure** — softcode file(s), test file(s), doc file(s) to be created
+   - **Test scenarios** — bulleted list of cases the test suite will cover (red → green)
+   - **Open questions** — anything that requires user input before you can proceed
+
+2. **Stop and wait.** Output the plan and end your response. Do not write code.
+
+3. **Wait for explicit user confirmation** — e.g. "looks good", "proceed", "yes". A question from the user is NOT confirmation. Silence is NOT confirmation.
+
+4. **Only after written confirmation** — proceed to Phase 1 (SESSION START CHECKLIST) and then implementation.
+
+**Why this matters:** Jumping straight to code without agreement on scope wastes time on rework and produces systems the user didn't ask for. The plan conversation is the cheapest part of the process.
 
 ---
 
@@ -34,10 +115,10 @@ Master skill for RhostMUSH softcode development. All MUSH work flows through thi
 
 Before any softcode is written, you MUST:
 
-1. Complete the SESSION START CHECKLIST (Steps 1–3 below)
-2. State what you are building, what object will hold it, and what inputs/outputs it will have
+1. Complete Phase 0 (design plan + user confirmation — see above)
+2. Complete the SESSION START CHECKLIST (Steps 1–3 below)
 3. Check mush-patterns for an existing matching pattern
-4. Write the `@rhost/testkit` test (Phase 2 of mush-build) **before** the softcode
+4. Write the `@rhost/testkit` test **before** the softcode (red first)
 
 Only after all four are done may you proceed to write softcode.
 
@@ -96,18 +177,40 @@ If the corpus is empty or sparse for the task domain, note this and proceed — 
 
 ---
 
-### Step 3 — Help file detection (MANDATORY)
+### Step 3 — Server help corpus check (MANDATORY)
 
-Scan the current conversation for any help files or blocks of help text the user has provided.
+Identify the target MUSH server from the task context (e.g. "RhostMUSH", "PennMUSH", "TinyMUSH").
 
-**Trigger:** If a help file is from a server NOT represented in `../mush-patterns/patterns/server-help/`, ask:
+**RhostMUSH — full help corpus is bundled locally. Never fetch from GitHub.**
 
-> "I don't see patterns for **[server-name]** in `mush-patterns` yet. Want me to extract softcode patterns from this help file and open a PR to add them?"
+| File | Use for |
+|------|---------|
+| `reference/rhost-help.txt` | Functions, softcode, @commands, flags, attributes |
+| `reference/rhost-wizhelp.txt` | @power, @config, @aflags, @admin, news, snoop |
+| `reference/rhost-help-topics.txt` | Fast topic lookup (grep this first) |
+| `reference/rhost-wizhelp-topics.txt` | Fast wiz topic lookup |
 
-How to detect "unknown server":
-1. Check `../mush-patterns/patterns/server-help/` for a file whose name matches the server slug.
-2. If no match → trigger the prompt above.
-3. If the user confirms → run the [Pattern extraction workflow](#pattern-extraction-workflow) below.
+See `reference/rhost.md` for the full lookup guide.
+
+**Before writing any RhostMUSH softcode — look up the relevant topics:**
+```bash
+# Find if a topic exists
+grep -i "^& <function-or-command>" reference/rhost-help.txt reference/rhost-wizhelp.txt
+
+# Read a full entry (replace TOPIC with actual topic)
+awk '/^& TOPIC$/,/^& /' reference/rhost-help.txt | head -80
+```
+
+**For other servers:**
+1. Check `../mush-patterns/patterns/server-help/` for an existing file.
+2. If missing — fetch from the server's public repo, extract patterns, run `/mush-learn` to record them.
+
+**Known fetch URLs (other servers):**
+| Server | URL |
+|--------|-----|
+| PennMUSH | `https://raw.githubusercontent.com/pennmush/pennmush/master/game/txt/hlp/pennmush.hlp` |
+
+Add to this table when new servers are encountered. RhostMUSH is already local — do not add it here.
 
 ---
 

@@ -1,17 +1,33 @@
 ---
 name: mush-build
-description: "Write RhostMUSH softcode (commands, UDFs, systems). Always paired with @rhost/testkit tests."
-risk: low
-source: local
+description: "Write RhostMUSH softcode — commands, UDFs, and systems. Use when the user wants to build, write, create, or code a MUSH system, feature, command, or function."
+effort: high
+paths: "**/*.mush,**/src/**,**/tests/**"
+argument-hint: "[system or feature to build]"
 date_added: "2026-03-27"
 ---
 
-> **Phases are mandatory and ordered. Complete Phase 1 (Design) fully before writing any softcode. Do NOT skip to code.**
+> **Phases are mandatory and ordered. Complete Phase 0 (Session) before anything else. Do NOT skip to code.**
 
 
 # mush-build
 
-Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhost/testkit` test file.
+Write RhostMUSH softcode. Every task produces softcode, tests, a packaged installer, and help files.
+
+## ⚠ /mush-session is MANDATORY FIRST
+
+**Every session MUST begin with `/mush-session` — corpus sync, manifest load, server detection.**
+
+- Do not design, write, or test anything until `/mush-session` completes green.
+- There are no exceptions.
+
+## ⚠ /mush-lint is MANDATORY before packaging
+
+**Every session MUST run `/mush-lint` before Phase 6 — Package.**
+
+- All ERRORs must be resolved. WARNs may be acknowledged with explanation.
+- Do not write the installer file until lint is clean.
+- There are no exceptions.
 
 ## ⚠ /mush-test is MANDATORY
 
@@ -21,7 +37,7 @@ Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhos
 - Do not mark any task complete until `/mush-test` is run and all tests pass (green).
 - There are no exceptions.
 
-## ⚠ mush-security is MANDATORY
+## ⚠ /mush-security is MANDATORY
 
 **Every session that produces softcode MUST run `/mush-security` before closing.**
 
@@ -30,14 +46,18 @@ Write RhostMUSH softcode. Every task produces softcode **and** a matching `@rhos
 - There are no exceptions.
 
 ```
+Phase 0 — Session    → Run /mush-session (corpus sync, manifest load, server detect) — MANDATORY FIRST
 Phase 1 — Design     → Understand requirements; check mush-patterns corpus
 Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
 Phase 3 — Code       → Write the softcode
-Phase 4 — Docs       → Generate help text for every command and UDF (MANDATORY)
-Phase 5 — Deploy     → Install softcode + help attributes to server
-Phase 6 — Verify     → Run the test (GREEN — task is now complete)
-Phase 7 — Patterns   → Extract any reusable patterns and add to mush-patterns
-Phase 8 — Security   → Run /mush-security on all softcode written this session (MANDATORY)
+Phase 4 — Docs       → Generate help/help.txt + help/[project].help.installer.txt (MANDATORY)
+Phase 5 — Lint       → Run /mush-lint — fix all ERRORs before proceeding (MANDATORY)
+Phase 6 — Package    → Write dist/[project].installer.txt (MANDATORY)
+Phase 7 — Manifest   → Run /mush-manifest to record objects and checksums (MANDATORY)
+Phase 8 — Deploy     → Install softcode + help attributes to server
+Phase 9 — Verify     → Run the test (GREEN — task is now complete)
+Phase 10 — Learn     → Run /mush-learn to extract patterns into mush-patterns corpus (MANDATORY)
+Phase 11 — Security  → Run /mush-security on all softcode written this session (MANDATORY)
 ```
 
 **Phases are mandatory and ordered. Skipping any phase is a protocol violation.**
@@ -144,6 +164,49 @@ Replace `#DBREF` with the actual dbref once the object is created in Phase 4.
 [if(not(isnum(%0)), #-1 NOT A NUMBER, <rest>)]
 ```
 
+### Local variable scoping — prefer `ulocal()` over `setq()`
+
+Use `ulocal()` when calling a UDF that uses registers internally — it scopes `%q0`–`%q9` to the call frame and prevents register bleed across nested calls:
+
+```mushcode
+@@ Caller — safe, registers not clobbered
+[ulocal(#DBREF/FN_NAME, arg)]
+
+@@ Inside FN_NAME — use setq freely, ulocal isolates them
+&FN_NAME <obj>= [setq(0, <computed>)][if(%q0, ...)]
+```
+
+Use `setq()` / `u()` only when you explicitly need the register to propagate up to the caller.
+
+### Version guard — add to every system object
+
+Every `@create`d object must carry a `VER` attribute. The installer checks it before overwriting:
+
+```mushcode
+&VER <obj>=0.1.0
+
+@@ Version check — run before full install in upgrade scenarios:
+@@ think if(gt(numver(get(#DBREF/VER)), numver(0.1.0)), @pemit %#=Already up to date., <install commands>)
+```
+
+### Attribute chunking — for functions exceeding 8000 chars
+
+RhostMUSH has an ~8000 character attribute limit. Split large functions:
+
+```mushcode
+&FN_NAME.0 <obj>= [first half of logic]
+&FN_NAME.1 <obj>= [second half of logic]
+
+@@ Dispatcher
+&FN_NAME <obj>=
+  [case(1,
+    lt(strlen(%0), 4000), u(me/FN_NAME.0, %0, %1),
+    u(me/FN_NAME.1, %0, %1)
+  )]
+```
+
+`mush-lint` check **L1** flags any attribute body exceeding 7500 chars and recommends chunking.
+
 ### Error return convention
 
 - `#-1 REASON` — generic error / not found
@@ -158,95 +221,199 @@ Always include a human-readable reason after `#-1`.
 
 Every command and every UDF written in Phase 3 MUST have help text before deployment.
 
+Phase 4 always produces **two output files** in `help/`:
+
+| File | Purpose |
+|------|---------|
+| `help/help.txt` | Plain-text help reference, 78-char max width |
+| `help/[project].help.installer.txt` | Softcode installer for the server's help system |
+
 ### Step 1 — Detect the help system
 
 Ask the user (once per session, remember the answer):
 
-> "Does this server have a softcoded help system (e.g. `+help`, `&HELPFILE`, custom `$help*` command)?"
+> "What help system does your server use? (e.g. `+help`, `&HELPFILE`, a custom `$help` command, or none?)"
+
+**Do not assume `+help` or any specific system.** Wait for the user's answer before generating any softcode help attributes.
 
 | Answer | Action |
 |--------|--------|
-| **Yes** | Ask: "What's the command and attribute format?" Then generate help in that format (see [Softcoded help system](#softcoded-help-system) below). |
-| **No / unsure** | Generate a generic `HELP` attribute on the object (see [Generic help attribute](#generic-help-attribute) below). |
+| **Describes a system** | Generate `help/[project].help.installer.txt` in that exact format (see [Softcoded help installer](#softcoded-help-installer) below) |
+| **None / no softcoded help** | Generate only `help/help.txt`; set a plain `HELP` attribute on the system object in the main installer |
 
-### Softcoded help system
+### help/help.txt — plain text format
 
-Once the user describes the format, generate attributes that match it exactly. Common patterns:
+Always generate this file regardless of whether a softcoded help system exists. 78-character max line width, hard-wrapped.
 
-**`+help` topic-on-object style** (attribute per topic on a help object):
+```
+&[TOPIC]
+------------------------------------------------------------------------------
++command [<arg>] [/<switch>]
+
+  One-sentence description of what the command does.
+
+  Switches:
+    /switch   What this switch does.
+
+  Examples:
+    +command foo       Does the thing.
+    +command/sw foo    Does the other thing.
+
+  See also: [related topic]
+
+&[TOPIC2]
+------------------------------------------------------------------------------
+...
+```
+
+Rules:
+- Topic headers: `&[TOPIC]` on its own line (uppercase, matches attribute name)
+- Divider: exactly 78 `-` dashes on the line below each `&[TOPIC]`
+- Blank line before and after every paragraph block
+- Hard-wrap all lines at 78 characters
+- No ANSI codes, no `%r`, no MUSH syntax — plain ASCII only
+- One entry per command or UDF; UDFs documented with argument types and return value
+
+### Softcoded help installer
+
+`help/[project].help.installer.txt` follows the same header/footer/section rules as the main installer (Figlet, metadata block, separators, `[END OF FILE]`), but contains **only** help attributes.
+
+Generate the attribute format the user described. Common patterns for reference:
+
+**Attribute-per-topic on a help object:**
 ```mushcode
 &HELP_<TOPIC> <helpobj>=
   %ch%cy+<COMMAND>[/<switch>] <args>%cn%r
   %r
-    Description of what the command does.%r
+    Description.%r
   %r
   Switches:%r
-    /<switch>   What this switch does.%r
+    /<switch>   What it does.%r
   %r
   Examples:%r
-    +<command> foo     Does the thing.%r
-    +<command>/sw foo  Does the other thing.%r
+    +<command> foo     Result.%r
   %r
-  See also: +<related>
+  See also: [topic]
 ```
 
-**`&HELPFILE` pointer style** (object has a HELPFILE attr pointing to help text):
+**`&HELPFILE` pointer style:**
 ```mushcode
 &HELPFILE <obj>=<helpobj>
 &HELP_<TOPIC> <helpobj>=<text as above>
 ```
 
-**`$help <topic>:` command style** (help is a command on the system object):
+**Command-based help (`$help <topic>`):**
 ```mushcode
-&CMD_HELP_<TOPIC> <obj>=$+help <topic>:
+&CMD_HELP_<TOPIC> <obj>=$help <topic>:
   @pemit %#=<formatted help text>
 ```
 
-Generate whichever format matches the server. Ask if unsure.
-
-### Generic help attribute
-
-When there is no softcoded help system, set a `HELP` attribute on the system object:
-
-```mushcode
-&HELP <obj>=
-  %ch%cy+<COMMAND>[/<switch>] <args>%cn%r
-  %r
-    <One-sentence description.>%r
-  %r
-  Switches:%r
-    /<switch>   <What it does.>%r
-  %r
-  Examples:%r
-    +<command> foo     <What happens.>%r
-    +<command>/sw foo  <What happens.>
-```
-
-For UDFs, add a `HELP` attribute documenting arguments and return value:
-
-```mushcode
-&HELP <obj>=
-  u(<obj>/FN_NAME, %0=<type>, %1=<type>) → <return type>%r
-  %r
-    <Description.>%r
-  %r
-  Returns #-1 <REASON> if: <error conditions.>%r
-  %r
-  Example: u(<obj>/FN_NAME, foo, 42) → <expected>
-```
+Generate whichever format matches the server's actual system. If unsure, ask again.
 
 ### Help text rules (always)
 
 - First line: syntax with argument types in `<angle brackets>`, optional in `[square brackets]`
-- Use `%r` for newlines, `%t` for tab, `%ch%cy` for bold-cyan headers, `%cn` to reset
-- Include at least one working example
+- In softcode: use `%r` for newlines, `%t` for tab, `%ch%cy` for bold-cyan headers, `%cn` to reset
+- Include at least one working example per command
 - List every switch
 - "See also" section if related commands exist
-- Plain text — no hard-coded dbrefs in help text
+- No hard-coded dbrefs in any help text
 
 ---
 
-## Phase 5 — Deploy
+## Phase 5 — Package (MANDATORY)
+
+Every build session produces the following output files:
+
+| File | Purpose |
+|------|---------|
+| `dist/[project].installer.txt` | Main softcode installer |
+| `help/help.txt` | Plain-text help reference (78-char max width) |
+| `help/[project].help.installer.txt` | Softcode help installer for the server's help system |
+
+Create `dist/` and `help/` if they don't exist.
+
+### Output rules
+
+**File location and name:**
+- Always write to `dist/[project].installer.txt` (create `dist/` if it doesn't exist)
+- `[project]` is the slugified project name (lowercase, hyphens, no spaces): e.g. `my-cool-system.installer.txt`
+
+**Comment conversion:**
+- All `#`, `##`, and `//` line comments → `@@`
+- All inline comments → `@@(comment)` on the same line
+
+**Attribute ordering within each object block:**
+1. Config / data attributes (`&D_*`, `&CONF_*`)
+2. UDFs (`&FN_*`)
+3. Commands (`&CMD_*`, `$`-triggered)
+4. Help attributes (`&HELP*`)
+
+**Separator and section divider rules (strictly enforced):**
+- Every `@@ ===...` separator line must be exactly **78 characters** total: `@@ ` (3 chars) + 75 `=` signs
+- Every `@@ ---[ SECTION ]---` divider must be exactly **78 characters** total: `@@ ` (3 chars) + section label centered in 75 chars of `-` dashes
+- Use this centering formula: `floor((75 - len(label)) / 2)` dashes left, remainder right
+
+### Installer file structure
+
+```
+@@ 8""8""8 8   8 8""""8 8   8      8""""8 8"""8  8""""8 8   8 8 ""8"" 8"""" 8""""8 ""8""
+@@ 8  8  8 8   8 8      8   8      8    8 8   8  8    " 8   8 8   8   8     8    "   8
+@@ 8e 8  8 8e  8 8eeeee 8eee8      8eeee8 8eee8e 8e     8eee8 8e  8e  8eeee 8e       8e
+@@ 88 8  8 88  8     88 88  8 eeee 88   8 88   8 88     88  8 88  88  88    88       88
+@@ 88 8  8 88  8 e   88 88  8      88   8 88   8 88   e 88  8 88  88  88    88   e   88
+@@ 88 8  8 88ee8 8eee88 88  8      88   8 88   8 88eee8 88  8 88  88  88eee 88eee8   88
+@@
+@@ https://github.com/[owner]/[repo]
+@@
+@@ ===========================================================================
+@@ Mushcode Installer for: [Project Name]
+@@
+@@ Author:  [Author Name]
+@@ Server:  [Server Type]
+@@ Version: 0.0.0
+@@
+@@ Requires:   [list prerequisites — flags, objects, other installers — or "None"]
+@@ Objects Created:
+@@   - [Object Name] ([role])
+@@
+@@ Usage: Paste directly into client or use @paste
+@@ WARNING: Must be run as Wizard   ← include only if wizard privs required
+@@ ===========================================================================
+@@
+@@ CHANGED:   ← omit this block if version is 0.0.0
+@@   0.0.0 → 0.1.0  [description of change]
+
+@@ --------------------------------[ CONFIG ]----------------------------------
+@@ NOTE: Run '@search name=<ObjectName>' first — reinstall overwrites, does not duplicate
+@create [Object Name]=<type>
+@set [Object Name]=inherit safe
+@fo me=&D_SYS me=search(name=[Object Name])
+
+@@ ------------------------------[ FUNCTIONS ]--------------------------------
+&FN_NAME [obj]= ...
+
+@@ ------------------------------[ COMMANDS ]--------------------------------
+&CMD_NAME [obj]= ...
+
+@@ ----------------------------------[ HELP ]---------------------------------
+&HELP [obj]= ...
+
+@@ ------------------------------[ UNINSTALL ]--------------------------------
+@@ To remove this installer completely, run:
+@@   @destroy [obj]
+@@   @del [helpobj]/HELP_[TOPIC]   ← if a separate help object was used
+
+@@
+@@ ===========================================================================
+@@ Created with MUSH-ARCHITECT (https://github.com/kumakun/mush-architect)
+@@ ===========================================================================
+@@ [END OF FILE]
+```
+
+---
+
+## Phase 6 — Deploy (renumbered from 5)
 
 ### Via scripts/eval.js (single commands)
 

@@ -1,8 +1,8 @@
 ---
 name: mush-docs
-description: "Generate help text and documentation for RhostMUSH softcode."
-risk: low
-source: local
+description: Generate help text and documentation for RhostMUSH softcode. Use when writing help, docs, or documentation for commands and UDFs.
+effort: medium
+paths: "**/*.mush,**/help/**"
 date_added: "2026-03-27"
 ---
 

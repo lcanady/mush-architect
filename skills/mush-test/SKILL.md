@@ -1,8 +1,9 @@
 ---
 name: mush-test
-description: "Write and run @rhost/testkit tests for RhostMUSH softcode. Full TDD workflow."
-risk: low
-source: local
+description: Write or run @rhost/testkit tests for RhostMUSH softcode. Use when testing, verifying, checking, or validating softcode behavior.
+effort: medium
+paths: "**/*.test.ts,**/tests/**"
+argument-hint: "[test file or system to test]"
 date_added: "2026-03-27"
 ---
 

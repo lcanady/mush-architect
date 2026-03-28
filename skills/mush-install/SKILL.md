@@ -1,8 +1,9 @@
 ---
 name: mush-install
-description: "Deploy RhostMUSH softcode to a live server using @rhost/testkit or scripts/eval.js."
-risk: low
-source: local
+description: Deploy RhostMUSH softcode to a live server. Use when installing, deploying, or pushing softcode to a running MUSH server.
+disable-model-invocation: true
+effort: medium
+argument-hint: "[installer file or system to deploy]"
 date_added: "2026-03-27"
 ---
 

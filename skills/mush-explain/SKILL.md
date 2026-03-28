@@ -1,8 +1,8 @@
 ---
 name: mush-explain
-description: "Explain what RhostMUSH softcode does, line by line or at a high level."
-risk: low
-source: local
+description: Explain what RhostMUSH softcode does. Use when the user asks 'what does this do', 'explain', 'how does this work', or wants code walked through.
+effort: low
+paths: "**/*.mush,**/src/**,**/dist/**"
 date_added: "2026-03-27"
 ---
 
