@@ -37,7 +37,7 @@ Run the `mush-architect` session start checklist (sync + corpus load + help dete
 
 1. **Inventory** — list all functions and commands used in the source code.
 2. **Flag incompatibilities** — identify anything in the matrix above that differs.
-3. **Substitute** — find equivalent patterns in `../mush-patterns/` or write replacements.
+3. **Substitute** — find equivalent patterns in `mush-patterns/` or write replacements.
 4. **Write tests** — `@rhost/testkit` tests for each migrated function.
 5. **Verify** — all tests green on the target server.
 

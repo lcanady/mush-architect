@@ -43,7 +43,8 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "export from server", "pull attrs from live", "sync src from game" | `/mush-export` |
 | "audit", "has anything drifted", "compare live to manifest" | `/mush-audit` |
 | "review code", "senior review", "architecture feedback" | `/mush-review` |
-| "release", "cut a version", "version bump", "publish" | `/mush-release` |
+| "release", "cut a version", "version bump" | `/mush-release` |
+| "publish", "share", "submit to community", "PR to softcode repo", "contribute softcode", "community repo" | `/mush-publish` |
 | "coverage", "what's untested", "missing tests" | `/mush-coverage` |
 | "config", "@admin", "read config", "set config param" | `/mush-config` |
 | "@hook", "hook a command", "before/after hook", "permit hook" | `/mush-hook` |
@@ -93,6 +94,11 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 /mush-audit → /mush-review → /mush-release → /mush-upgrade → /mush-monitor
 ```
 
+**Publish to the community repo:**
+```
+/mush-release → /mush-publish
+```
+
 **Sync and audit a live server:**
 ```
 /mush-export → /mush-audit → /mush-deps → /mush-coverage
@@ -118,6 +124,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | `mush-export` | Manual only | Side-effect: writes src/ files from live server |
 | `mush-audit` | Manual only | Side-effect: reads live server state |
 | `mush-release` | Manual only | Side-effect: commits, tags, pushes |
+| `mush-publish` | Manual only | Side-effect: writes files in external repo, pushes branch, files PR |
 | `mush-upgrade` | Manual only | Side-effect: applies patch to live server |
 | `mush-config` | Manual only | Side-effect: writes @admin attrs to live server |
 | `mush-monitor` | Manual only | Side-effect: reads live server state |
@@ -188,7 +195,7 @@ Skipping any step is a protocol violation. Do not proceed to the task until all 
 Run this at the start of every session:
 
 ```bash
-cd ../mush-patterns && git fetch origin && git status
+cd mush-patterns && git fetch origin && git status
 ```
 
 Interpret the output:
@@ -199,7 +206,7 @@ Interpret the output:
 | `Your branch is behind 'origin/main' by N commits` | **Stop. Ask the user:** "mush-patterns is N commits behind remote. Pull now before we continue?" If yes: `git pull`. |
 | `Your branch is ahead of 'origin/main' by N commits` | **Stop. Ask the user:** "mush-patterns has N unpushed commits. Push them now?" If yes: `git push`. |
 | `diverged` | **Stop. Ask the user:** "mush-patterns has diverged from remote. Resolve before continuing?" Show `git log --oneline --left-right HEAD...origin/main`. |
-| Repo missing or git not initialized | **Stop. Tell the user** the repo is missing at `../mush-patterns` and ask them to clone it: `git clone https://github.com/lcanady/mush-patterns ../mush-patterns`. |
+| Repo missing or git not initialized | **Stop. Tell the user** the repo is missing at `mush-patterns` and ask them to clone it: `git clone https://github.com/lcanady/mush-patterns mush-patterns`. |
 
 Do not proceed with any softcode task until the repo is in sync.
 
@@ -209,12 +216,12 @@ Do not proceed with any softcode task until the repo is in sync.
 
 After sync, read the pattern files relevant to the current task:
 
-1. **Always read:** `../mush-patterns/README.md` and `../mush-patterns/CONTRIBUTING.md`
+1. **Always read:** `mush-patterns/README.md` and `mush-patterns/CONTRIBUTING.md`
 2. **Read by domain** based on what the task involves:
-   - Writing a function → read `../mush-patterns/patterns/functions/`
-   - Writing a command → read `../mush-patterns/patterns/commands/`
-   - Building a system → read `../mush-patterns/patterns/systems/`
-   - Working with a specific server → read `../mush-patterns/patterns/server-help/`
+   - Writing a function → read `mush-patterns/patterns/functions/`
+   - Writing a command → read `mush-patterns/patterns/commands/`
+   - Building a system → read `mush-patterns/patterns/systems/`
+   - Working with a specific server → read `mush-patterns/patterns/server-help/`
 3. **Check for an existing pattern** that matches the task before writing new code. If one exists, use it as the starting point.
 4. **Report to the user** which patterns were loaded and whether any matched the current task.
 
@@ -247,7 +254,7 @@ awk '/^& TOPIC$/,/^& /' reference/rhost-help.txt | head -80
 ```
 
 **For other servers:**
-1. Check `../mush-patterns/patterns/server-help/` for an existing file.
+1. Check `mush-patterns/patterns/server-help/` for an existing file.
 2. If missing — fetch from the server's public repo, extract patterns, run `/mush-learn` to record them.
 
 **Known fetch URLs (other servers):**
@@ -269,11 +276,11 @@ When the user confirms they want patterns extracted from a help file:
    - Command patterns (`$+cmd`, `$@cmd`)
    - System objects (`@create`, `@parent`, `@set ... inherit safe`)
    - Notable softcode idioms
-3. **Create pattern files** in `../mush-patterns/patterns/` following the format in `CONTRIBUTING.md`.
+3. **Create pattern files** in `mush-patterns/patterns/` following the format in `CONTRIBUTING.md`.
 4. **Create a PR:**
 
 ```bash
-cd ../mush-patterns
+cd mush-patterns
 git checkout -b patterns/<server-slug>-$(date +%Y-%m-%d)
 git add patterns/
 git commit -m "feat: add patterns from <server-name>"

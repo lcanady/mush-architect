@@ -68,7 +68,7 @@ Phase 11 — Security  → Run /mush-security on all softcode written this sessi
 
 Before writing any code:
 
-1. **Corpus must already be loaded** — the `mush-architect` session start checklist (sync + load) MUST have run before this phase. If it has not, stop and run it now.
+1. **Corpus must already be loaded** — the `mush-architect` session start checklist (sync + corpus load + help detection) MUST have run before this phase. If it has not, stop and run it now.
 2. **Check loaded patterns** for any that match the task. If a matching pattern exists, use it as the starting point — do not rewrite from scratch.
 3. Clarify: What object will hold this code? What are the inputs/outputs? What errors should it handle?
 4. Identify the object dbref (or use a fixture via `world.create()`).
@@ -465,13 +465,13 @@ All tests must pass before the task is complete.
 
 ## Phase 7 — Patterns
 
-After completing the task, check if any new patterns emerged that aren't in `../mush-patterns/`. If so, add them following the format in `../mush-patterns/CONTRIBUTING.md`.
+After completing the task, check if any new patterns emerged that aren't in `mush-patterns/`. If so, add them following the format in `mush-patterns/CONTRIBUTING.md`.
 
 ---
 
 ## Common patterns (from mush-patterns corpus)
 
-Check `../mush-patterns/patterns/` before writing from scratch. Common categories:
+Check `mush-patterns/patterns/` before writing from scratch. Common categories:
 
 - **functions/** — iter/map, UDF guards, string formatting, math
 - **commands/** — switch dispatch, permission checks, target resolution

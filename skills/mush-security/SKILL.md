@@ -59,7 +59,7 @@ All fixes must be accompanied by a `@rhost/testkit` test that proves the vulnera
 
 ## Update mush-patterns — MANDATORY
 
-After every security audit (even if no issues are found), write findings to `../mush-patterns/patterns/`.
+After every security audit (even if no issues are found), write findings to `mush-patterns/patterns/`.
 
 **This step is not optional.** Do not end the session without completing it.
 
@@ -110,7 +110,7 @@ One-sentence description.
 ### Commit and PR
 
 ```bash
-cd ../mush-patterns
+cd mush-patterns
 git checkout -b patterns/security-YYYY-MM-DD
 # write pattern files
 git add patterns/

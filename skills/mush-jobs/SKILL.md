@@ -118,4 +118,9 @@ Jobs Config <jbc>       — config attrs (types, statuses, priorities)
 
 ## After scaffolding
 
-Run full pipeline: `/mush-test` → `/mush-lint` → `/mush-security` → `/mush-docs` → `/mush-build` phases 5–11
+Run the full pipeline — all steps are mandatory:
+1. `/mush-test` — write tests for each command and UDF
+2. `/mush-lint` — check formatting and safety
+3. `/mush-security` — audit for injection (job numbers and bodies are user input)
+4. `/mush-docs` — generate +help jobs entry
+5. `/mush-build` phases 5–11 — package, manifest, learn

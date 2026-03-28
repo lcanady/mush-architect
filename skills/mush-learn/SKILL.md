@@ -11,7 +11,7 @@ date_added: "2026-03-28"
 
 # mush-learn
 
-The system's learning loop. After every build or migrate session, extract what was discovered — patterns, idioms, server quirks, guard techniques — and commit them to `../mush-patterns`. The corpus grows with every session.
+The system's learning loop. After every build or migrate session, extract what was discovered — patterns, idioms, server quirks, guard techniques — and commit them to `mush-patterns`. The corpus grows with every session.
 
 ## Why this exists
 
@@ -41,12 +41,12 @@ Extract candidates in these categories:
 
 **Skip if:**
 - It's a one-off specific to this project's data model
-- It's already in the corpus (check `../mush-patterns/patterns/` first)
+- It's already in the corpus (check `mush-patterns/patterns/` first)
 - It's a textbook example with no novel technique
 
 ## Phase 2 — Format each pattern
 
-Each pattern goes in its own file in the appropriate subdirectory. Follow `../mush-patterns/CONTRIBUTING.md` exactly.
+Each pattern goes in its own file in the appropriate subdirectory. Follow `mush-patterns/CONTRIBUTING.md` exactly.
 
 Pattern file format:
 
@@ -89,7 +89,7 @@ Extracted from: [project name], session [date]
 Before writing any file:
 
 ```bash
-cd ../mush-patterns
+cd mush-patterns
 grep -rl "[pattern keyword]" patterns/
 ```
 
@@ -103,7 +103,7 @@ If a similar pattern exists:
 Write each pattern to the correct subdirectory:
 
 ```
-../mush-patterns/patterns/
+mush-patterns/patterns/
 ├── functions/       → UDF patterns, guard patterns, iter/map idioms
 ├── commands/        → $-command patterns, switch dispatch, access control
 ├── systems/         → full system architectures (bboard, chargen, combat, etc.)
@@ -114,14 +114,14 @@ Write each pattern to the correct subdirectory:
 
 ## Phase 5 — Update the INDEX
 
-Read `../mush-patterns/INDEX.md` and add a one-line entry for each new pattern file.
+Read `mush-patterns/INDEX.md` and add a one-line entry for each new pattern file.
 
 Format: `- [Pattern Name](patterns/category/file.md) — one-line description`
 
 ## Phase 6 — Commit and PR
 
 ```bash
-cd ../mush-patterns
+cd mush-patterns
 git checkout -b learn/[project-slug]-$(date +%Y-%m-%d)
 git add patterns/ INDEX.md
 git commit -m "feat: patterns from [project-slug] — [N] new patterns"

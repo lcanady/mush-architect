@@ -122,4 +122,4 @@ POSITIVE  (things done well worth noting)
 - SUGGESTION is optional — user can skip these
 - POSITIVE findings are mandatory — always acknowledge what's done well
 - Never rewrite code without being asked — produce findings only
-- Check patterns against `../mush-patterns/` before flagging as non-idiomatic
+- Check patterns against `mush-patterns/` before flagging as non-idiomatic

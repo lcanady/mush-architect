@@ -149,7 +149,7 @@ Run `/mush-manifest init` to create `dist/manifest.json` with project metadata a
 ## Step 6 — Initialize mush-patterns submodule
 
 ```bash
-git submodule add https://github.com/[owner]/mush-patterns mush-patterns
+git submodule add https://github.com/lcanady/mush-patterns mush-patterns
 git submodule update --init --recursive
 ```
 
