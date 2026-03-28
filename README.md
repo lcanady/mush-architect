@@ -1,6 +1,6 @@
 # mush-architect
 
-A Claude Code skill suite for RhostMUSH softcode development. Provides a structured, AI-assisted workflow for writing, testing, securing, documenting, migrating, and deploying RhostMUSH softcode — with mandatory quality gates at every step.
+A Claude Code skill suite for RhostMUSH softcode development. Provides a structured, AI-assisted workflow for writing, testing, securing, documenting, deploying, and maintaining RhostMUSH softcode — with mandatory quality gates at every step.
 
 ## Table of Contents
 
@@ -9,20 +9,11 @@ A Claude Code skill suite for RhostMUSH softcode development. Provides a structu
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [How It Works](#how-it-works)
+- [Workflow Chains](#workflow-chains)
 - [Skill Reference](#skill-reference)
-  - [/mush-architect](#mush-architect-orchestrator)
-  - [/mush-build](#mush-build)
-  - [/mush-test](#mush-test)
-  - [/mush-security](#mush-security)
-  - [/mush-natural](#mush-natural)
-  - [/mush-explain](#mush-explain)
-  - [/mush-docs](#mush-docs)
-  - [/mush-efficiency](#mush-efficiency)
-  - [/mush-troubleshoot](#mush-troubleshoot)
-  - [/mush-migrate](#mush-migrate)
-  - [/mush-install](#mush-install)
 - [Mandatory Gates](#mandatory-gates)
 - [The mush-patterns Corpus](#the-mush-patterns-corpus)
+- [Reference Corpus](#reference-corpus)
 - [Session Start Checklist](#session-start-checklist)
 - [Contributing](#contributing)
 
@@ -44,19 +35,70 @@ The suite is designed around three non-negotiable principles:
 
 ## Skills Overview
 
+### Core workflow
+
 | Skill | Purpose |
 |-------|---------|
-| `/mush-architect` | Master orchestrator — routes to sub-skills, manages the corpus, enforces session start |
+| `/mush-architect` | Master orchestrator — routes to sub-skills, manages corpus, enforces session start |
 | `/mush-build` | Write new softcode (commands, UDFs, systems) with full TDD workflow |
 | `/mush-test` | Write and run `@rhost/testkit` tests |
-| `/mush-security` | Audit softcode for injection, privilege escalation, and data integrity issues |
-| `/mush-natural` | Translate plain-English feature descriptions into softcode specs, then delegates to build |
-| `/mush-explain` | Annotate and explain existing softcode line by line |
+| `/mush-lint` | Static checks: safety, completeness, formatting, style |
+| `/mush-security` | Audit for injection, privilege escalation, and data integrity issues |
 | `/mush-docs` | Generate in-game help text, code comments, and README-style docs |
+| `/mush-install` | Deploy softcode to a live RhostMUSH server |
+
+### Development tools
+
+| Skill | Purpose |
+|-------|---------|
+| `/mush-natural` | Translate plain-English feature descriptions into softcode specs |
+| `/mush-explain` | Annotate and explain existing softcode line by line |
 | `/mush-efficiency` | Optimize softcode for speed, attribute count, and server load |
 | `/mush-troubleshoot` | Debug failing softcode with systematic isolation |
-| `/mush-migrate` | Port softcode between MUSH server flavors (PennMUSH, TinyMUX, TinyMUSH → RhostMUSH) |
-| `/mush-install` | Deploy softcode to a live server via `@rhost/testkit` or `scripts/eval.js` |
+| `/mush-simulate` | Trace softcode execution statically — recursion detection, type checks, register flow |
+| `/mush-deps` | Map dependencies between attrs — "what calls this?", "what breaks if removed?" |
+| `/mush-review` | Senior-level code review: logic, idioms, architecture, edge cases |
+| `/mush-coverage` | Map attributes to tests; identify untested high-risk code |
+
+### Server operations
+
+| Skill | Purpose |
+|-------|---------|
+| `/mush-monitor` | Check server health: connectivity, player count, error logs, object drift |
+| `/mush-export` | Pull softcode off a live server into `src/` files |
+| `/mush-audit` | Compare live server state to manifest — detect drift |
+| `/mush-config` | Read/write `@admin` config params and manage `rhost_ingame.conf` |
+| `/mush-hook` | Build and manage RhostMUSH `@hook` attributes (B_, A_, P_, I_, AF_, M_) |
+
+### Project lifecycle
+
+| Skill | Purpose |
+|-------|---------|
+| `/mush-session` | Session start checklist: sync corpus, load patterns, verify help corpus |
+| `/mush-init` | Scaffold a new project: `src/`, `dist/`, `tests/`, `help/`, config files |
+| `/mush-watch` | Dev-mode watch loop: auto-rebuild installer on file save |
+| `/mush-hooks` | Configure Claude Code hooks for automated lint/security gates |
+| `/mush-manifest` | Track objects, dbrefs, and attribute checksums in `dist/manifest.json` |
+| `/mush-patch` | Diff two manifest versions and generate a minimal migration installer |
+| `/mush-rollback` | Generate and apply a rollback installer to undo a deployment |
+| `/mush-release` | Full release workflow: version bump, changelog, tag, push |
+| `/mush-upgrade` | Managed version upgrade: diff → patch → apply → verify |
+| `/mush-learn` | Extract reusable patterns from sessions and contribute to `mush-patterns` |
+
+### System scaffolders
+
+| Skill | Purpose |
+|-------|---------|
+| `/mush-chargen` | Scaffold a complete character generation system |
+| `/mush-bboard` | Scaffold a bulletin board system (post/read/reply, subscriptions) |
+| `/mush-jobs` | Scaffold a job/request tracking system |
+
+### Documentation
+
+| Skill | Purpose |
+|-------|---------|
+| `/mush-migrate` | Port softcode between MUSH server flavors |
+| `/mush-readme` | Generate or update README.md from src/ and manifest files |
 
 ---
 
@@ -91,10 +133,9 @@ cd mush-architect
 
 # 2. Clone the patterns corpus alongside it (must be at ../mush-patterns)
 git clone https://github.com/lcanady/mush-patterns ../mush-patterns
-
-# 3. Tell Claude Code where the skills live
-#    Add to ~/.claude/settings.json or your project's .claude/settings.json:
 ```
+
+Add the skills directory to `~/.claude/settings.json` or your project's `.claude/settings.json`:
 
 ```json
 {
@@ -104,7 +145,7 @@ git clone https://github.com/lcanady/mush-patterns ../mush-patterns
 }
 ```
 
-Alternatively, symlink the skills directory into your project's `.claude/skills/`:
+Or symlink directly into your project:
 
 ```bash
 ln -s /path/to/mush-architect/skills .claude/skills/mush
@@ -124,43 +165,117 @@ Step 2 — Corpus load    → Read patterns relevant to the current task
 Step 3 — Help detection → Check if any provided help file is from an unknown server
 ```
 
-After that, work is routed to the appropriate sub-skill. Each sub-skill has its own mandatory gates — the most important being:
+After that, work is routed to the appropriate sub-skill. Each sub-skill has its own mandatory gates:
 
-- **Mushcode written?** → `/mush-security` must run before the session closes.
-- **Non-mushcode written?** → `/tdd-audit` must run before the session closes.
-- **Any softcode at all?** → A `@rhost/testkit` test must be written and pass.
-
-The session ends by writing any new patterns or security findings back to `../mush-patterns` via pull request.
+- **Softcode written?** → `/mush-security` must run before the session closes.
+- **Any softcode written?** → A `@rhost/testkit` test must be written and pass.
+- **Session closes?** → New patterns extracted and contributed to `../mush-patterns` via PR.
 
 ### Directory layout
 
 ```
 mush-architect/
 ├── SKILL.md                    ← /mush-architect (orchestrator)
+├── reference/
+│   ├── rhost-help.txt          ← Full RhostMUSH help corpus (37K lines, 1951 topics)
+│   ├── rhost-wizhelp.txt       ← Full RhostMUSH wizhelp corpus (16K lines, 1278 topics)
+│   ├── rhost-help-topics.txt   ← Sorted topic index for fast grep
+│   ├── rhost-wizhelp-topics.txt
+│   └── rhost.md                ← Lookup guide (awk/grep patterns)
 └── skills/
+    ├── mush-audit/
+    ├── mush-bboard/
     ├── mush-build/
-    │   └── SKILL.md            ← /mush-build
+    ├── mush-chargen/
+    ├── mush-config/
+    ├── mush-coverage/
+    ├── mush-deps/
     ├── mush-docs/
-    │   └── SKILL.md            ← /mush-docs
     ├── mush-efficiency/
-    │   └── SKILL.md            ← /mush-efficiency
     ├── mush-explain/
-    │   └── SKILL.md            ← /mush-explain
+    ├── mush-export/
+    ├── mush-hook/
+    ├── mush-hooks/
+    ├── mush-init/
     ├── mush-install/
-    │   └── SKILL.md            ← /mush-install
+    ├── mush-jobs/
+    ├── mush-learn/
+    ├── mush-lint/
+    ├── mush-manifest/
     ├── mush-migrate/
-    │   └── SKILL.md            ← /mush-migrate
+    ├── mush-monitor/
     ├── mush-natural/
-    │   └── SKILL.md            ← /mush-natural
+    ├── mush-patch/
+    ├── mush-readme/
+    ├── mush-release/
+    ├── mush-review/
+    ├── mush-rollback/
     ├── mush-security/
-    │   └── SKILL.md            ← /mush-security
+    ├── mush-session/
+    ├── mush-simulate/
     ├── mush-test/
-    │   └── SKILL.md            ← /mush-test
-    └── mush-troubleshoot/
-        └── SKILL.md            ← /mush-troubleshoot
+    ├── mush-troubleshoot/
+    ├── mush-upgrade/
+    └── mush-watch/
 ```
 
 The companion repo at `../mush-patterns` is expected at that exact relative path. All skills read from it at session start and write back to it at session end.
+
+---
+
+## Workflow Chains
+
+### New feature (full pipeline)
+
+```
+/mush-session → /mush-build (phases 0-4) → /mush-lint → /mush-build (phases 5-7)
+→ /mush-manifest → /mush-install → /mush-test → /mush-security → /mush-learn
+```
+
+### Fix a bug (minimal)
+
+```
+/mush-session → /mush-troubleshoot → /mush-build (phase 3 only)
+→ /mush-lint → /mush-patch → /mush-install → /mush-test
+```
+
+### Natural language to deployed
+
+```
+/mush-natural → /mush-build → /mush-lint → /mush-install
+→ /mush-test → /mush-security → /mush-learn
+```
+
+### Scaffold a new system
+
+```
+/mush-chargen (or /mush-bboard or /mush-jobs)
+→ /mush-test → /mush-lint → /mush-security → /mush-docs → /mush-build phases 5-11
+```
+
+### Upgrade a deployed system
+
+```
+/mush-audit → /mush-review → /mush-release → /mush-upgrade → /mush-monitor
+```
+
+### Sync and audit a live server
+
+```
+/mush-export → /mush-audit → /mush-deps → /mush-coverage
+```
+
+### Pre-refactor safety check
+
+```
+/mush-deps <attr> → /mush-coverage → /mush-simulate <attr>
+```
+
+### New project from zero
+
+```
+/mush-init → /mush-session → /mush-hooks → /mush-build
+```
 
 ---
 
@@ -168,339 +283,225 @@ The companion repo at `../mush-patterns` is expected at that exact relative path
 
 ### /mush-architect (Orchestrator)
 
-The entry point for all MUSH work. Invoked implicitly at the start of every session.
+Entry point for all MUSH work. Routes tasks to the right sub-skill and enforces the session start checklist, planning gate, and mandatory `/mush-test` requirement.
 
-**What it does:**
-- Runs the three-step session start checklist (sync, corpus load, help detection)
-- Routes to the appropriate sub-skill based on the task
-- Enforces the planning gate: no softcode may be written until the design is stated, patterns are checked, and the test is written
-
-**Session start output** (reported at the top of every session):
-```
-✓ mush-patterns synced (or: N commits behind — pulled)
-✓ Corpus loaded: 3 patterns matched for [task domain]
-✓ No unknown help files detected (or: new server found — PR offered)
-```
+**Mandatory before any code:** Design plan → pattern check → test written (red) → code → test passing (green).
 
 ---
 
 ### /mush-build
 
-Write new RhostMUSH softcode. The core build workflow.
-
-**Phase sequence (all mandatory, in order):**
-
-| Phase | What happens |
-|-------|-------------|
-| 1 — Design | State the object, inputs, outputs, and error cases. Check mush-patterns. |
-| 2 — Test first | Write the `@rhost/testkit` test. It will fail (red). |
-| 3 — Code | Write the softcode. |
-| 4 — Docs | Generate help text for every command and UDF. |
-| 5 — Deploy | Install softcode + help attributes to the server. |
-| 6 — Verify | Run the test. It must pass (green). |
-| 7 — Patterns | Extract reusable patterns and add to `../mush-patterns`. |
-| 8 — Security | Run `/mush-security` on all softcode written this session. |
-
-**UDF template:**
-```mushcode
-&FN_NAME <obj>=
-  [if(not(%0), #-1 MISSING ARG,
-    <expression using %0 %1 etc.>
-  )]
-```
-
-**Command template:**
-```mushcode
-&CMD_NAME <obj>=$+name[/<switch>] *:
-  @switch/first %0=
-    /switch1, <action1>,
-    /switch2, <action2>,
-    @pemit %#=Unknown switch.
-```
-
-**Error conventions:**
-- `#-1 REASON` — generic error / not found
-- `#-2` — permission denied
-- `#-3` — wrong number of arguments
+Write new RhostMUSH softcode. Phases 0–11 cover design, test-first, code, lint, manifest, install, verify, docs, help-install, patterns, security, and package.
 
 ---
 
 ### /mush-test
 
-Write and run `@rhost/testkit` tests.
+Write and run `@rhost/testkit` tests. Produces TypeScript test files in `tests/`. Every command and UDF must have coverage. Mandatory on every session that writes softcode.
 
-**Minimal test file:**
-```typescript
-import { RhostRunner } from '@rhost/testkit';
+---
 
-const PASS = process.env.RHOST_PASS;
-if (!PASS) { console.error('RHOST_PASS env var is required'); process.exit(1); }
+### /mush-lint
 
-const runner = new RhostRunner();
-
-runner.describe('MySystem', ({ it, beforeAll }) => {
-    beforeAll(async ({ client }) => {
-        await client.command('@halt/all me');  // suppress background noise
-    });
-
-    it('happy path', async ({ expect }) => {
-        await expect('u(#42/FN_NAME,arg1)').toBe('expected');
-    });
-
-    it('returns error on bad input', async ({ expect }) => {
-        await expect('u(#42/FN_NAME,)').toBeError();
-    });
-});
-
-runner
-    .run({ host: 'localhost', port: 4201, username: 'Wizard', password: PASS })
-    .then(r => process.exit(r.failed > 0 ? 1 : 0))
-    .catch(err => { console.error(err.message); process.exit(1); });
-```
-
-**Run:**
-```bash
-RHOST_PASS=<pass> npx ts-node my-system.test.ts
-```
-
-**Matcher quick reference:**
-
-| Matcher | Use when |
-|---------|----------|
-| `.toBe('x')` | Exact string match (trimmed) |
-| `.toContain('x')` | Output includes substring |
-| `.toMatch(/regex/)` | Regex match |
-| `.toBeNumber()` | Output is a number |
-| `.toBeCloseTo(n, p)` | Floating point comparison |
-| `.toBeTruthy()` | Non-empty, non-zero, non-error |
-| `.toBeFalsy()` | Empty, `"0"`, or error |
-| `.toBeError()` | Starts with `#-1`, `#-2`, `#-3` |
-| `.toBeDbref()` | Matches `#<digits>` |
-| `.toContainWord('x')` | Word in space-delimited list |
-| `.toHaveWordCount(n)` | List has exactly n words |
-| `.not.toBe(...)` | Negation |
-
-**Mandatory gate:** Any session that writes TypeScript test code must run `/tdd-audit` before closing.
+16 static checks across safety (S1–S5), completeness (C1–C4), formatting (F1–F5), chunking (L1), and style (I1–I3). Reports ERROR/WARN/INFO. ERROR blocks packaging.
 
 ---
 
 ### /mush-security
 
-Audit RhostMUSH softcode for security issues.
-
-**Audit checklist:**
-
-*Injection*
-- User input (`%0`–`%9`, `%+`, `%_`) interpolated without stripping
-- `[` or `]` in user input opening evaluation contexts
-- `;` as command separator with user-controlled values
-- `execscript()` with user-controlled script name or arguments
-
-*Privilege*
-- Command accessible at wrong lock level
-- `@fo`/`@force` without proper lock check
-- Object not flagged `SAFE`
-- Parent chain not locked
-
-*Data integrity*
-- No `isnum()` check on numeric inputs
-- No empty-arg guard (`not(%0)`)
-- DB writes without `canEdit` check
-
-*Output*
-- ANSI/color codes stored to DB without stripping
-- Return values not normalized
-
-**Severity levels:**
-- **Critical** — arbitrary code execution or privilege escalation
-- **High** — data corruption or unauthorized access
-- **Medium** — information disclosure or denial of service
-- **Low** — style/hygiene issues with security implications
-
-**After every audit — mandatory:** Write findings (patterns AND anti-patterns) to `../mush-patterns/patterns/` and open a PR. This step is not optional even if no issues were found — document the secure patterns observed.
-
----
-
-### /mush-natural
-
-Translate plain-English feature descriptions into softcode specs, then hand off to `/mush-build`.
-
-**Workflow:**
-1. Ask one targeted clarifying question at a time (lock level, inputs, success/failure shape, state changes)
-2. Produce a concrete spec:
-   > `+sheet` (connected) — emit a formatted table of `STAT.*` attributes on `u.me` to `%#`. Columns: name (left-padded 20), value (right-padded 5).
-3. Delegate the spec to `/mush-build` and proceed through the full phase sequence.
-
----
-
-### /mush-explain
-
-Annotate and explain existing softcode.
-
-**Output format:**
-```
-&FN_CLAMP #obj=                        ← define a UDF named FN_CLAMP on #obj
-  [if(lt(%0,%1),%1,                    ← if arg0 < arg1 (min), return min
-    if(gt(%0,%2),%2,                   ← else if arg0 > arg2 (max), return max
-      %0))]                            ← else return arg0 unchanged
-```
-
-After explaining, if the code contains patterns not in `../mush-patterns`, offers to extract and PR them.
+Audit for injection (user input in `u()`, `[`, `;`), privilege escalation (`@fo`, lock levels), and data integrity (`isnum()` guards, `@set SAFE`). Findings go to `../mush-patterns` via PR.
 
 ---
 
 ### /mush-docs
 
-Generate in-game help text, code comments, and README-style docs.
-
-**Help text format:**
-```
-+COMMAND[/<switch>] <arg>
-  Brief description.
-
-  Longer explanation.
-
-  Switches:
-    /switch1    What it does.
-
-  Examples:
-    +command foo        Does the thing.
-
-  See also: +other
-```
-
-Supports three output formats: in-game help (`+help`, `help`), code comments (`/* ... */`), and plain-text README.
-
----
-
-### /mush-efficiency
-
-Optimize softcode for performance. Key techniques:
-
-- **Cache with `%q` registers** — avoid re-evaluating expensive expressions
-- **Store lists, not N attributes** — one attribute with a delimiter beats N separate reads
-- **Prefer native functions** — `words()`, `extract()`, `lattr()` are faster than chained `u()` calls
-- **Flatten nested `iter()`** — nesting evaluates exponentially
-- **Minimize `@trigger` hops** — each hop is a separate server eval
-
-**Profiling:**
-```typescript
-it('benchmark: FN_EXPENSIVE under 100ms', async ({ client }) => {
-    const start = Date.now();
-    await client.eval('u(#42/FN_EXPENSIVE,test)');
-    if (Date.now() - start > 100) throw new Error('Too slow');
-});
-```
-
-**Mandatory:** All optimizations must keep existing tests green.
-
----
-
-### /mush-troubleshoot
-
-Debug failing softcode with systematic isolation.
-
-**Diagnostic workflow:**
-1. Write a `@rhost/testkit` test that captures the failure — before touching any code
-2. Reduce to the smallest failing expression
-3. Use `think` and `@pemit` to expose intermediate values
-4. Form one hypothesis, test it
-5. Make the minimal fix
-6. Verify the test from step 1 now passes
-
-**Common failure modes:**
-
-| Symptom | Likely cause |
-|---------|-------------|
-| `#-1 NO MATCH` | Wrong dbref or object destroyed |
-| Empty output | `%0` empty; attribute unset; `u()` on wrong object |
-| Wrong number | Off-by-one in `extract()`; `#@` vs `##` in `iter()` |
-| Command fires for wrong players | Lock too broad |
-| Command never fires | Pattern regex mismatch; `$` prefix missing |
-| Infinite loop / lag | `@trigger` or `u()` cycle; missing base case |
-
-**Isolation:**
-```bash
-RHOST_PASS=<pass> node scripts/eval.js "extract(a b c,2,1)"
-```
-
----
-
-### /mush-migrate
-
-Port softcode between MUSH server flavors.
-
-**Compatibility matrix (common differences):**
-
-| Feature | RhostMUSH | PennMUSH | TinyMUX | TinyMUSH |
-|---------|-----------|----------|---------|---------|
-| `execscript()` | yes | no | no | no |
-| `encode64()`/`decode64()` | yes | no | no | no |
-| `digest()` | yes | no | no | no |
-| `localize()` | yes | yes | no | no |
-| `@hook` | yes | yes | limited | no |
-| `@program` | no | yes | no | no |
-| `@dolist` | yes | yes | yes | limited |
-
-**Migration steps:**
-1. Inventory all functions and commands in the source
-2. Flag incompatibilities against the matrix
-3. Substitute with equivalent patterns from `../mush-patterns/`
-4. Write `@rhost/testkit` tests for each migrated function
-5. All tests green on the target server
-
-**Mandatory:** `/mush-security` must run on all migrated softcode before closing. Migration often carries forward vulnerabilities from the source.
+Generate in-game help text (78-char max width, `&[TOPIC]` headers), code comments, and README entries. Produces `help/help.txt` and `help/<project>.help.installer.txt`.
 
 ---
 
 ### /mush-install
 
-Deploy softcode to a live server.
+Deploy softcode to a live server via `scripts/eval.js` or `@rhost/testkit` client. Includes deployment checklist: server reachable, object locked, tests passing post-deploy.
 
-**Methods:**
+---
 
-*One command at a time:*
-```bash
-RHOST_PASS=<pass> node scripts/eval.js "@create MySystem <sys>"
-RHOST_PASS=<pass> node scripts/eval.js "&FN_NAME #42=..."
-```
+### /mush-natural
 
-*Programmatic (scriptable):*
-```typescript
-import { RhostClient } from '@rhost/testkit';
+Translate plain-English feature descriptions into concrete softcode specs. Asks one clarifying question at a time, then delegates to `/mush-build`.
 
-const client = new RhostClient({ host: 'localhost', port: 4201 });
-await client.connect();
-await client.login('Wizard', process.env.RHOST_PASS);
+---
 
-const dbref = await client.eval('@create MySystem <sys>');
-await client.command(`&FN_NAME ${dbref}=...`);
-await client.disconnect();
-```
+### /mush-explain
 
-**Deployment checklist:**
-- [ ] Server is running and reachable
-- [ ] `RHOST_PASS` is set (not the default `Nyctasia`)
-- [ ] Object created and dbref noted
-- [ ] All attributes/commands set
-- [ ] Object locked (`@set <obj>=safe`, `@lock <obj>=<owner>`)
-- [ ] `@rhost/testkit` tests pass against the deployed code
+Annotate existing softcode line by line. Outputs code with inline `@@` comments explaining every expression, register, and branch. Offers to extract patterns afterward.
 
-**Mandatory:** Any deployment scripts written must have `/tdd-audit` run before the session closes.
+---
+
+### /mush-efficiency
+
+Optimize for speed and resource use. Techniques: `%q` register caching, list attributes over N attrs, native functions over chained `u()`, flattened `iter()`, fewer `@trigger` hops.
+
+---
+
+### /mush-troubleshoot
+
+Debug failing softcode. Workflow: capture failure in a test → reduce to minimal expression → form one hypothesis → fix → test green.
+
+---
+
+### /mush-simulate
+
+Static execution tracer. Walks function call chains step by step, substitutes values, tracks `%q` registers, detects recursion and limit violations. Integrates with `@rhost/vision` for live server data.
+
+---
+
+### /mush-deps
+
+Dependency map for softcode. Shows what calls what, orphaned attributes, cross-object coupling. Run before any refactor or deletion. Impact analysis: "what breaks if I remove X?"
+
+---
+
+### /mush-review
+
+Senior code review. Four finding types: CRITICAL / CONCERN / SUGGESTION / POSITIVE. Covers logic, RhostMUSH idioms, architecture, maintainability, edge cases, testability.
+
+---
+
+### /mush-coverage
+
+Maps every attribute to its tests. Classifies by risk: HIGH (commands), MEDIUM (UDFs), LOW (data/help). Can scaffold `.todo` test stubs for uncovered attrs.
+
+---
+
+### /mush-monitor
+
+Read-only server diagnostic. Checks: connectivity, player count, uptime, object VER vs manifest, error log tail. Reports OK / WARN / ERROR / OFFLINE.
+
+---
+
+### /mush-export
+
+Pulls softcode off a live server into `src/` files. Categorizes attrs by prefix: `CMD_*` → commands.mush, `FN_*` → functions.mush, `D_*` → data.mush, `A_*` → triggers.mush, etc. Never overwrites without confirmation.
+
+---
+
+### /mush-audit
+
+Compares live server vs manifest. Classifies every attribute as MATCH / DRIFT / MISSING / UNTRACKED / OBJECT_MISSING / DBREF_CHANGED. Read-only — never modifies the server.
+
+---
+
+### /mush-config
+
+Read/write `@admin` config params. Manages the `admin_object` + `_LINE#` + `rhost_ingame.conf` pattern for config that survives server reboots. First-time setup walkthrough included.
+
+---
+
+### /mush-hook
+
+Build and manage RhostMUSH `@hook` attributes on `config(hook_obj)`. Hook types: `B_` (before), `A_` (after), `P_` (permit), `I_` (ignore), `AF_` (fail), `AO_` (after-offline), `M_` (mogrify). Not to be confused with Claude Code hooks (`/mush-hooks`).
+
+---
+
+### /mush-session
+
+Session start checklist skill. Syncs `mush-patterns`, loads relevant patterns, verifies local help corpus, checks server reachability, and reports session summary.
+
+---
+
+### /mush-init
+
+Scaffold a new softcode project. Creates: `dist/`, `help/`, `src/`, `tests/`, `mush-patterns/`, `.gitignore`, `CLAUDE.md`, `package.json`, `dist/manifest.json`. Asks 4 questions: name, author, server type, repo URL.
+
+---
+
+### /mush-watch
+
+Dev-mode watch loop. Auto-rebuilds installer and runs `/mush-lint` whenever a `src/*.mush` file changes. Runs in the background.
+
+---
+
+### /mush-hooks
+
+Configures Claude Code `PostToolUse` and `Stop` hooks in `.claude/settings.json` to auto-trigger lint and security gates. Sets up the automated quality pipeline.
+
+---
+
+### /mush-manifest
+
+Tracks objects, dbrefs, and attribute checksums in `dist/manifest.json`. Commands: init, sync, checksum, report. Required by `/mush-patch` and `/mush-audit`.
+
+---
+
+### /mush-patch
+
+Diffs two manifest versions and generates a minimal migration installer `dist/<project>.patch.<old>-<new>.txt`. Sections: DELETIONS, CHANGES, NEW.
+
+---
+
+### /mush-rollback
+
+Generates `dist/<project>.rollback.txt` with teardown instructions for every object and attribute. Requires explicit user confirmation before execution.
+
+---
+
+### /mush-release
+
+Full release workflow: pre-flight checks → version bump → update artifacts → changelog → patch installer → commit → tag → confirm → push. Stops before push for explicit user approval.
+
+---
+
+### /mush-upgrade
+
+Managed version upgrade. Diffs manifest snapshots → generates migration patch → presents plan for user approval → applies to live server → verifies → syncs manifest.
+
+---
+
+### /mush-learn
+
+Extract reusable patterns from a session and contribute to `../mush-patterns` via PR. 7 phases: identify → format → conflict check → write → update INDEX → commit/PR → summary.
+
+---
+
+### /mush-chargen
+
+Scaffold a complete character generation system. 14-question design interview (stats, types, workflow, display) mandatory before any code. Produces chargen commands, sheet display, submit/approve/reject workflow, and staff tools.
+
+---
+
+### /mush-bboard
+
+Scaffold a bulletin board system. 9-question design interview (boards, permissions, threading, expiry, notifications) mandatory before any code. Produces `+bb`, `+bbpost`, `+bbreply`, subscription commands, and staff moderation tools.
+
+---
+
+### /mush-jobs
+
+Scaffold a job/request tracking system. 10-question design interview (types, permissions, priority, notifications) mandatory before any code. Produces `+job/submit`, `+job/claim`, `+job/resolve`, and staff management commands.
+
+---
+
+### /mush-migrate
+
+Port softcode between MUSH server flavors (PennMUSH, TinyMUX, TinyMUSH → RhostMUSH). Inventories incompatibilities against a compatibility matrix, substitutes with patterns from `../mush-patterns`, runs tests on target server.
+
+---
+
+### /mush-readme
+
+Generate or update `README.md` from project files. Reads `src/*.mush`, `dist/manifest.json`, `help/help.txt`, and `package.json` to produce accurate, up-to-date documentation. Supports regenerating individual sections.
 
 ---
 
 ## Mandatory Gates
-
-These gates apply across the entire suite and cannot be skipped:
 
 | Trigger | Gate |
 |---------|------|
 | Any softcode written | `@rhost/testkit` test written and passing |
 | Any softcode written | `/mush-security` run before session closes |
 | Softcode migrated | `/mush-security` run (migration carries forward source vulns) |
-| TypeScript/shell code written | `/tdd-audit` run before session closes |
-| Any security audit completed | Findings written to `../mush-patterns` via PR |
+| Security audit completed | Findings written to `../mush-patterns` via PR |
+| Upgrade applied to live server | `/mush-audit` + smoke tests run post-apply |
 | Session start | Sync check + corpus load + help file detection |
 
 ---
@@ -520,37 +521,54 @@ mush-patterns/
 
 **Every session reads from it. Every session writes back to it.**
 
-Patterns extracted during a session are contributed as PRs. Security findings (both secure patterns and anti-patterns) are contributed after every `/mush-security` audit. Over time the corpus grows richer and every future session starts with more to work from.
+Patterns extracted during a session are contributed as PRs. Security findings (both secure patterns and anti-patterns) are contributed after every `/mush-security` audit.
 
-The corpus must be cloned at `../mush-patterns` relative to this repo. This path is hardcoded in every skill.
+The corpus must be cloned at `../mush-patterns` relative to this repo:
+
+```bash
+git clone https://github.com/lcanady/mush-patterns ../mush-patterns
+```
+
+---
+
+## Reference Corpus
+
+The full RhostMUSH help files are bundled locally in `reference/` — never fetched from GitHub at session time.
+
+| File | Contents |
+|------|----------|
+| `reference/rhost-help.txt` | 37,239 lines, 1,951 topics — functions, softcode, @commands, flags |
+| `reference/rhost-wizhelp.txt` | 16,367 lines, 1,278 topics — @power, @config, @admin, @hook, snoop |
+| `reference/rhost-help-topics.txt` | Sorted topic index for fast `grep` |
+| `reference/rhost-wizhelp-topics.txt` | Sorted wiz topic index |
+| `reference/rhost.md` | Lookup guide with `awk`/`grep` patterns |
+
+Quick lookup:
+
+```bash
+# Check if a topic exists
+grep -i "^& TOPIC" reference/rhost-help.txt reference/rhost-wizhelp.txt
+
+# Read a full help entry
+awk '/^& ITER$/,/^& /' reference/rhost-help.txt | head -60
+```
 
 ---
 
 ## Session Start Checklist
 
-Run at the top of every session via `/mush-architect`:
+Run at the top of every session via `/mush-architect` or `/mush-session`:
 
-### Step 1 — Sync check
-
+**Step 1 — Sync check**
 ```bash
 cd ../mush-patterns && git fetch origin && git status
 ```
 
-| Status | Action |
-|--------|--------|
-| Up to date | Proceed |
-| Behind by N commits | Ask user to pull |
-| Ahead by N commits | Ask user to push |
-| Diverged | Stop — ask user to resolve |
-| Repo missing | Tell user to clone: `git clone https://github.com/lcanady/mush-patterns ../mush-patterns` |
+**Step 2 — Corpus load**
+Read `../mush-patterns/README.md` and domain-specific patterns for the current task.
 
-### Step 2 — Corpus load
-
-Read `../mush-patterns/README.md` and `CONTRIBUTING.md`, then read the domain-specific patterns for the current task. Report which patterns were loaded and whether any match.
-
-### Step 3 — Help file detection
-
-If the user has pasted a help file from a server not in `../mush-patterns/patterns/server-help/`, offer to extract patterns and open a PR.
+**Step 3 — Help file detection**
+If any provided help file is from an unknown server, offer to extract patterns and open a PR.
 
 ---
 
@@ -560,8 +578,9 @@ Contributions to the skill suite are welcome. Each skill is a single `SKILL.md` 
 
 When adding a new skill:
 1. Create `skills/<skill-name>/SKILL.md`
-2. Use the frontmatter format from an existing skill
-3. Add the skill to the sub-skills table in the root `SKILL.md`
-4. Document it in this README
+2. Use the frontmatter format from an existing skill (`name`, `description`, `effort`, `argument-hint`, `date_added`)
+3. Add optional flags: `disable-model-invocation: true` for side-effect skills, `context: fork` for heavy analysis
+4. Add the skill to the routing table in the root `SKILL.md`
+5. Document it in this README
 
 For patterns extracted during sessions, contribute them to [`mush-patterns`](https://github.com/lcanady/mush-patterns) directly.

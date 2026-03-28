@@ -40,6 +40,21 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "watch", "auto-rebuild", "dev mode" | `/mush-watch` |
 | "set up hooks", "automate gates", "auto-lint" | `/mush-hooks` |
 | "extract patterns", "save what I learned", "add to corpus" | `/mush-learn` |
+| "export from server", "pull attrs from live", "sync src from game" | `/mush-export` |
+| "audit", "has anything drifted", "compare live to manifest" | `/mush-audit` |
+| "review code", "senior review", "architecture feedback" | `/mush-review` |
+| "release", "cut a version", "version bump", "publish" | `/mush-release` |
+| "coverage", "what's untested", "missing tests" | `/mush-coverage` |
+| "config", "@admin", "read config", "set config param" | `/mush-config` |
+| "@hook", "hook a command", "before/after hook", "permit hook" | `/mush-hook` |
+| "simulate", "trace execution", "what does this evaluate to" | `/mush-simulate` |
+| "deps", "dependencies", "what calls this", "what breaks if I remove" | `/mush-deps` |
+| "chargen", "character generation", "stat system", "approval workflow" | `/mush-chargen` |
+| "bulletin board", "bboard", "post system", "+bb" | `/mush-bboard` |
+| "jobs", "request system", "ticket system", "+job" | `/mush-jobs` |
+| "monitor", "server status", "is the game up", "queue depth" | `/mush-monitor` |
+| "readme", "generate docs", "update README" | `/mush-readme` |
+| "upgrade", "migrate version", "apply upgrade" | `/mush-upgrade` |
 
 ### Standard workflow chains
 
@@ -68,6 +83,26 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 /mush-init → /mush-session → /mush-hooks → /mush-build
 ```
 
+**Scaffold a new system (chargen / bboard / jobs):**
+```
+/mush-chargen (or /mush-bboard or /mush-jobs) → /mush-test → /mush-lint → /mush-security → /mush-docs → /mush-build phases 5-11
+```
+
+**Upgrade a deployed system:**
+```
+/mush-audit → /mush-review → /mush-release → /mush-upgrade → /mush-monitor
+```
+
+**Sync and audit a live server:**
+```
+/mush-export → /mush-audit → /mush-deps → /mush-coverage
+```
+
+**Pre-refactor safety check:**
+```
+/mush-deps <attr> → /mush-coverage → /mush-simulate <attr>
+```
+
 ### Skill invocation rules
 
 | Skill | Invocation | Why |
@@ -80,8 +115,18 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | `mush-manifest` | Manual only | Side-effect: writes manifest.json |
 | `mush-watch` | Manual only | Side-effect: starts background process |
 | `mush-hooks` | Manual only | Side-effect: writes settings.json |
+| `mush-export` | Manual only | Side-effect: writes src/ files from live server |
+| `mush-audit` | Manual only | Side-effect: reads live server state |
+| `mush-release` | Manual only | Side-effect: commits, tags, pushes |
+| `mush-upgrade` | Manual only | Side-effect: applies patch to live server |
+| `mush-config` | Manual only | Side-effect: writes @admin attrs to live server |
+| `mush-monitor` | Manual only | Side-effect: reads live server state |
 | `mush-security` | Auto + manual | Runs in fork — safe to trigger on code review |
 | `mush-lint` | Auto + manual | Runs in fork — safe to trigger on file write |
+| `mush-deps` | Auto + manual | Runs in fork — read-only analysis |
+| `mush-coverage` | Auto + manual | Runs in fork — read-only analysis |
+| `mush-simulate` | Auto + manual | Runs in fork — read-only trace |
+| `mush-review` | Auto + manual | Runs in fork — read-only review |
 | All others | Auto + manual | Claude can trigger based on context |
 
 ---
