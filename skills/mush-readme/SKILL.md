@@ -111,7 +111,7 @@ src/           — softcode source files
 dist/          — compiled installer and rollback files
 help/          — in-game help text
 tests/         — @rhost/testkit test suites
-mush-patterns/ — extracted patterns (submodule)
+../mush-patterns/ — extracted patterns (submodule)
 ```
 
 ### Build

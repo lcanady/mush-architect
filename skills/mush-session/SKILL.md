@@ -21,14 +21,14 @@ Other skills reference "the session start checklist" but cannot run without it. 
 ### 1 — Sync mush-patterns corpus
 
 ```bash
-cd mush-patterns && git pull --ff-only
+cd ../mush-patterns && git pull --ff-only
 ```
 
 If this fails (dirty tree, conflicts): stop and report. Do not proceed with stale patterns.
 
 ### 2 — Load patterns index
 
-Read `mush-patterns/INDEX.md` and confirm it loaded. Report how many pattern categories are available.
+Read `../mush-patterns/INDEX.md` and confirm it loaded. Report how many pattern categories are available.
 
 ### 3 — Load project manifest
 

@@ -47,7 +47,7 @@ Write RhostMUSH softcode. Every task produces softcode, tests, a packaged instal
 
 ```
 Phase 0 — Session    → Run /mush-session (corpus sync, manifest load, server detect) — MANDATORY FIRST
-Phase 1 — Design     → Understand requirements; check mush-patterns corpus
+Phase 1 — Design     → Understand requirements; check ../mush-patterns corpus
 Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
 Phase 3 — Code       → Write the softcode
 Phase 4 — Docs       → Generate help/help.txt + help/[project].help.installer.txt (MANDATORY)
@@ -56,7 +56,7 @@ Phase 6 — Package    → Write dist/[project].installer.txt (MANDATORY)
 Phase 7 — Manifest   → Run /mush-manifest to record objects and checksums (MANDATORY)
 Phase 8 — Deploy     → Install softcode + help attributes to server
 Phase 9 — Verify     → Run the test (GREEN — task is now complete)
-Phase 10 — Learn     → Run /mush-learn to extract patterns into mush-patterns corpus (MANDATORY)
+Phase 10 — Learn     → Run /mush-learn to extract patterns into ../mush-patterns corpus (MANDATORY)
 Phase 11 — Security  → Run /mush-security on all softcode written this session (MANDATORY)
 ```
 
@@ -465,13 +465,13 @@ All tests must pass before the task is complete.
 
 ## Phase 7 — Patterns
 
-After completing the task, check if any new patterns emerged that aren't in `mush-patterns/`. If so, add them following the format in `mush-patterns/CONTRIBUTING.md`.
+After completing the task, check if any new patterns emerged that aren't in `../mush-patterns/`. If so, add them following the format in `../mush-patterns/CONTRIBUTING.md`.
 
 ---
 
-## Common patterns (from mush-patterns corpus)
+## Common patterns (from ../mush-patterns corpus)
 
-Check `mush-patterns/patterns/` before writing from scratch. Common categories:
+Check `../mush-patterns/patterns/` before writing from scratch. Common categories:
 
 - **functions/** — iter/map, UDF guards, string formatting, math
 - **commands/** — switch dispatch, permission checks, target resolution

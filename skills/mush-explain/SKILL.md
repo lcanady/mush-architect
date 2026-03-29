@@ -19,7 +19,7 @@ Run the `mush-architect` session start checklist (sync + corpus load + help dete
 
 ## Approach
 
-1. **Load context** — check `mush-patterns/` for patterns that match the code being explained.
+1. **Load context** — check `../mush-patterns/` for patterns that match the code being explained.
 2. **High-level summary first** — what the code does in plain English, in 1–3 sentences.
 3. **Line-by-line breakdown** — annotate each significant expression.
 4. **Identify patterns** — call out known idioms (iter/map, UDF guards, switch dispatch, etc.).
@@ -36,4 +36,4 @@ Run the `mush-architect` session start checklist (sync + corpus load + help dete
 
 ## After explaining
 
-If the code contains patterns not in `mush-patterns/`, offer to extract and PR them.
+If the code contains patterns not in `../mush-patterns/`, offer to extract and PR them.

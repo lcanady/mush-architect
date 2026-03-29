@@ -43,7 +43,7 @@ From the project name, derive:
 │   ├── commands.mush            # Commands
 │   └── help.mush                # Help attributes (softcode format)
 ├── tests/                       # @rhost/testkit test files
-├── mush-patterns/               # Git submodule — community patterns corpus
+├── ../mush-patterns/            # Shared patterns corpus (sibling repo — not project-local)
 ├── .gitignore
 ├── CLAUDE.md                    # Project constitution for Claude
 ├── package.json                 # Node deps (@rhost/testkit)
@@ -146,14 +146,21 @@ runner
 
 Run `/mush-manifest init` to create `dist/manifest.json` with project metadata and zero objects.
 
-## Step 6 — Initialize mush-patterns submodule
+## Step 6 — Verify mush-patterns corpus
+
+The patterns corpus lives at `../mush-patterns` (a sibling of this project, NOT a submodule inside it).
+This keeps one shared corpus on the machine rather than one copy per project.
 
 ```bash
-git submodule add https://github.com/lcanady/mush-patterns mush-patterns
-git submodule update --init --recursive
+ls ../mush-patterns/INDEX.md 2>/dev/null || echo "MISSING"
 ```
 
-If no mush-patterns repo exists yet, create an empty `mush-patterns/INDEX.md` and note it for future population.
+If missing, clone it once:
+```bash
+git clone https://github.com/lcanady/mush-patterns ../mush-patterns
+```
+
+Do NOT add it as a submodule or create a local `mush-patterns/` directory inside the project.
 
 ## Step 7 — Note sister project
 

@@ -13,7 +13,7 @@ date_added: "2026-03-28"
 
 Dedicated workflow for RhostMUSH server configuration. Wraps `@admin`, `config()`, and the `admin_object` / `rhost_ingame.conf` persistence pattern so config changes survive reboots.
 
-See pattern: `mush-patterns/patterns/systems/rhost-config-admin-001.md`
+See pattern: `../mush-patterns/patterns/systems/rhost-config-admin-001.md`
 
 ## Operations
 
@@ -115,5 +115,5 @@ If `config(admin_object)` returns `-1`, walk the user through one-time setup:
 - `wizhelp @admin` — full command reference (local: `reference/rhost-wizhelp.txt`)
 - `wizhelp admin_object` — setup instructions
 - `wizhelp config parameters` — full param list
-- Pattern: `mush-patterns/patterns/systems/rhost-config-admin-001.md`
-- Pattern: `mush-patterns/patterns/server-help/rhost-config-params-001.md`
+- Pattern: `../mush-patterns/patterns/systems/rhost-config-admin-001.md`
+- Pattern: `../mush-patterns/patterns/server-help/rhost-config-params-001.md`
