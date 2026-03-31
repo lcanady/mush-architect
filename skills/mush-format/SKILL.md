@@ -1,35 +1,104 @@
 ---
 name: mush-format
-description: "Two-way converter between readable softcode/*.mush files and compressed dist/*.installer.txt files. Use to expand installer files before editing, or compress before packaging."
+description: "Softcode formatting and installer conversion for MUSH source files. Three operations: fmt (normalize source expressions), expand (installer→source), compress (source→installer). Use fmt on any .mush/.mux/.penn source file; use compress/expand only for installer conversion."
 context: fork
 agent: general-purpose
 effort: fast
-paths: "**/*.mush,**/dist/*.installer.txt"
-argument-hint: "[expand <file> | compress <file> | preview '<value>']"
+paths: "**/*.mush,**/*.mux,**/*.penn,**/*.softcode,**/dist/*.installer.txt"
+argument-hint: "[fmt <file...> | expand <file> | compress <file> | preview '<value>']"
 date_added: "2026-03-30"
 ---
 
-> **Act immediately. Run the requested conversion and report. Do not modify anything beyond the target output file.**
+> **Act immediately. Run the requested operation and report. Do not modify anything beyond the target output file.**
 
 # mush-format
 
-Two-way converter for RhostMUSH softcode files using the PEG grammar parser in `@rhost/testkit`.
+Three operations for RhostMUSH softcode files, all backed by the PEG grammar parser in `@rhost/testkit`:
 
+- **fmt**: Normalize softcode expressions in any source file (`.mush`, `.mux`, `.penn`, etc.) — strips extra whitespace around function calls, optionally prettifies nested calls. **Run on all source files, always.**
 - **expand**: `dist/*.installer.txt` → `softcode/*.mush` (minified one-liner → readable, indented)
 - **compress**: `softcode/*.mush` → `dist/*.installer.txt` (readable → compressed installer)
 - **preview**: Print the expanded form of a single attribute value string to stdout
-
-Integrates with `mush-build` Phase 6 — Package (runs compress automatically) and Phase 3 — Code (use expand to inspect an existing installer before editing).
 
 ---
 
 ## When to run
 
-| Trigger | Mode |
-|---------|------|
+| Trigger | Operation |
+|---------|-----------|
+| After writing or editing any `.mush` / `.mux` / `.penn` source file | `fmt` |
+| Before committing any source file | `fmt --check` |
 | Before editing an existing installer file | `expand` |
-| Phase 6 — Package, after writing softcode | `compress` |
+| Phase 6 — Package, after writing softcode | `fmt` → `compress` |
 | Debugging a complex attribute value | `preview` |
+
+**Rule:** `fmt` runs on source files. `compress` runs on source files to produce installers. `expand` runs on installers to produce source files. Never run `compress` on a file that hasn't been through `fmt` first.
+
+---
+
+## fmt — normalize softcode source files
+
+Formats softcode expressions in place. Strips extraneous whitespace around `(`, `,`, `)` while preserving meaningful whitespace inside argument text.
+
+```bash
+# Format one file
+rhost-testkit fmt softcode/my-system.mush
+
+# Format all source files in a project
+rhost-testkit fmt softcode/**/*.mush
+
+# Format multiple extensions
+rhost-testkit fmt src/**/*.mush src/**/*.mux src/**/*.penn
+
+# Check only — exit 1 if any file is not formatted (use in CI / pre-commit)
+rhost-testkit fmt --check softcode/my-system.mush
+
+# Pretty mode — indent nested function calls for human readability
+rhost-testkit fmt --pretty softcode/my-system.mush
+
+# Normalise function names to lowercase
+rhost-testkit fmt --lowercase softcode/my-system.mush
+
+# From stdin
+echo "add( 2, 3 )" | rhost-testkit fmt
+```
+
+### Supported source extensions
+
+`rhost-testkit fmt` accepts any file. Apply it to:
+
+| Extension | Use for |
+|-----------|---------|
+| `.mush` | Primary RhostMUSH/PennMUSH source files |
+| `.mux` | TinyMUX source files |
+| `.penn` | PennMUSH source files |
+| `.softcode` | Generic mushcode (server-agnostic) |
+| `.msc` | Short-form mushcode snippets |
+
+**Do not run `fmt` on `dist/*.installer.txt` files** — those are compressed output, not source.
+
+### What fmt does
+
+Input:
+```
+&FN_GREET #42=   if(  not(  %0  ),  #-1 MISSING ARG  ,  strcat(  Hello ,  %0  )  )
+```
+
+Output:
+```
+&FN_GREET #42=if(not(%0),#-1 MISSING ARG,strcat(Hello,%0))
+```
+
+With `--pretty`:
+```
+&FN_GREET #42=if(
+  not(%0),
+  #-1 MISSING ARG,
+  strcat(Hello,%0)
+)
+```
+
+`fmt` does **not** reorder attributes, change comment style, or touch non-expression content (command triggers, `@pemit` lines, `@@` comments).
 
 ---
 

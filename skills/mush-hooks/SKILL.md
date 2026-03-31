@@ -16,6 +16,7 @@ Configure `PostToolUse` and `Stop` hooks in `.claude/settings.json` so that qual
 
 | Hook | Trigger | Action |
 |------|---------|--------|
+| `PostToolUse` on Write/Edit | Any `.mush`, `.mux`, `.penn`, `.softcode` source file written/edited | Auto-runs `rhost-testkit fmt` to normalize expressions |
 | `PostToolUse` on Write/Edit | Any `.mush` or `.installer.txt` file written/edited | Auto-runs mush-lint; surfaces ERRORs inline |
 | `PostToolUse` on Write | Any `*.test.ts` file written | Reminds Claude to run mush-test before closing |
 | `Stop` | Claude attempts to end session | Blocks if mush-security has not been run this session |
@@ -32,6 +33,15 @@ Add to `.claude/settings.json`:
 {
   "hooks": {
     "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A file was just written or edited. Check if the file path ends in .mush, .mux, .penn, or .softcode (and does NOT end in .installer.txt). If so, immediately run: rhost-testkit fmt <filepath>. Report whether any expressions were reformatted. This must happen before compress or lint."
+          }
+        ]
+      },
       {
         "matcher": "Write|Edit",
         "hooks": [
@@ -73,6 +83,7 @@ Read back `.claude/settings.json` and confirm all three hooks are present and co
 
 ```
 === MUSH HOOKS CONFIGURED ===
+PostToolUse (Write/Edit *.mush etc): rhost-testkit fmt auto-runs on every source file edit
 PostToolUse (Write/Edit *.mush):     mush-lint auto-runs on every softcode edit
 PostToolUse (Write *.test.ts):       mush-test reminder added to session checklist
 Stop:                                Session blocked until lint/test/security gates pass

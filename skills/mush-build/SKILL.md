@@ -29,6 +29,16 @@ Write RhostMUSH softcode. Every task produces softcode, tests, a packaged instal
 - Do not write the installer file until lint is clean.
 - There are no exceptions.
 
+## ⚠ /mush-format fmt is MANDATORY after writing source files
+
+**Every `.mush`, `.mux`, `.penn`, or other softcode source file written or modified MUST be run through `rhost-testkit fmt` before Phase 6.**
+
+```bash
+rhost-testkit fmt softcode/[project].mush
+```
+
+This normalizes whitespace in all function call expressions. Run it after Phase 3 (Code) and again after any Phase 3 edit. Compress must never run on an unformatted file.
+
 ## Parallel execution
 
 `/mush-lint` (Phase 5) and `/mush-security` (Phase 11) are both read-only analysis passes on the same source. They have no dependencies on each other and can run concurrently. When time matters, launch both at once:
@@ -60,6 +70,7 @@ Phase 0 — Session    → Run /mush-session (corpus sync, manifest load, server
 Phase 1 — Design     → Understand requirements; check ../mush-patterns corpus
 Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
 Phase 3 — Code       → Write the softcode
+Phase 3b — Fmt       → Run rhost-testkit fmt on all source files (MANDATORY before compress)
 Phase 4 — Docs       → Generate help/help.txt + help/[project].help.installer.txt (MANDATORY)
 Phase 5 — Lint       → Run /mush-lint — fix all ERRORs before proceeding (MANDATORY)
 Phase 6 — Package    → Run /mush-format compress to write dist/[project].installer.txt (MANDATORY)
