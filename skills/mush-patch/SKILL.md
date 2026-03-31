@@ -70,7 +70,7 @@ If the user says "bump patch / minor / major", apply semver rules:
 
 Write to `dist/[project].patch.[old]-[new].txt` (e.g. `my-cool-system.patch.0.1.0-0.2.0.txt`).
 
-Follows all standard installer formatting rules (Figlet, metadata, 78-char separators, sections, footer), with patch-specific metadata:
+Follows all standard installer formatting rules (metadata block, 78-char separators, sections, footer), with patch-specific metadata:
 
 ```
 @@ Mushcode PATCH for: [Project Name]
@@ -83,7 +83,7 @@ Follows all standard installer formatting rules (Figlet, metadata, 78-char separ
 ### Patch file structure
 
 ```
-@@ [Figlet + metadata block]
+@@ [metadata block]
 
 @@ ----------------------------[ DELETIONS ]----------------------------------
 @@ Remove attributes that no longer exist
@@ -98,7 +98,7 @@ Follows all standard installer formatting rules (Figlet, metadata, 78-char separ
 @@ Add new attributes
 &FN_NEWSTUFF #[dbref]= [body]
 
-@@ [footer + END OF FILE]
+@@ [footer]
 ```
 
 ## Phase 5 — Update help (if needed)

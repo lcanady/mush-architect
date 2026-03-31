@@ -29,7 +29,7 @@ Never guess dbrefs. Always confirm with the user before generating destruction c
 
 ## Phase 2 — Generate rollback installer
 
-Write to `dist/[project].rollback.txt`. Follows the same header/footer/section rules as the main installer (Figlet, metadata block, 78-char separators, `[END OF FILE]`), with these differences in the metadata block:
+Write to `dist/[project].rollback.txt`. Follows the same header/footer/section rules as the main installer (metadata block, 78-char separators), with these differences in the metadata block:
 
 ```
 @@ Mushcode ROLLBACK for: [Project Name]
@@ -42,7 +42,6 @@ Write to `dist/[project].rollback.txt`. Follows the same header/footer/section r
 ### Rollback file structure
 
 ```
-@@ [Figlet header]
 @@ [metadata block with ROLLBACK label]
 
 @@ ------------------------------[ PRE-CHECK ]--------------------------------
@@ -73,7 +72,6 @@ think search(name=[Object Name])
 @@ ===========================================================================
 @@ ROLLBACK COMPLETE — run /mush-manifest to update dist/manifest.json
 @@ ===========================================================================
-@@ [END OF FILE]
 ```
 
 ## Phase 3 — Confirm before executing

@@ -29,6 +29,16 @@ Write RhostMUSH softcode. Every task produces softcode, tests, a packaged instal
 - Do not write the installer file until lint is clean.
 - There are no exceptions.
 
+## Parallel execution
+
+`/mush-lint` (Phase 5) and `/mush-security` (Phase 11) are both read-only analysis passes on the same source. They have no dependencies on each other and can run concurrently. When time matters, launch both at once:
+
+```
+(/mush-lint & /mush-security) → review findings → fix → rerun if needed → Phase 6
+```
+
+Similarly, `/mush-docs` (Phase 4) and `/mush-review` can run in parallel once code is written — docs generates output, review produces findings, neither blocks the other.
+
 ## ⚠ /mush-test is MANDATORY
 
 **Every session that writes softcode MUST run `/mush-test` — write the test first, verify it passes last.**
@@ -52,7 +62,7 @@ Phase 2 — Test first → Write the @rhost/testkit test (RED — it will fail)
 Phase 3 — Code       → Write the softcode
 Phase 4 — Docs       → Generate help/help.txt + help/[project].help.installer.txt (MANDATORY)
 Phase 5 — Lint       → Run /mush-lint — fix all ERRORs before proceeding (MANDATORY)
-Phase 6 — Package    → Write dist/[project].installer.txt (MANDATORY)
+Phase 6 — Package    → Run /mush-format compress to write dist/[project].installer.txt (MANDATORY)
 Phase 7 — Manifest   → Run /mush-manifest to record objects and checksums (MANDATORY)
 Phase 8 — Deploy     → Install softcode + help attributes to server
 Phase 9 — Verify     → Run the test (GREEN — task is now complete)
@@ -276,7 +286,7 @@ Rules:
 
 ### Softcoded help installer
 
-`help/[project].help.installer.txt` follows the same header/footer/section rules as the main installer (Figlet, metadata block, separators, `[END OF FILE]`), but contains **only** help attributes.
+`help/[project].help.installer.txt` follows the same header/footer/section rules as the main installer (metadata block, 78-char separators), but contains **only** help attributes.
 
 Generate the attribute format the user described. Common patterns for reference:
 
@@ -321,7 +331,7 @@ Generate whichever format matches the server's actual system. If unsure, ask aga
 
 ---
 
-## Phase 5 — Package (MANDATORY)
+## Phase 6 — Package (MANDATORY)
 
 Every build session produces the following output files:
 
@@ -333,14 +343,26 @@ Every build session produces the following output files:
 
 Create `dist/` and `help/` if they don't exist.
 
+### Step 1 — Compress softcode
+
+Run `/mush-format compress` to produce the installer from the readable source:
+
+```bash
+rhost-testkit mush-format compress softcode/[project].mush
+```
+
+This reads meta from `manifest.json` (or `package.json`) automatically, producing `dist/[project].installer.txt` with the correct header and comment conversion. Pass `--name`, `--version`, `--author`, `--requires` to override meta fields.
+
+After compressing, verify the output has a correct header block and an `UNINSTALL` section.
+
 ### Output rules
 
 **File location and name:**
 - Always write to `dist/[project].installer.txt` (create `dist/` if it doesn't exist)
 - `[project]` is the slugified project name (lowercase, hyphens, no spaces): e.g. `my-cool-system.installer.txt`
 
-**Comment conversion:**
-- All `#`, `##`, and `//` line comments → `@@`
+**Comment conversion (handled automatically by `/mush-format compress`):**
+- All `//` line comments in `.mush` files → `@@` in the installer
 - All inline comments → `@@(comment)` on the same line
 
 **Attribute ordering within each object block:**
@@ -357,13 +379,6 @@ Create `dist/` and `help/` if they don't exist.
 ### Installer file structure
 
 ```
-@@ 8""8""8 8   8 8""""8 8   8      8""""8 8"""8  8""""8 8   8 8 ""8"" 8"""" 8""""8 ""8""
-@@ 8  8  8 8   8 8      8   8      8    8 8   8  8    " 8   8 8   8   8     8    "   8
-@@ 8e 8  8 8e  8 8eeeee 8eee8      8eeee8 8eee8e 8e     8eee8 8e  8e  8eeee 8e       8e
-@@ 88 8  8 88  8     88 88  8 eeee 88   8 88   8 88     88  8 88  88  88    88       88
-@@ 88 8  8 88  8 e   88 88  8      88   8 88   8 88   e 88  8 88  88  88    88   e   88
-@@ 88 8  8 88ee8 8eee88 88  8      88   8 88   8 88eee8 88  8 88  88  88eee 88eee8   88
-@@
 @@ https://github.com/[owner]/[repo]
 @@
 @@ ===========================================================================
@@ -408,12 +423,11 @@ Create `dist/` and `help/` if they don't exist.
 @@ ===========================================================================
 @@ Created with MUSH-ARCHITECT (https://github.com/kumakun/mush-architect)
 @@ ===========================================================================
-@@ [END OF FILE]
 ```
 
 ---
 
-## Phase 6 — Deploy (renumbered from 5)
+## Phase 8 — Deploy
 
 ### Via scripts/eval.js (single commands)
 
@@ -453,7 +467,7 @@ it('creates and tests in one step', async ({ world, client, expect }) => {
 
 ---
 
-## Phase 6 — Verify (green)
+## Phase 9 — Verify (green)
 
 ```bash
 RHOST_PASS=<pass> npx ts-node my-system.test.ts
@@ -463,7 +477,7 @@ All tests must pass before the task is complete.
 
 ---
 
-## Phase 7 — Patterns
+## Phase 10 — Patterns
 
 After completing the task, check if any new patterns emerged that aren't in `../mush-patterns/`. If so, add them following the format in `../mush-patterns/CONTRIBUTING.md`.
 

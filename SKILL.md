@@ -54,14 +54,17 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "bulletin board", "bboard", "post system", "+bb" | `/mush-bboard` |
 | "jobs", "request system", "ticket system", "+job" | `/mush-jobs` |
 | "monitor", "server status", "is the game up", "queue depth" | `/mush-monitor` |
+| "robot", "@robot", "bot bridge", "external process", "robot player", "connect external", "tinymux robot" | `/mush-robot` |
 | "readme", "generate docs", "update README" | `/mush-readme` |
 | "upgrade", "migrate version", "apply upgrade" | `/mush-upgrade` |
+| "format", "pretty format", "expand", "make readable", "unminify" | `/mush-format expand` |
+| "compress", "minify", "unformat", "pack", "make installer", "single-line" | `/mush-format compress` |
 
 ### Standard workflow chains
 
 **New feature (full pipeline):**
 ```
-/mush-session → /mush-build (phases 0-4) → /mush-lint → /mush-build (phases 5-7) → /mush-manifest → /mush-install → /mush-test → /mush-security → /mush-learn
+/mush-session → /mush-build (phases 0-4) → (/mush-lint & /mush-security) → /mush-format compress → /mush-build (phases 6-7) → /mush-manifest → /mush-install → /mush-test → /mush-learn
 ```
 
 **Fix a bug (minimal):**
@@ -71,12 +74,12 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 
 **Natural language to deployed:**
 ```
-/mush-natural → /mush-build → /mush-lint → /mush-install → /mush-test → /mush-security → /mush-learn
+/mush-natural → /mush-build → (/mush-lint & /mush-security) → /mush-install → /mush-test → /mush-learn
 ```
 
 **Explain and document existing code:**
 ```
-/mush-explain → /mush-docs → /mush-build (phase 4 only)
+(/mush-explain & /mush-review) → /mush-docs → /mush-build (phase 4 only)
 ```
 
 **New project from zero:**
@@ -86,7 +89,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 
 **Scaffold a new system (chargen / bboard / jobs):**
 ```
-/mush-chargen (or /mush-bboard or /mush-jobs) → /mush-test → /mush-lint → /mush-security → /mush-docs → /mush-build phases 5-11
+/mush-chargen (or /mush-bboard or /mush-jobs) → /mush-test → (/mush-lint & /mush-security) → /mush-docs → /mush-build phases 6-11
 ```
 
 **Upgrade a deployed system:**
@@ -101,40 +104,91 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 
 **Sync and audit a live server:**
 ```
-/mush-export → /mush-audit → /mush-deps → /mush-coverage
+/mush-export → (/mush-audit & /mush-deps & /mush-coverage)
 ```
 
 **Pre-refactor safety check:**
 ```
-/mush-deps <attr> → /mush-coverage → /mush-simulate <attr>
+(/mush-deps <attr> & /mush-coverage) → /mush-simulate <attr>
+```
+
+**AI GM bridge (TinyMUX via @robot):**
+```
+/mush-session → /mush-robot (bridge process + protocol) → /mush-build (event handlers + softcode) → /mush-test → /mush-security
 ```
 
 ### Skill invocation rules
 
-| Skill | Invocation | Why |
-|-------|-----------|-----|
-| `mush-session` | Manual only — always first | Side-effect: loads corpus, sets session state |
-| `mush-init` | Manual only | Side-effect: creates files/dirs |
-| `mush-install` | Manual only | Side-effect: deploys to live server |
-| `mush-rollback` | Manual only | Side-effect: destroys live objects |
-| `mush-patch` | Manual only | Side-effect: writes installer files |
-| `mush-manifest` | Manual only | Side-effect: writes manifest.json |
-| `mush-watch` | Manual only | Side-effect: starts background process |
-| `mush-hooks` | Manual only | Side-effect: writes settings.json |
-| `mush-export` | Manual only | Side-effect: writes src/ files from live server |
-| `mush-audit` | Manual only | Side-effect: reads live server state |
-| `mush-release` | Manual only | Side-effect: commits, tags, pushes |
-| `mush-publish` | Manual only | Side-effect: writes files in external repo, pushes branch, files PR |
-| `mush-upgrade` | Manual only | Side-effect: applies patch to live server |
-| `mush-config` | Manual only | Side-effect: writes @admin attrs to live server |
-| `mush-monitor` | Manual only | Side-effect: reads live server state |
-| `mush-security` | Auto + manual | Runs in fork — safe to trigger on code review |
-| `mush-lint` | Auto + manual | Runs in fork — safe to trigger on file write |
-| `mush-deps` | Auto + manual | Runs in fork — read-only analysis |
-| `mush-coverage` | Auto + manual | Runs in fork — read-only analysis |
-| `mush-simulate` | Auto + manual | Runs in fork — read-only trace |
-| `mush-review` | Auto + manual | Runs in fork — read-only review |
-| All others | Auto + manual | Claude can trigger based on context |
+`Blast radius` — scope of damage if something goes wrong. `Reversible` — can the action be undone without data loss?
+
+| Skill | Invocation | Blast radius | Reversible? |
+|-------|-----------|--------------|-------------|
+| `mush-session` | Manual only — always first | Local — session state only | Yes |
+| `mush-init` | Manual only | Local — creates dirs/files | Yes (delete files) |
+| `mush-install` | Manual only | **Live server** — creates/overwrites objects | Yes (run rollback) |
+| `mush-rollback` | Manual only | **Live server** — destroys objects | **No** |
+| `mush-patch` | Manual only | Local — writes installer files | Yes (git revert) |
+| `mush-manifest` | Manual only | Local — writes manifest.json | Yes (git revert) |
+| `mush-watch` | Manual only | Local — starts background process | Yes (kill process) |
+| `mush-hooks` | Manual only | Local — writes settings.json | Yes (git revert) |
+| `mush-export` | Manual only | Local — writes src/ files | Yes (git revert) |
+| `mush-audit` | Manual only | Live server — read-only | Yes (no changes) |
+| `mush-release` | Manual only | Remote — commits, tags, pushes | Difficult (revert tag/push) |
+| `mush-publish` | Manual only | **Remote** — pushes branch, files PR | Difficult (close PR, delete branch) |
+| `mush-upgrade` | Manual only | **Live server** — overwrites objects | Partial (if backup exists) |
+| `mush-config` | Manual only | **Live server** — writes @admin attrs | Yes (restore from backup) |
+| `mush-monitor` | Manual only | Live server — read-only | Yes (no changes) |
+| `mush-robot` | Manual only | Local + live server — writes bridge process, creates robot player | Yes (destroy player, delete files) |
+| `mush-format` | Auto + manual | Local — writes dist/ or src/ files | Yes (git revert) |
+| `mush-security` | Auto + manual | None — fork, read-only | Yes |
+| `mush-lint` | Auto + manual | None — fork, read-only | Yes |
+| `mush-deps` | Auto + manual | None — fork, read-only | Yes |
+| `mush-coverage` | Auto + manual | None — fork, read-only | Yes |
+| `mush-simulate` | Auto + manual | None — fork, read-only | Yes |
+| `mush-review` | Auto + manual | None — fork, read-only | Yes |
+| All others | Auto + manual | Local only | Yes |
+
+---
+
+## Concurrency guide
+
+Skills shown with `&` in a workflow chain can run in parallel — launch them as concurrent agent calls. This is safe when:
+- Both skills have `context: fork` (isolated, no shared file writes)
+- Neither skill writes to files the other reads mid-run
+- Combined output is reviewed together before the next step
+
+**Always parallel-safe (read-only forks):**
+- `mush-lint & mush-security` — independent static analysis of the same source
+- `mush-review & mush-docs` — review produces findings; docs produces help text; no overlap
+- `mush-deps & mush-coverage & mush-simulate` — all read-only analysis
+- `mush-audit & mush-deps & mush-coverage` — all read-only server/code inspection
+
+**Never parallelize:**
+- Any two skills that both write to `dist/` or `src/` files
+- `mush-install` with anything — live server writes must be sequential
+- `mush-rollback` with anything — destructive, needs full attention
+- `mush-session` with anything — must complete before all others
+
+**Background execution:** `mush-security` and `mush-review` (both `model: opus`, higher latency) can be launched in the background while the user reviews lint output or writes docs. They do not block the critical path.
+
+---
+
+## ⚠ FILE FORMAT CONTRACT — MANDATORY
+
+**These rules apply to every file written or modified in any mush-* skill session:**
+
+| File type | Required format | Tool |
+|-----------|----------------|------|
+| `src/*.mush` | **Pretty** — multi-line, indented, `//` comments allowed | `/mush-format expand` to convert from compressed |
+| `dist/*.installer.txt` | **Compressed** — one attribute per line, no `//` comments, collapsed whitespace | `/mush-format compress` to produce from src |
+
+**Never hand-write a `dist/*.installer.txt` line-by-line.** Write in `src/*.mush` (pretty format), then run `/mush-format compress`.
+
+**Never hand-edit a `dist/*.installer.txt` in place.** Edit the corresponding `src/*.mush` file, then recompress.
+
+If you must make an emergency patch directly to a dist file (e.g. the src is unavailable), run `/mush-format expand` immediately after to restore the src, then commit both.
+
+**Compress runs before every lint and package step, no exceptions.**
 
 ---
 

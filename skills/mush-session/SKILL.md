@@ -75,7 +75,7 @@ RHOST_PASS=<pass> node scripts/eval.js "@config/list"
 
 Flag any required function that is not listed as enabled. This prevents deploy-time failures when code calls a function the server hasn't compiled in.
 
-### 6 — Verify server reachability
+### 7 — Verify server reachability
 
 ```bash
 RHOST_PASS=<pass> node scripts/eval.js "version()"
@@ -86,12 +86,24 @@ RHOST_PASS=<pass> node scripts/eval.js "version()"
 | Returns version string | Green — server is up. |
 | Timeout / error | Warn user. Other skills can still run in offline mode (design, write, package) but deploy/verify phases are blocked. |
 
-### 6 — Report session summary
+### 8 — Generate session ID
+
+Generate a unique session ID for this work session using a short prefix + timestamp:
+
+```
+SESSION_ID = "ms-" + Date.now().toString(36)
+Example:    ms-lzxj4k2
+```
+
+This ID travels through all phases and appears in lint/security reports, commit messages, and the session summary. It lets you correlate output from parallel skill runs back to a single session.
+
+### 9 — Report session summary
 
 Print a compact session header:
 
 ```
 === MUSH-ARCHITECT SESSION ===
+Session:  [session-id]
 Project:  [name from manifest, or "new project"]
 Version:  [version, or "0.0.0"]
 Server:   [host:port] ([server type])
@@ -107,6 +119,7 @@ Session is now initialized. Proceed to the requested skill.
 
 | Variable | Set from |
 |----------|----------|
+| `SESSION_ID` | Step 8 — generated once per session |
 | `SERVER_HOST` | User input or manifest |
 | `SERVER_PORT` | User input or manifest |
 | `SERVER_TYPE` | User input or manifest |
@@ -114,6 +127,7 @@ Session is now initialized. Proceed to the requested skill.
 | `PROJECT_NAME` | Manifest or first `@create` in session |
 | `PROJECT_VERSION` | Manifest |
 | `CORPUS_LOADED` | Step 2 confirmation |
+| `SERVER_ONLINE` | Step 7 reachability check |
 
 ## Mandatory
 

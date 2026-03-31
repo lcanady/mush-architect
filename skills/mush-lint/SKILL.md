@@ -8,11 +8,33 @@ paths: "**/*.mush,**/dist/*.installer.txt,**/src/**"
 date_added: "2026-03-28"
 ---
 
-> **Act immediately. Run all checks, report findings by severity, stop. Do not fix anything without being asked.**
+> **Act immediately. Run the CLI tool, report findings by severity, stop. Do not fix anything without being asked.**
 
 # mush-lint
 
 Static analysis for MUSH softcode and installer files. Run before `/mush-build` Phase 5 (Package). Catches problems that `/mush-security` doesn't cover — formatting, completeness, and style — as well as reinforcing security checks at the code level.
+
+## CLI tool
+
+`rhost-testkit lint` implements all checks listed below. Always run it first:
+
+```bash
+# Lint a .mush source file
+rhost-testkit lint softcode/my-system.mush
+
+# Lint a compiled installer
+rhost-testkit lint dist/my-system.installer.txt
+
+# Machine-readable output for CI
+rhost-testkit lint --json dist/my-system.installer.txt
+
+# Fail on warnings too
+rhost-testkit lint --strict softcode/my-system.mush
+```
+
+The CLI exit code is 1 if any ERROR is found (or any WARN with `--strict`). Use `--json` to get structured output for integration with other tools.
+
+If the CLI reports findings, present them verbatim. Then describe what each finding means and ask the user which ones to fix.
 
 ## When to run
 
@@ -88,10 +110,10 @@ ERROR C2: CMD_FROBNITZ has no HELP entry — every command needs help text
 ```
 
 **C3 — Missing header in installer**
-Flag any installer file missing the Figlet block, the `@@ Mushcode Installer for:` line, or the `@@ [END OF FILE]` terminal marker.
+Flag any installer file missing the `@@ Mushcode Installer for:` line.
 
 ```
-ERROR C3: dist/foo.installer.txt is missing @@ [END OF FILE] marker
+ERROR C3: dist/foo.installer.txt is missing @@ Mushcode Installer for: header
 ```
 
 **C4 — Missing UNINSTALL section**

@@ -20,7 +20,7 @@ This skill assumes the project has already been through the full build pipeline.
 | Required | Check |
 |----------|-------|
 | `dist/manifest.json` | Exists and has `name`, `version`, `server_type`, `authors[]` |
-| `dist/[project].installer.txt` | Exists and ends with `@@ [END OF FILE]` |
+| `dist/[project].installer.txt` | Exists and has `@@ Mushcode Installer for:` header |
 | Version is not `0.0.0` | Must be a real release — run `/mush-release` first |
 | Git tag `v[version]` exists | Run `/mush-release` to tag |
 | Working tree is clean | `git status` is clean |
@@ -54,7 +54,7 @@ Parse `dist/manifest.json` and extract:
 | `repo_url` | `repo` | warn if empty, but don't block |
 | `license` | `license` | warn if missing, default to `"MIT"` |
 
-Confirm the installer file ends with `@@ [END OF FILE]` (exact string). If not, stop — the installer is incomplete.
+Confirm the installer file has a valid `@@ Mushcode Installer for:` header. If not, stop — the installer is incomplete.
 
 Confirm a git tag `v[version]` exists:
 
@@ -299,7 +299,7 @@ gh pr create \
 - [ ] All tests pass (`/mush-test`)
 - [ ] Security audit clean (`/mush-security`)
 - [ ] No hardcoded dbrefs in installer
-- [ ] Installer ends with `@@ [END OF FILE]`
+- [ ] Installer has valid header block
 - [ ] Uninstall instructions included
 
 🤖 Published with [mush-architect](https://github.com/kumakun/mush-architect)
@@ -398,7 +398,7 @@ The easiest way: use the `/mush-publish` skill in [mush-architect](https://githu
 
 1. Fork this repo.
 2. Create `packages/[your-slug]/` with:
-   - `[slug].installer.txt` — your installer (must end with `@@ [END OF FILE]`)
+   - `[slug].installer.txt` — your installer
    - `README.md` — documentation
    - `manifest.json` — see existing packages for format
 3. Open a PR with the title `feat([slug]): [Package Name] v[version]`.
@@ -428,7 +428,7 @@ The easiest way: use the `/mush-publish` skill in [mush-architect](https://githu
 ## Checklist
 
 - [ ] No hardcoded dbrefs in installer
-- [ ] Installer ends with `@@ [END OF FILE]`
+- [ ] Installer has valid header block
 - [ ] UNINSTALL section included
 - [ ] README complete
 - [ ] `manifest.json` present and sanitized

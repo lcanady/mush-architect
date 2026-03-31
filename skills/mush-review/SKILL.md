@@ -3,6 +3,7 @@ name: mush-review
 description: "Senior code review for RhostMUSH softcode. Reviews logic, idioms, design patterns, and architecture — distinct from mush-security (vulns) and mush-lint (formatting)."
 context: fork
 agent: general-purpose
+model: opus
 effort: high
 paths: "**/*.mush,**/src/**,**/dist/**"
 argument-hint: "[file, attribute, or system to review]"

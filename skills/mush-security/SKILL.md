@@ -3,6 +3,7 @@ name: mush-security
 description: Audit RhostMUSH softcode for injection, privilege escalation, and security issues. Use when reviewing, auditing, or security-checking softcode.
 context: fork
 agent: general-purpose
+model: opus
 effort: high
 paths: "**/*.mush,**/dist/*.installer.txt,**/src/**"
 date_added: "2026-03-27"
