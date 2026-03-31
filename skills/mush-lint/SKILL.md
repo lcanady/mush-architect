@@ -123,6 +123,14 @@ Flag any installer file with no `@@ ---[ UNINSTALL ]---` section.
 ERROR C4: dist/foo.installer.txt has no UNINSTALL section
 ```
 
+**C5 — Missing progress messages**
+Flag any installer file with no `@pemit me=>>` start banner or no `@pemit me=>>` completion banner.
+
+```
+WARN C5: dist/foo.installer.txt has no @pemit me=>> start banner — add install progress messages
+WARN C5: dist/foo.installer.txt has no @pemit me=>> completion banner
+```
+
 ---
 
 ### Formatting checks (WARN if found)

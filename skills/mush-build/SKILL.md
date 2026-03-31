@@ -378,6 +378,8 @@ After compressing, verify the output has a correct header block and an `UNINSTAL
 
 ### Installer file structure
 
+Progress `@pemit me=` lines are **mandatory** in every installer. They run during paste and give the installing wizard real-time feedback. Use the format below exactly — `>>` for start/end banners, three spaces + verb for section steps.
+
 ```
 @@ https://github.com/[owner]/[repo]
 @@
@@ -399,20 +401,28 @@ After compressing, verify the output has a correct header block and an `UNINSTAL
 @@ CHANGED:   ← omit this block if version is 0.0.0
 @@   0.0.0 → 0.1.0  [description of change]
 
+@pemit me=>> Installing [Project Name] v[version]...
+
 @@ --------------------------------[ CONFIG ]----------------------------------
+@pemit me=   Creating objects...
 @@ NOTE: Run '@search name=<ObjectName>' first — reinstall overwrites, does not duplicate
 @create [Object Name]=<type>
 @set [Object Name]=inherit safe
 @fo me=&D_SYS me=search(name=[Object Name])
 
 @@ ------------------------------[ FUNCTIONS ]--------------------------------
+@pemit me=   Loading functions...
 &FN_NAME [obj]= ...
 
 @@ ------------------------------[ COMMANDS ]--------------------------------
+@pemit me=   Loading commands...
 &CMD_NAME [obj]= ...
 
 @@ ----------------------------------[ HELP ]---------------------------------
+@pemit me=   Loading help...
 &HELP [obj]= ...
+
+@pemit me=>> [Project Name] v[version] installed. Type 'help [topic]' to get started.
 
 @@ ------------------------------[ UNINSTALL ]--------------------------------
 @@ To remove this installer completely, run:
@@ -424,6 +434,14 @@ After compressing, verify the output has a correct header block and an `UNINSTAL
 @@ Created with MUSH-ARCHITECT (https://github.com/kumakun/mush-architect)
 @@ ===========================================================================
 ```
+
+**Progress message rules:**
+- `@pemit me=>> [text]` — start banner and completion banner only
+- `@pemit me=   [verb]...` — one per section (three leading spaces, present-tense verb, trailing `...`)
+- Section verbs should describe what's happening: `Creating objects`, `Loading functions`, `Loading commands`, `Loading help`, `Applying config`, `Registering hooks`
+- Completion message names the project, version, and gives a useful next step
+- `@pemit me=` sends only to the installing wizard — not broadcast to the room
+- These lines pass through `/mush-format compress` unchanged (they are commands, not attributes)
 
 ---
 

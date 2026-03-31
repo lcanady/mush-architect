@@ -110,8 +110,11 @@ Output (`softcode/my-system.mush`):
 The installer file includes:
 - Header block: `@@ Mushcode Installer for: <name> v<version>`
 - Author, date, requires lines
+- `@pemit me=` progress lines (preserved as-is from source — these are commands, not attributes)
 - Minified `&ATTR #DBREF=value` lines (one per line, no line breaks inside attr values)
 - `@@ ---[ UNINSTALL ]---` section (preserved from source)
+
+`@pemit me=` lines must not be removed or reordered during compress. They provide real-time install feedback to the wizard running the paste.
 
 ---
 
