@@ -20,6 +20,7 @@ Configure `PostToolUse` and `Stop` hooks in `.claude/settings.json` so that qual
 | `PostToolUse` on Write/Edit | Any `.mush` or `.installer.txt` file written/edited | Auto-runs mush-lint; surfaces ERRORs inline |
 | `PostToolUse` on Write | Any `*.test.ts` file written | Reminds Claude to run mush-test before closing |
 | `Stop` | Claude attempts to end session | Blocks if mush-security has not been run this session |
+| `PreCompact` | Context is about to be compacted | Prompts pattern extraction + session diary write before context loss |
 
 ## Step 1 — Check for existing settings.json
 
@@ -70,6 +71,16 @@ Add to `.claude/settings.json`:
           }
         ]
       }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Context is about to be compacted. Complete these steps NOW before anything is lost:\n\n1. PATTERN EXTRACTION: If any new softcode patterns were discovered this session that have not yet been committed to ../mush-patterns, extract them immediately using /mush-learn. If nothing new was discovered, note 'no new patterns this session'.\n\n2. SESSION DIARY: Write a new entry (prepend, newest first) to SESSION_DIARY.md in the project root:\n   - Built/modified: [what was done]\n   - Decisions: [key decisions + rationale, or 'none']\n   - Tests: [green / red / not-run]\n   - Patterns extracted: [list of IDs, or 'none']\n   - Open questions: [unresolved items, or 'none']\n   - Next steps: [what to do next session]\n\n3. IMPLEMENTATION_PLAN.md: If it exists, update it — check off completed phases, record new open decisions, append lessons learned.\n\nPriority if time is short: (1) patterns → mush-patterns, (2) open decisions → IMPLEMENTATION_PLAN.md, (3) diary → SESSION_DIARY.md."
+          }
+        ]
+      }
     ]
   }
 }
@@ -87,6 +98,7 @@ PostToolUse (Write/Edit *.mush etc): rhost-testkit fmt auto-runs on every source
 PostToolUse (Write/Edit *.mush):     mush-lint auto-runs on every softcode edit
 PostToolUse (Write *.test.ts):       mush-test reminder added to session checklist
 Stop:                                Session blocked until lint/test/security gates pass
+PreCompact:                          Pattern extraction + diary write triggered before context loss
 
 Hooks written to: .claude/settings.json
 To disable: add "disableAllHooks": true to settings.json

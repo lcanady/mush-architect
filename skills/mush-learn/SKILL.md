@@ -22,6 +22,23 @@ A system that only produces output is a tool. A system that learns from its outp
 Run automatically at the end of any `/mush-build` Phase 10 — Patterns step.
 Invoke manually with `/mush-learn` after any session that produced novel code.
 
+## Phase 0 — Auto-classify candidates
+
+Before scanning for patterns, classify the session's output into these
+five types. This determines which patterns are worth extracting and how
+to tag them.
+
+| Type | Markers | Tags to apply |
+|------|---------|--------------|
+| **Guard** | Input validation, `#-N` error returns, permission checks, bounds | `guard`, `validation`, `error-handling` |
+| **Idiom** | Clever function composition, novel `iter()` use, elegant shorthand | `idiom`, `functional`, `efficiency` |
+| **Architecture** | Object layout, data model, UDF namespace scheme, multi-object patterns | `architecture`, `data-model`, `system-design` |
+| **Security** | Injection prevention, lock patterns, privilege escalation guards | `security`, `injection`, `access-control` |
+| **Server-quirk** | RhostMUSH-specific behavior, `@config` dependency, flag differences, portability limit | `server-quirk`, `rhost`, `portability` |
+
+Report the classification breakdown before Phase 1 begins. A session
+might produce: "2 Guard, 1 Idiom, 1 Server-quirk — proceeding to extract."
+
 ## Phase 1 — Identify what's worth keeping
 
 Scan all softcode written in the session. Ask: **Would this pattern be useful in a different project?**
@@ -46,43 +63,61 @@ Extract candidates in these categories:
 
 ## Phase 2 — Format each pattern
 
-Each pattern goes in its own file in the appropriate subdirectory. Follow `../mush-patterns/CONTRIBUTING.md` exactly.
+Each pattern goes in its own file in the appropriate subdirectory.
+Follow `../mush-patterns/CONTRIBUTING.md` and `../mush-patterns/AAAK_SPEC.md`.
 
 Pattern file format:
 
 ```markdown
-# [Pattern Name]
+---
+id: [domain]-[slug]-[seq]
+domain: [functions | commands | systems | security | installers | server-help]
+server: [RhostMUSH | PennMUSH | TinyMUX | All]
+source: [project name], session [date]
+complexity: [low | medium | high]
+tags: [auto-classified tags from Phase 0 + manual tags]
+date_added: "[ISO date]"
+tested: [true | false]
+see_also: []
+---
 
-**Category:** [functions | commands | systems | server-help | security | installers]
-**Server:** [RhostMUSH | PennMUSH | TinyMUX | All]
-**Tags:** [comma-separated tags]
-
-## Problem
+# Pattern: [Name]
 
 One sentence: what situation does this solve?
 
-## Pattern
+## Signal
+USE:    [when to apply — 1 tight line]
+ALT:    [alternative if this doesn't fit — omit if none]
+WARN:   [common pitfall — omit if none]
+COMPAT: [server — omit if RhostMUSH only]
+TEST:   [✓ | ✗ | –] [★ rating if not ★★★]
+
+## Code
 
 \`\`\`mushcode
-[the actual softcode, minimal and generic — no project-specific names]
+[actual softcode — minimal, generic — no project-specific names]
 \`\`\`
 
-## How it works
+## Notes
 
 2–4 sentences explaining the mechanism. Focus on the non-obvious parts.
+List any `→ [id]` cross-references to related patterns here.
 
-## Variants
+## @rhost/testkit snippet
 
-List variations if applicable (e.g. with/without switch, strict vs. permissive guard).
-
-## When NOT to use
-
-Any known failure modes or contexts where this pattern breaks.
-
-## Source
-
-Extracted from: [project name], session [date]
+\`\`\`typescript
+[test snippet if applicable — omit section if none]
+\`\`\`
 ```
+
+After writing the file, check if any existing patterns should be linked
+via `see_also`. Use the Phase 0 classification type to guide this:
+- Guard patterns → check `func-udf-guard-001` family
+- Security patterns → check `patterns/security/`
+- Architecture patterns → check `patterns/systems/`
+
+Add matching IDs to the `see_also` array in the new pattern AND in the
+existing pattern files being referenced.
 
 ## Phase 3 — Check for conflicts
 
@@ -112,11 +147,14 @@ Write each pattern to the correct subdirectory:
 └── installers/      → @create sequences, version guards, chunking, headers
 ```
 
-## Phase 5 — Update the INDEX
+## Phase 5 — Update INDEX and PALACE
 
-Read `../mush-patterns/INDEX.md` and add a one-line entry for each new pattern file.
+**INDEX.md:** Add a one-line entry for each new pattern file under the correct section.
 
 Format: `- [Pattern Name](patterns/category/file.md) — one-line description`
+
+**PALACE.md:** If a new Wing or Room was created, add rows to the Wings and Rooms tables.
+If any `see_also` cross-references were added between wings, add a row to the Tunnels table.
 
 ## Phase 6 — Commit and PR
 
@@ -143,20 +181,45 @@ EOF
 
 Report the PR URL to the user.
 
-## Phase 7 — Session learning summary
+## Phase 7 — Write session diary entry
 
-After the PR is created, print a compact summary:
+Write a new entry to `SESSION_DIARY.md` in the project root (prepend — newest first):
+
+```markdown
+## Session [SESSION_ID] — [ISO date]
+
+**Built/modified:** [one-line summary]
+**Decisions:** [key decisions with brief rationale — or "none"]
+**Tests:** [green / red / not-run]
+**Patterns extracted:** [list of new pattern IDs — or "none"]
+**Open questions:** [unresolved design questions — or "none"]
+**Next steps:** [what to do next session]
+```
+
+## Phase 8 — Session learning summary
+
+After the diary is written, print a compact summary:
 
 ```
 === MUSH-LEARN SESSION SUMMARY ===
-Patterns extracted:  [N]
+Classification:
+  Guard:           [N]
+  Idiom:           [N]
+  Architecture:    [N]
+  Security:        [N]
+  Server-quirk:    [N]
+Patterns extracted: [N total]
   functions/         [N]
   commands/          [N]
-  server-help/       [N]
+  systems/           [N]
   security/          [N]
-Corpus size before:  [N patterns]
-Corpus size after:   [N patterns]
+  installers/        [N]
+  server-help/       [N]
+Tunnels added:     [N]
+Corpus size before: [N patterns]
+Corpus size after:  [N patterns]
 PR: [url]
+Diary: SESSION_DIARY.md updated
 ==================================
 ```
 

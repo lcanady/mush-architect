@@ -1,0 +1,24 @@
+{
+  "name": "@rhost/mush-architect",
+  "version": "1.0.0",
+  "description": "Claude Code skill suite for RhostMUSH softcode development",
+  "keywords": ["rhost", "mush", "mushhcode", "claude-code", "softcode", "rhost-mush"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lcanady/mush-architect.git"
+  },
+  "homepage": "https://github.com/lcanady/mush-architect#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "mush-architect": "./bin/mush-architect.js"
+  },
+  "files": [
+    "bin/",
+    "SKILL.md",
+    "reference/",
+    "skills/"
+  ]
+}

@@ -185,6 +185,38 @@ Replace `#DBREF` with the actual dbref once the object is created in Phase 4.
 [if(not(isnum(%0)), #-1 NOT A NUMBER, <rest>)]
 ```
 
+### Standard display UDF template
+
+Every command that produces multi-line output should use a display object. Call these UDFs from CMD_ attrs -- never inline printf() directly in command code.
+
+Setup:
+```mushcode
+@create MySystem Display <disp>
+@tag/add prefix_disp=[lastcreate(me,t)]
+@set #prefix_disp=SAFE INHERIT
+&_COLOR.HEADER  #prefix_disp=hw
+&_COLOR.ACCENT  #prefix_disp=hc
+&_COLOR.WARN    #prefix_disp=hr
+```
+
+Display UDFs on the display object:
+```mushcode
+&F.DISPLAY.HEADER #prefix_disp= [printf($^78:[ansi(get(%!/_COLOR.HEADER),=)]:s,[ansi(get(%!/_COLOR.HEADER),%b%0%b)])]
+&F.DISPLAY.ROW    #prefix_disp= [printf($-30s $-46s,[ansi(get(%!/_COLOR.ACCENT),%0)],%1)]
+&F.DISPLAY.FOOTER #prefix_disp= [printf($78:[ansi(get(%!/_COLOR.HEADER),=)]:s,)]
+```
+
+Usage from a CMD_ attr:
+```mushcode
+@pemit %#=[ulocal(#prefix_disp/F.DISPLAY.HEADER,Title)]%r[ulocal(#prefix_disp/F.DISPLAY.ROW,Label,Value)]%r[ulocal(#prefix_disp/F.DISPLAY.FOOTER)]
+```
+
+Visual output rules:
+- All output through F.DISPLAY.* UDFs -- no inline printf() in CMD_ attrs
+- Colors stored in _COLOR.* config attrs (wiz-only, re-themeable without code changes)
+- Width: 78 chars standard. Header and footer use matching fill chars.
+- Use printf() not ljust/center/rjust for any output containing ansi() calls
+
 ### Local variable scoping — prefer `ulocal()` over `setq()`
 
 Use `ulocal()` when calling a UDF that uses registers internally — it scopes `%q0`–`%q9` to the call frame and prevents register bleed across nested calls:
@@ -343,6 +375,8 @@ Generate whichever format matches the server's actual system. If unsure, ask aga
 ---
 
 ## Phase 6 — Package (MANDATORY)
+
+> Pattern reference: **inst-header-format-001** in `mush-patterns` is the canonical installer template. Load it from corpus before writing any installer file.
 
 Every build session produces the following output files:
 

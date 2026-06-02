@@ -24,10 +24,13 @@ Run the `mush-architect` session start checklist (sync + corpus load + help dete
    - What are the inputs? (args, switches)
    - What does success look like? (exact output)
    - What does failure look like? (error cases)
+   - **What should the output look like?** (single-line confirmation / multi-line table / bordered box / plain prose -- and does it need colors?)
    - What state does it change? (DB, flags, attributes)
 
 2. **Draft spec** in concrete terms — not "show the player their stats" but:
    > `+sheet` (connected) — emit a formatted table of `STAT.*` attributes on `u.me` to `%#`. Columns: name (left-padded 20), value (right-padded 5). Header and footer with `u.util.center(78,"=")`.
+
+**Output format is required in every spec.** For any command that emits more than one line, include a description of the visual shape: e.g., "78-char = header with centered title, two-column rows (30 + 46), = footer." This becomes the display UDF contract before any code is written. Specs that omit output format will be sent back to clarification.
 
 3. **Hand off to `/mush-build`** — pass the concrete spec and proceed through the full build + test workflow.
 

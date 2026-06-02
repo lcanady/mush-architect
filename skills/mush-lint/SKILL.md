@@ -170,6 +170,13 @@ Flag inline comments not using `@@(comment)` notation.
 WARN F5: Line 31 has inline comment not in @@(comment) format
 ```
 
+**F6 -- Multi-field @pemit without alignment function**
+Flag any CMD_ attribute that emits output appearing to contain two or more labeled fields but contains no call to printf(), ljust(), rjust(), or center().
+
+```
+WARN F6: CMD_FOO emits multi-field output with no alignment function -- use printf() for tabular output
+```
+
 ---
 
 **L1 — Attribute body exceeds 7500 characters**
@@ -198,6 +205,13 @@ INFO I2: Version field is missing from installer header
 INFO I3: No @@ Requires: line in header — add "None" if there are no prerequisites
 ```
 
+**I4 -- Hardcoded color in ansi() call**
+Flag any ansi() call where the first argument is a literal color code (e.g. hw, hc, hr, hg) rather than a reference to a _COLOR.* config attribute.
+
+```
+INFO I4: ansi(hw,...) uses a hardcoded color code -- consider get(%!/_COLOR.HEADER) for re-theming
+```
+
 ---
 
 ## Output format
@@ -208,9 +222,11 @@ mush-lint: dist/my-cool-system.installer.txt
 ERROR   S2  @create "Foo <sys>" has no @lock
 ERROR   C2  CMD_FROBNITZ has no HELP entry
 WARN    F1  help/help.txt line 42 is 83 chars
+WARN    F6  CMD_FOO emits multi-field output with no alignment function -- use printf() for tabular output
 INFO    I1  Attribute fn_foo should be FN_FOO
+INFO    I4  ansi(hw,...) uses a hardcoded color code -- consider get(%!/_COLOR.HEADER) for re-theming
 
-2 errors, 1 warning, 1 info
+2 errors, 2 warnings, 2 info
 Packaging blocked until errors are resolved.
 ```
 

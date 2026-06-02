@@ -40,6 +40,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "watch", "auto-rebuild", "dev mode" | `/mush-watch` |
 | "set up hooks", "automate gates", "auto-lint" | `/mush-hooks` |
 | "extract patterns", "save what I learned", "add to corpus" | `/mush-learn` |
+| "session diary", "what did we do last session", "continue from last time" | `/mush-session` → read `SESSION_DIARY.md` |
 | "export from server", "pull attrs from live", "sync src from game" | `/mush-export` |
 | "audit", "has anything drifted", "compare live to manifest" | `/mush-audit` |
 | "review code", "senior review", "architecture feedback" | `/mush-review` |
@@ -198,9 +199,12 @@ If you must make an emergency patch directly to a dist file (e.g. the src is una
 
 After the SESSION START CHECKLIST (Steps 1–3 below) completes:
 
+> Ultrathink.
+
 1. **Write a design plan** covering ALL of the following:
    - **System name and object** — what object(s) will be created, flags, locks
    - **Commands** — full list: pattern, access level (all/wizard), inputs, outputs
+   - **Output format** -- for each command that produces multi-line output: describe the visual shape (header/body/footer structure), column layout, 78-char width, color scheme, and whether a shared display object is needed.
    - **Data model** — how data is stored (attributes, naming conventions, index attrs)
    - **Hook/extension points** — any user-overridable attributes or UDFs
    - **File structure** — softcode file(s), test file(s), doc file(s) to be created
@@ -227,6 +231,74 @@ Before any softcode is written, you MUST:
 4. Write the `@rhost/testkit` test **before** the softcode (red first)
 
 Only after all four are done may you proceed to write softcode.
+
+### Phase lock (RIPER discipline)
+
+Each phase has a mode. Output outside that mode is a protocol violation.
+
+| Phase | Mode | Permitted output |
+|-------|------|-----------------|
+| Phase 0 (design) | DESIGN | Plan document only — NO softcode, NO attrs, NO installer lines |
+| Session checklist | RESEARCH | Sync output, corpus report — NO softcode |
+| Build phase 1–2 | EXECUTE | Softcode only — no new design decisions |
+| `/mush-lint` + `/mush-security` | REVIEW | Findings report only |
+| `/mush-test` | TEST | Test output + red/green status only |
+| Post-test | REFLECT | Reflexion note only (see below) |
+| `/mush-docs` | DOCUMENT | Help text + README only |
+
+If you catch yourself writing softcode during DESIGN or RESEARCH mode, stop. You are in the wrong phase.
+
+### Multi-session persistence (complex systems)
+
+For systems with 3+ commands, a data model, or multi-object layouts, create `IMPLEMENTATION_PLAN.md` in the project root **before Phase 0** so work survives session boundaries:
+
+```markdown
+# <System Name> — Implementation Plan
+
+## Status: IN PROGRESS / COMPLETE
+
+## Phases
+- [ ] Phase 0 — Design confirmed by user
+- [ ] Session checklist passed
+- [ ] Softcode written
+- [ ] Lint + security passed
+- [ ] Tests green
+- [ ] Docs complete
+- [ ] Installed and verified
+
+## Open decisions
+- <any unresolved design question>
+
+## Lessons learned
+- <non-obvious things discovered during implementation>
+```
+
+Update this file at the end of each phase. A future session resumes by reading it first.
+
+### Session diary (`SESSION_DIARY.md`)
+
+For every project, maintain a rolling diary at `SESSION_DIARY.md` in the project root.
+The diary captures what happened in each session, enabling continuity across context resets.
+
+- Written by `/mush-learn` (Phase 7) at the end of every session
+- Read by `/mush-session` (Step 8a) at the start of every session
+- Also written when the **PreCompact hook** fires (to preserve context before compaction)
+
+The PreCompact hook is configured in `.claude/settings.local.json`. It fires automatically
+before any context compaction and prompts extraction of patterns and diary updates.
+
+If `SESSION_DIARY.md` is missing at session start, it will be created at session end.
+
+### 4-layer memory stack
+
+Session context is loaded in four layers with increasing cost. See `/mush-session` for details.
+
+| Layer | Contents | When loaded |
+|-------|----------|------------|
+| L0 | Project identity (name, server, help system, version) | Always, at session start |
+| L1 | Critical facts (last 5 commits, failing tests, open decisions, prior diary entry) | Always, at session start |
+| L2 | Domain patterns from `mush-patterns` (matching wing for current task) | At session start, on task domain change |
+| L3 | Full corpus search (`grep -r` across all patterns) | Only when L2 is insufficient |
 
 ---
 
@@ -360,3 +432,41 @@ gh pr create \
 - Write the test FIRST (red), then the softcode, then run `/mush-test` to verify (green).
 - A task is not complete until `/mush-test` passes.
 - There are no exceptions — not for "small" fixes, not for "obvious" code.
+
+---
+
+## ⚠ EVALUATOR RUBRIC — run after `/mush-lint` + `/mush-security`
+
+> Ultrathink.
+
+After lint and security pass, score the softcode on these five dimensions (1–5). A score of **3 or below is a soft blocker** — address it before moving to install.
+
+| Dimension | Score (1–5) | Notes |
+|-----------|-------------|-------|
+| **Player command intuition** — Would a player understand `+cmd` syntax without reading help? Could the pattern be misread? | | |
+| **Lock security** — Is the lock as tight as it needs to be? Could a non-wizard player trigger admin-only side effects? | | |
+| **Parser efficiency** — Does this avoid expensive constructs (deep iter, unconditional `u()` on large lists, repeated `search()`)? | | |
+| **Cross-server portability** — Does this use RhostMUSH-only functions when a portable equivalent exists? Is the dependency documented? | | |
+| **Softcode idiom correctness** — Does it use `u()` where `ulocal()` belongs? Are attribute names namespaced? Are side effects isolated? | | |
+| **Visual output quality** -- Consistent header/footer on multi-line output? Width <=78 chars? Colors stored as _COLOR.* config attrs not hardcoded? printf() used instead of ljust/center for colored output? | | |
+
+Record scores in the REFLECT section below. If `IMPLEMENTATION_PLAN.md` exists, append any score ≤ 3 as an open decision.
+
+---
+
+## ⚠ REFLEXION — MANDATORY after every `/mush-test` green
+
+After tests pass and the evaluator rubric is scored, output a reflexion note before declaring the task complete:
+
+```
+### Reflexion
+- What did the test phase reveal that the Phase 0 design missed?
+- Which evaluator rubric dimension was hardest to satisfy and why?
+- What would I design differently for this type of system next time?
+```
+
+This is **forward-looking learning** — not a summary of what you did. Keep it to 3 bullets.
+
+If `IMPLEMENTATION_PLAN.md` exists, append the key lesson to its `## Lessons learned` section.
+
+This step feeds `/mush-learn`. If the lesson is a reusable pattern, follow up with the pattern extraction workflow.

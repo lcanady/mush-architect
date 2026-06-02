@@ -111,10 +111,7 @@ The suite is designed around three non-negotiable principles:
   ```bash
   npm install @rhost/testkit
   ```
-- **The `mush-patterns` corpus** — companion repo, cloned alongside this one:
-  ```bash
-  git clone https://github.com/lcanady/mush-patterns ../mush-patterns
-  ```
+- **The `mush-patterns` corpus** — cloned automatically by `npx @rhost/mush-architect`. Manual: `git clone https://github.com/lcanady/mush-patterns ~/.claude/skills/mush-patterns`
 - **`gh` CLI** — for opening pull requests back to `mush-patterns` (optional but recommended):
   ```bash
   brew install gh && gh auth login
@@ -124,34 +121,35 @@ The suite is designed around three non-negotiable principles:
 
 ## Installation
 
-Clone this repo and register the skills with Claude Code:
+### npx (recommended)
 
 ```bash
-# 1. Clone mush-architect
-git clone https://github.com/lcanady/mush-architect
-cd mush-architect
-
-# 2. Clone the patterns corpus alongside it (must be at ../mush-patterns)
-git clone https://github.com/lcanady/mush-patterns ../mush-patterns
+npx @rhost/mush-architect
 ```
 
-Add the skills directory to `~/.claude/settings.json` or your project's `.claude/settings.json`:
+The interactive installer will ask whether to install globally (`~/.claude/skills/`) or project-locally (`.claude/skills/`), then copy the skill files and clone the `mush-patterns` corpus automatically.
 
-```json
-{
-  "skills": {
-    "directories": ["/path/to/mush-architect/skills"]
-  }
-}
-```
-
-Or symlink directly into your project:
+**Non-interactive options:**
 
 ```bash
-ln -s /path/to/mush-architect/skills .claude/skills/mush
+npx @rhost/mush-architect install --global        # always global
+npx @rhost/mush-architect install --project       # project-local
+npx @rhost/mush-architect install --no-patterns   # skip mush-patterns clone
+npx @rhost/mush-architect update                  # update existing install
+npx @rhost/mush-architect uninstall               # remove
 ```
 
-Once registered, the skills are available as `/mush-*` commands in any Claude Code session.
+Once installed, the skills are available as `/mush-*` commands in any Claude Code session.
+
+### Manual
+
+```bash
+# 1. Clone to your Claude skills directory
+git clone https://github.com/lcanady/mush-architect ~/.claude/skills/mush-architect
+
+# 2. Clone the patterns corpus alongside it
+git clone https://github.com/lcanady/mush-patterns ~/.claude/skills/mush-patterns
+```
 
 ---
 

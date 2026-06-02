@@ -30,6 +30,61 @@ If this fails (dirty tree, conflicts): stop and report. Do not proceed with stal
 
 Read `../mush-patterns/INDEX.md` and confirm it loaded. Report how many pattern categories are available.
 
+### 2b — Load memory layers (L0–L3)
+
+After the patterns index loads, build the session context stack in order.
+Each layer has a token budget. Do not load L3 unless L2 is insufficient.
+
+**L0 — Project identity (~100 tokens, fixed for the session)**
+
+Cache these facts once. Never re-read them mid-session.
+
+| Fact | Source |
+|------|--------|
+| Project name | `dist/manifest.json` → `.name`, or first `@create` in installers |
+| Server type | User input or manifest |
+| Help system | User input or manifest |
+| Server version | `version()` result from Step 7 |
+
+**L1 — Critical facts (~200 tokens, loaded at session start)**
+
+Read these at session start; refresh them only if the user says something changed.
+
+1. Last 5 git commits: `git log --oneline -5`
+2. Any failing tests from the previous session (look for `SESSION_DIARY.md` → "Test status" line)
+3. Open decisions from `IMPLEMENTATION_PLAN.md` (if it exists)
+4. Any ERRORs from the last lint run logged in `SESSION_DIARY.md`
+
+If `SESSION_DIARY.md` exists, read it now and report its last entry to the user.
+
+**L2 — Domain patterns (~500 tokens, loaded on demand)**
+
+Load the wing of `../mush-patterns` that matches the current task domain.
+This is the corpus load in Step 2 above; structure it here:
+
+| Task domain | Wing to load |
+|-------------|-------------|
+| Writing a UDF / function | `patterns/functions/` |
+| Writing a command | `patterns/commands/` |
+| Building a system | `patterns/systems/` + `patterns/functions/` |
+| Security audit | `patterns/security/` |
+| Writing an installer | `patterns/installers/` |
+| Unknown server behavior | `patterns/server-help/` |
+
+Use the `## Signal` block (`USE:` field) of each pattern to decide if it's
+relevant. Skip patterns where `USE:` does not match the task.
+
+**L3 — Deep search (on demand, no token budget limit)**
+
+Only drop into L3 if L2 didn't surface a matching pattern:
+```bash
+grep -r "<keyword>" ../mush-patterns/patterns/
+```
+
+Report the search terms used and results found before proceeding.
+
+---
+
 ### 3 — Load project manifest
 
 Check for `dist/manifest.json`.
@@ -86,6 +141,20 @@ RHOST_PASS=<pass> node scripts/eval.js "version()"
 | Returns version string | Green — server is up. |
 | Timeout / error | Warn user. Other skills can still run in offline mode (design, write, package) but deploy/verify phases are blocked. |
 
+### 8a — Read session diary (if exists)
+
+Check for `SESSION_DIARY.md` in the project root.
+
+If it exists, read the last entry and surface:
+- What was last worked on
+- Any open decisions that were not resolved
+- Next steps noted by the previous session
+
+This gives multi-session continuity without relying on context window persistence.
+If the diary is empty or missing, continue — it will be written at session end.
+
+---
+
 ### 8 — Generate session ID
 
 Generate a unique session ID for this work session using a short prefix + timestamp:
@@ -108,26 +177,54 @@ Project:  [name from manifest, or "new project"]
 Version:  [version, or "0.0.0"]
 Server:   [host:port] ([server type])
 Help:     [help system]
-Patterns: [N categories loaded]
+Patterns: [N categories loaded] — [matched/unmatched for current task]
+Memory:   L0 cached | L1 loaded | L2 [wing name] | L3 standby
+Diary:    [last entry date + first line, or "no prior sessions"]
 Status:   [ONLINE / OFFLINE]
 ==============================
 ```
 
 Session is now initialized. Proceed to the requested skill.
 
+---
+
+### Session diary protocol
+
+The session diary (`SESSION_DIARY.md` in the project root) is a rolling
+log of what happened in each session. Write to it at the **end** of
+every session (or when the PreCompact hook fires).
+
+Each entry format:
+
+```markdown
+## Session [SESSION_ID] — [ISO date]
+
+**Built/modified:** [one-line summary of what was done]
+**Decisions:** [key decisions made, with brief rationale]
+**Tests:** [green / red / not-run]
+**Patterns extracted:** [list of ids, or "none"]
+**Open questions:** [anything unresolved for next session]
+**Next steps:** [what to do next session to continue]
+```
+
+Prepend new entries at the top of the file (newest first).
+Keep entries brief — this is a navigation aid, not a log file.
+
 ## Session state (carry through all skills)
 
 | Variable | Set from |
 |----------|----------|
 | `SESSION_ID` | Step 8 — generated once per session |
-| `SERVER_HOST` | User input or manifest |
-| `SERVER_PORT` | User input or manifest |
-| `SERVER_TYPE` | User input or manifest |
-| `HELP_SYSTEM` | User input or manifest |
-| `PROJECT_NAME` | Manifest or first `@create` in session |
-| `PROJECT_VERSION` | Manifest |
-| `CORPUS_LOADED` | Step 2 confirmation |
+| `SERVER_HOST` | User input or manifest (L0) |
+| `SERVER_PORT` | User input or manifest (L0) |
+| `SERVER_TYPE` | User input or manifest (L0) |
+| `HELP_SYSTEM` | User input or manifest (L0) |
+| `PROJECT_NAME` | Manifest or first `@create` in session (L0) |
+| `PROJECT_VERSION` | Manifest (L0) |
+| `CORPUS_LOADED` | Step 2 + L2 confirmation |
+| `MEMORY_LAYER` | Current highest layer loaded (L0/L1/L2/L3) |
 | `SERVER_ONLINE` | Step 7 reachability check |
+| `PRIOR_SESSION` | SESSION_DIARY.md last entry (L1) |
 
 ## Mandatory
 
