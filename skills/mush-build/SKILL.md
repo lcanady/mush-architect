@@ -47,7 +47,7 @@ This normalizes whitespace in all function call expressions. Run it after Phase 
 (/mush-lint & /mush-security) → review findings → fix → rerun if needed → Phase 6
 ```
 
-Similarly, `/mush-docs` (Phase 4) and `/mush-review` can run in parallel once code is written — docs generates output, review produces findings, neither blocks the other.
+Similarly, Phase 4 (Docs) and `/mush-review` can run in parallel once code is written — docs generates output, review produces findings, neither blocks the other.
 
 ## ⚠ /mush-test is MANDATORY
 

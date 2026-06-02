@@ -1,5 +1,5 @@
 ---
-name: mush-hooks
+name: mush-gates
 description: Configure Claude Code settings.json hooks to automatically enforce mush-lint and mush-test gates on every softcode edit. Run once per project to set up automation.
 disable-model-invocation: true
 effort: low

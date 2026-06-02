@@ -13,6 +13,8 @@ date_added: "2026-03-28"
 
 One command to share a finished mushcode system with the community. Validates quality gates, structures the package, and opens a PR into the public `mush-softcode` repo.
 
+> **Note:** The default target repo `mush-community/mush-softcode` does not yet exist. Phase 2 will detect this and offer to create it as a new public GitHub repo before proceeding. If you have a different community repo in mind, pass it as an argument.
+
 ## Preconditions
 
 This skill assumes the project has already been through the full build pipeline. If any of the following are missing, stop immediately and tell the user which step to run first.

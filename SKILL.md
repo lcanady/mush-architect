@@ -24,7 +24,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "build", "write", "create", "code", "make a system/command/UDF" | `/mush-build` |
 | "test", "verify", "check if this works", "write a test" | `/mush-test` |
 | "explain", "what does this do", "walk me through", "how does this work" | `/mush-explain` |
-| "document", "write help", "help text", "docs" | `/mush-docs` |
+| "document", "write help", "help text", "docs" | `/mush-build` (Phase 4) |
 | "security", "audit", "is this safe", "injection", "vulnerable" | `/mush-security` |
 | "optimize", "speed up", "too slow", "lag", "performance" | `/mush-efficiency` |
 | "debug", "broken", "not working", "error", "wrong output" | `/mush-troubleshoot` |
@@ -38,7 +38,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | "patch", "upgrade", "update existing install", "what changed" | `/mush-patch` |
 | "lint", "check code", "validate installer" | `/mush-lint` |
 | "watch", "auto-rebuild", "dev mode" | `/mush-watch` |
-| "set up hooks", "automate gates", "auto-lint" | `/mush-hooks` |
+| "set up hooks", "automate gates", "auto-lint" | `/mush-gates` |
 | "extract patterns", "save what I learned", "add to corpus" | `/mush-learn` |
 | "session diary", "what did we do last session", "continue from last time" | `/mush-session` → read `SESSION_DIARY.md` |
 | "export from server", "pull attrs from live", "sync src from game" | `/mush-export` |
@@ -80,17 +80,17 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 
 **Explain and document existing code:**
 ```
-(/mush-explain & /mush-review) → /mush-docs → /mush-build (phase 4 only)
+(/mush-explain & /mush-review) → /mush-build (phase 4 — docs)
 ```
 
 **New project from zero:**
 ```
-/mush-init → /mush-session → /mush-hooks → /mush-build
+/mush-init → /mush-session → /mush-gates → /mush-build
 ```
 
 **Scaffold a new system (chargen / bboard / jobs):**
 ```
-/mush-chargen (or /mush-bboard or /mush-jobs) → /mush-test → (/mush-lint & /mush-security) → /mush-docs → /mush-build phases 6-11
+/mush-chargen (or /mush-bboard or /mush-jobs) → /mush-test → (/mush-lint & /mush-security) → /mush-build phases 4-11
 ```
 
 **Upgrade a deployed system:**
@@ -131,7 +131,7 @@ Read the user's intent, then route to the right skill or chain. When in doubt, a
 | `mush-patch` | Manual only | Local — writes installer files | Yes (git revert) |
 | `mush-manifest` | Manual only | Local — writes manifest.json | Yes (git revert) |
 | `mush-watch` | Manual only | Local — starts background process | Yes (kill process) |
-| `mush-hooks` | Manual only | Local — writes settings.json | Yes (git revert) |
+| `mush-gates` | Manual only | Local — writes settings.json | Yes (git revert) |
 | `mush-export` | Manual only | Local — writes src/ files | Yes (git revert) |
 | `mush-audit` | Manual only | Live server — read-only | Yes (no changes) |
 | `mush-release` | Manual only | Remote — commits, tags, pushes | Difficult (revert tag/push) |
@@ -160,7 +160,7 @@ Skills shown with `&` in a workflow chain can run in parallel — launch them as
 
 **Always parallel-safe (read-only forks):**
 - `mush-lint & mush-security` — independent static analysis of the same source
-- `mush-review & mush-docs` — review produces findings; docs produces help text; no overlap
+- `mush-review & mush-build (phase 4)` — review produces findings; Phase 4 produces help text; no overlap
 - `mush-deps & mush-coverage & mush-simulate` — all read-only analysis
 - `mush-audit & mush-deps & mush-coverage` — all read-only server/code inspection
 
@@ -244,7 +244,7 @@ Each phase has a mode. Output outside that mode is a protocol violation.
 | `/mush-lint` + `/mush-security` | REVIEW | Findings report only |
 | `/mush-test` | TEST | Test output + red/green status only |
 | Post-test | REFLECT | Reflexion note only (see below) |
-| `/mush-docs` | DOCUMENT | Help text + README only |
+| `/mush-build` Phase 4 | DOCUMENT | Help text + README only |
 
 If you catch yourself writing softcode during DESIGN or RESEARCH mode, stop. You are in the wrong phase.
 

@@ -44,7 +44,7 @@ The suite is designed around three non-negotiable principles:
 | `/mush-test` | Write and run `@rhost/testkit` tests |
 | `/mush-lint` | Static checks: safety, completeness, formatting, style |
 | `/mush-security` | Audit for injection, privilege escalation, and data integrity issues |
-| `/mush-docs` | Generate in-game help text, code comments, and README-style docs |
+| `/mush-build` (Phase 4) | Generate in-game help text, code comments, and README-style docs |
 | `/mush-install` | Deploy softcode to a live RhostMUSH server |
 
 ### Development tools
@@ -77,7 +77,7 @@ The suite is designed around three non-negotiable principles:
 | `/mush-session` | Session start checklist: sync corpus, load patterns, verify help corpus |
 | `/mush-init` | Scaffold a new project: `src/`, `dist/`, `tests/`, `help/`, config files |
 | `/mush-watch` | Dev-mode watch loop: auto-rebuild installer on file save |
-| `/mush-hooks` | Configure Claude Code hooks for automated lint/security gates |
+| `/mush-gates` | Configure Claude Code hooks for automated lint/security gates |
 | `/mush-manifest` | Track objects, dbrefs, and attribute checksums in `dist/manifest.json` |
 | `/mush-patch` | Diff two manifest versions and generate a minimal migration installer |
 | `/mush-rollback` | Generate and apply a rollback installer to undo a deployment |
@@ -193,7 +193,7 @@ mush-architect/
     ├── mush-explain/
     ├── mush-export/
     ├── mush-hook/
-    ├── mush-hooks/
+    ├── mush-gates/
     ├── mush-init/
     ├── mush-install/
     ├── mush-jobs/
@@ -248,7 +248,7 @@ The companion repo at `../mush-patterns` is expected at that exact relative path
 
 ```
 /mush-chargen (or /mush-bboard or /mush-jobs)
-→ /mush-test → /mush-lint → /mush-security → /mush-docs → /mush-build phases 5-11
+→ /mush-test → /mush-lint → /mush-security → /mush-build (Phase 4) → /mush-build phases 5-11
 ```
 
 ### Upgrade a deployed system
@@ -272,7 +272,7 @@ The companion repo at `../mush-patterns` is expected at that exact relative path
 ### New project from zero
 
 ```
-/mush-init → /mush-session → /mush-hooks → /mush-build
+/mush-init → /mush-session → /mush-gates → /mush-build
 ```
 
 ---
@@ -311,7 +311,7 @@ Audit for injection (user input in `u()`, `[`, `;`), privilege escalation (`@fo`
 
 ---
 
-### /mush-docs
+### 
 
 Generate in-game help text (78-char max width, `&[TOPIC]` headers), code comments, and README entries. Produces `help/help.txt` and `help/<project>.help.installer.txt`.
 
@@ -397,7 +397,7 @@ Read/write `@admin` config params. Manages the `admin_object` + `_LINE#` + `rhos
 
 ### /mush-hook
 
-Build and manage RhostMUSH `@hook` attributes on `config(hook_obj)`. Hook types: `B_` (before), `A_` (after), `P_` (permit), `I_` (ignore), `AF_` (fail), `AO_` (after-offline), `M_` (mogrify). Not to be confused with Claude Code hooks (`/mush-hooks`).
+Build and manage RhostMUSH `@hook` attributes on `config(hook_obj)`. Hook types: `B_` (before), `A_` (after), `P_` (permit), `I_` (ignore), `AF_` (fail), `AO_` (after-offline), `M_` (mogrify). Not to be confused with Claude Code hooks (`/mush-gates`).
 
 ---
 
@@ -419,7 +419,7 @@ Dev-mode watch loop. Auto-rebuilds installer and runs `/mush-lint` whenever a `s
 
 ---
 
-### /mush-hooks
+### /mush-gates
 
 Configures Claude Code `PostToolUse` and `Stop` hooks in `.claude/settings.json` to auto-trigger lint and security gates. Sets up the automated quality pipeline.
 
